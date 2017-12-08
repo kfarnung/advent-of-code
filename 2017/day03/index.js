@@ -1,48 +1,29 @@
-function distance (search) {
-  let side = 3
-  let count = 1
-  let x = 0
-  let y = 0
+function findCoordinates (val) {
+  const length = Math.ceil(Math.sqrt(val))
+  const halfLength = Math.floor(length / 2)
 
-  if (search === 1) {
-    return {x, y}
+  if (val === length * length) {
+    return { x: halfLength, y: -halfLength }
   }
 
-  for (;; side += 2) {
-    x++
-    if (++count === search) {
-      return {x, y}
-    }
+  const location = val - Math.pow(length - 2, 2)
+  const side = Math.floor(location / (length - 1))
+  const pos = location % (length - 1)
 
-    for (let i = 2; i < side; i++) {
-      y++
-      if (++count === search) {
-        return {x, y}
-      }
-    }
+  switch (side) {
+    case 0:
+      return { x: halfLength, y: -halfLength + pos }
 
-    for (let i = 1; i < side; i++) {
-      x--
-      if (++count === search) {
-        return {x, y}
-      }
-    }
+    case 1:
+      return { x: halfLength - pos, y: halfLength }
 
-    for (let i = 1; i < side; i++) {
-      y--
-      if (++count === search) {
-        return {x, y}
-      }
-    }
+    case 2:
+      return { x: -halfLength, y: halfLength - pos }
 
-    for (let i = 1; i < side; i++) {
-      x++
-      if (++count === search) {
-        return {x, y}
-      }
-    }
+    case 3:
+      return { x: -halfLength + pos, y: -halfLength }
   }
 }
 
-let {x, y} = distance(312051)
-console.log(Math.abs(x) + Math.abs(y))
+let { x, y } = findCoordinates(312051)
+console.log(`Part 1: ${Math.abs(x) + Math.abs(y)}`)
