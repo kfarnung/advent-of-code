@@ -4,28 +4,60 @@ if (process.argv.length < 2) {
   process.exit(-1)
 }
 
-const fileContent = fs.readFileSync(process.argv[2], 'utf8')
+function * parseRows (str) {
+  let current = ''
+  let row = []
 
-let min = Number.MAX_SAFE_INTEGER
-let max = Number.MIN_SAFE_INTEGER
-let current = ''
-let sum = 0
+  for (const ch of str) {
+    if (ch === '\n' || ch === '\t') {
+      row.push(Number.parseInt(current))
+      current = ''
 
-for (const ch of fileContent) {
-  if (ch === '\n' || ch === '\t') {
-    let num = Number.parseInt(current)
-    max = Math.max(max, num)
-    min = Math.min(min, num)
-    current = ''
-
-    if (ch === '\n') {
-      sum += max - min
-      min = Number.MAX_SAFE_INTEGER
-      max = Number.MIN_SAFE_INTEGER
+      if (ch === '\n') {
+        yield row
+        row = []
+      }
+    } else if (ch >= '0' && ch <= '9') {
+      current += ch
     }
-  } else if (ch >= '0' && ch <= '9') {
-    current += ch
   }
 }
 
-console.log(sum)
+function minMaxDiff (row) {
+  let min = Number.MAX_SAFE_INTEGER
+  let max = Number.MIN_SAFE_INTEGER
+  for (const num of row) {
+    min = Math.min(min, num)
+    max = Math.max(max, num)
+  }
+
+  return max - min
+}
+
+function evenlyDivisibleQuotient (row) {
+  for (const num1 of row) {
+    for (const num2 of row) {
+      if (num1 === num2) {
+        continue
+      }
+
+      if (num1 % num2 === 0) {
+        return num1 / num2
+      } else if (num2 % num1 === 0) {
+        return num2 / num1
+      }
+    }
+  }
+}
+
+const fileContent = fs.readFileSync(process.argv[2], 'utf8')
+
+let minMaxSum = 0
+let evenlyDivisibleSum = 0
+for (const row of parseRows(fileContent)) {
+  minMaxSum += minMaxDiff(row)
+  evenlyDivisibleSum += evenlyDivisibleQuotient(row)
+}
+
+console.log(`Part 1: ${minMaxSum}`)
+console.log(`Part 2: ${evenlyDivisibleSum}`)
