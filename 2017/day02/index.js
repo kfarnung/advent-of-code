@@ -1,9 +1,5 @@
 const fs = require('fs')
 
-if (process.argv.length < 2) {
-  process.exit(-1)
-}
-
 function * parseRows (str) {
   let current = ''
   let row = []
@@ -50,14 +46,22 @@ function evenlyDivisibleQuotient (row) {
   }
 }
 
-const fileContent = fs.readFileSync(process.argv[2], 'utf8')
+function run (input) {
+  const fileContent = fs.readFileSync(input, 'utf8')
 
-let minMaxSum = 0
-let evenlyDivisibleSum = 0
-for (const row of parseRows(fileContent)) {
-  minMaxSum += minMaxDiff(row)
-  evenlyDivisibleSum += evenlyDivisibleQuotient(row)
+  let minMaxSum = 0
+  let evenlyDivisibleSum = 0
+  for (const row of parseRows(fileContent)) {
+    minMaxSum += minMaxDiff(row)
+    evenlyDivisibleSum += evenlyDivisibleQuotient(row)
+  }
+
+  console.log(`Part 1: ${minMaxSum}`)
+  console.log(`Part 2: ${evenlyDivisibleSum}`)
 }
 
-console.log(`Part 1: ${minMaxSum}`)
-console.log(`Part 2: ${evenlyDivisibleSum}`)
+if (process.argv.length < 2) {
+  process.exit(-1)
+}
+
+run(process.argv[2])

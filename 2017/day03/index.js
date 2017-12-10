@@ -127,5 +127,14 @@ function searchSums (search) {
   }
 }
 
-console.log(`Part 1: ${manhattanDistance(312051)}`)
-console.log(`Part 2: ${searchSums(312051)}`)
+function run (input) {
+  const num = Number.parseInt(input)
+  console.log(`Part 1: ${manhattanDistance(num)}`)
+  console.log(`Part 2: ${searchSums(num)}`)
+}
+
+if (process.argv.length < 2) {
+  process.exit(-1)
+}
+
+run(process.argv[2])

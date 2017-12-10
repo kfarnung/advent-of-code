@@ -1,9 +1,5 @@
 const fs = require('fs')
 
-if (process.argv.length < 2) {
-  process.exit(-1)
-}
-
 function * parseInt (str) {
   let current = ''
 
@@ -56,8 +52,16 @@ function findCycle (arr) {
   }
 }
 
-const fileContent = fs.readFileSync(process.argv[2], 'utf8')
+function run (input) {
+  const fileContent = fs.readFileSync(input, 'utf8')
 
-const { cycleCount, cycleSize } = findCycle(Array.from(parseInt(fileContent)))
-console.log(`Part 1: ${cycleCount}`)
-console.log(`Part 2: ${cycleSize}`)
+  const { cycleCount, cycleSize } = findCycle(Array.from(parseInt(fileContent)))
+  console.log(`Part 1: ${cycleCount}`)
+  console.log(`Part 2: ${cycleSize}`)
+}
+
+if (process.argv.length < 2) {
+  process.exit(-1)
+}
+
+run(process.argv[2])

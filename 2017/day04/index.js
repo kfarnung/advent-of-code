@@ -1,9 +1,5 @@
 const fs = require('fs')
 
-if (process.argv.length < 2) {
-  process.exit(-1)
-}
-
 function * parseRows (str) {
   let current = ''
   let row = []
@@ -40,19 +36,27 @@ function isPassphraseValid (words, checkAnagrams = false) {
   return true
 }
 
-const fileContent = fs.readFileSync(process.argv[2], 'utf8')
+function run (input) {
+  const fileContent = fs.readFileSync(input, 'utf8')
 
-let validCount = 0
-let validAnagramCount = 0
-for (const words of parseRows(fileContent)) {
-  if (isPassphraseValid(words)) {
-    validCount++
+  let validCount = 0
+  let validAnagramCount = 0
+  for (const words of parseRows(fileContent)) {
+    if (isPassphraseValid(words)) {
+      validCount++
+    }
+
+    if (isPassphraseValid(words, true)) {
+      validAnagramCount++
+    }
   }
 
-  if (isPassphraseValid(words, true)) {
-    validAnagramCount++
-  }
+  console.log(`Part 1: ${validCount}`)
+  console.log(`Part 2: ${validAnagramCount}`)
 }
 
-console.log(`Part 1: ${validCount}`)
-console.log(`Part 2: ${validAnagramCount}`)
+if (process.argv.length < 2) {
+  process.exit(-1)
+}
+
+run(process.argv[2])

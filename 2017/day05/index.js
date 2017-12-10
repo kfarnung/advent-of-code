@@ -1,9 +1,5 @@
 const fs = require('fs')
 
-if (process.argv.length < 2) {
-  process.exit(-1)
-}
-
 function * parseInt (str) {
   let current = ''
 
@@ -42,9 +38,17 @@ function followSteps (arr, modifierFunc) {
   return numSteps
 }
 
-const fileContent = fs.readFileSync(process.argv[2], 'utf8')
-const arr1 = Array.from(parseInt(fileContent))
-const arr2 = Array.from(arr1)
+function run (input) {
+  const fileContent = fs.readFileSync(input, 'utf8')
+  const arr1 = Array.from(parseInt(fileContent))
+  const arr2 = Array.from(arr1)
 
-console.log(`Part 1: ${followSteps(arr1, incrementModifier)}`)
-console.log(`Part 2: ${followSteps(arr2, decrementThreeModifier)}`)
+  console.log(`Part 1: ${followSteps(arr1, incrementModifier)}`)
+  console.log(`Part 2: ${followSteps(arr2, decrementThreeModifier)}`)
+}
+
+if (process.argv.length < 2) {
+  process.exit(-1)
+}
+
+run(process.argv[2])
