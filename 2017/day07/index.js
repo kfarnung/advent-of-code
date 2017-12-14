@@ -133,45 +133,45 @@ class ProgramGraph {
   }
 }
 
-function * parseRows (str) {
-  let current = ''
-  let row = []
+class Day07 {
+  static * parseRows (str) {
+    let current = ''
+    let row = []
 
-  for (const ch of str) {
-    if (ch === '\n' || ch === ' ' || ch === ')') {
-      if (current.length > 0) {
-        if (ch === ')') {
-          current = Number.parseInt(current)
+    for (const ch of str) {
+      if (ch === '\n' || ch === ' ' || ch === ')') {
+        if (current.length > 0) {
+          if (ch === ')') {
+            current = Number.parseInt(current)
+          }
+
+          row.push(current)
+          current = ''
         }
 
-        row.push(current)
-        current = ''
+        if (ch === '\n') {
+          yield row
+          row = []
+        }
+      } else if ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9')) {
+        current += ch
       }
-
-      if (ch === '\n') {
-        yield row
-        row = []
-      }
-    } else if ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9')) {
-      current += ch
     }
   }
-}
 
-function run (input) {
-  const fileContent = fs.readFileSync(process.argv[2], 'utf8')
+  static run (input) {
+    const fileContent = fs.readFileSync(input, 'utf8')
 
-  const graph = new ProgramGraph()
-  for (const row of parseRows(fileContent)) {
-    graph.addRawData(row)
+    const graph = new ProgramGraph()
+    for (const row of this.parseRows(fileContent)) {
+      graph.addRawData(row)
+    }
+
+    return [
+      graph.findRootNode().name,
+      graph.getCorrectedWeight()
+    ]
   }
-
-  console.log(`Part 1: ${graph.findRootNode().name}`)
-  console.log(`Part 2: ${graph.getCorrectedWeight()}`)
 }
 
-if (process.argv.length < 2) {
-  process.exit(-1)
-}
-
-run(process.argv[2])
+module.exports = Day07

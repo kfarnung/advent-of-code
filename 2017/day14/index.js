@@ -1,73 +1,11 @@
-function * parseDataAsAscii (str) {
-  for (const ch of str) {
-    if (ch !== '\n') {
-      yield ch.charCodeAt(0)
-    }
-  }
-
-  for (const num of [17, 31, 73, 47, 23]) {
-    yield num
-  }
-}
-
-function generateArray (start, length) {
-  const arr = []
-  for (let i = start; i < length; i++) {
-    arr.push(i)
-  }
-
-  return arr
-}
-
-function reverse (arr, start, length) {
-  const range = Math.floor(length / 2)
-  const arrLength = arr.length
-
-  for (let i = 0; i < range; i++) {
-    const first = (start + i) % arrLength
-    const second = (start + length - 1 - i) % arrLength
-
-    const temp = arr[first]
-    arr[first] = arr[second]
-    arr[second] = temp
-  }
-}
-
-function calculateHash (lengths, numRounds = 64) {
-  const arr = generateArray(0, 256)
-  const arrLength = arr.length
-  let currentPosition = 0
-  let skipSize = 0
-
-  for (let i = 0; i < numRounds; i++) {
-    for (const num of lengths) {
-      reverse(arr, currentPosition, num)
-      currentPosition = (currentPosition + num + skipSize) % arrLength
-      skipSize++
-    }
-  }
-
-  let hex = []
-  let xor = 0
-  for (let i = 0; i < arr.length; i++) {
-    if (i > 0 && i % 16 === 0) {
-      hex.push(xor)
-      xor = 0
-    }
-
-    xor ^= arr[i]
-  }
-
-  hex.push(xor)
-  return hex
-}
+const Day10 = require('../day10')
 
 class UsageMap {
   constructor (key) {
     this._rows = []
 
     for (let i = 0; i < 128; i++) {
-      this._rows.push(calculateHash(Array.from(parseDataAsAscii(key + '-' + i))))
+      this._rows.push(Day10.calculateHash(key + '-' + i))
     }
   }
 
@@ -145,15 +83,15 @@ class UsageMap {
   }
 }
 
-function run (input) {
-  const usageMap = new UsageMap(input)
+class Day14 {
+  static run (input) {
+    const usageMap = new UsageMap(input)
 
-  console.log(`Part 1: ${usageMap.getBitCount()}`)
-  console.log(`Part 2: ${usageMap.getGroupCount()}`)
+    return [
+      usageMap.getBitCount(),
+      usageMap.getGroupCount()
+    ]
+  }
 }
 
-if (process.argv.length < 2) {
-  process.exit(-1)
-}
-
-run(process.argv[2])
+module.exports = Day14

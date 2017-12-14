@@ -1,0 +1,148 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 1",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day01",
+                "${workspaceFolder}/day01/input",
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 2",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day02",
+                "${workspaceFolder}/day02/input",
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 3",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day03",
+                "312051"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 4",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day04",
+                "${workspaceFolder}/day04/input"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 5",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day05",
+                "${workspaceFolder}/day05/input"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 6",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day06",
+                "${workspaceFolder}/day06/input"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 7",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day07",
+                "${workspaceFolder}/day07/input"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 8",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day08",
+                "${workspaceFolder}/day08/input"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 9",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day09",
+                "${workspaceFolder}/day09/input"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 10",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day10",
+                "${workspaceFolder}/day10/input"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 11",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day11",
+                "${workspaceFolder}/day11/input"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 12",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day12",
+                "${workspaceFolder}/day12/input"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 13",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day13",
+                "${workspaceFolder}/day13/input"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 14",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day14",
+                "ugkiagan"
+            ]
+        },
+    ]
+}

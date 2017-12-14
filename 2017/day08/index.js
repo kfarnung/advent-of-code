@@ -171,43 +171,43 @@ class Processor {
   }
 }
 
-function * parseRows (str) {
-  let current = ''
-  let row = []
+class Day08 {
+  static * parseRows (str) {
+    let current = ''
+    let row = []
 
-  for (const ch of str) {
-    if (ch === '\n' || ch === ' ') {
-      row.push(current)
-      current = ''
+    for (const ch of str) {
+      if (ch === '\n' || ch === ' ') {
+        row.push(current)
+        current = ''
 
-      if (ch === '\n') {
-        yield row
-        row = []
+        if (ch === '\n') {
+          yield row
+          row = []
+        }
+      } else {
+        current += ch
       }
-    } else {
-      current += ch
     }
   }
-}
 
-function run (input) {
-  const fileContent = fs.readFileSync(process.argv[2], 'utf8')
-  const processor = new Processor()
+  static run (input) {
+    const fileContent = fs.readFileSync(input, 'utf8')
+    const processor = new Processor()
 
-  for (const row of parseRows(fileContent)) {
-    const instruction = new Instruction(
+    for (const row of this.parseRows(fileContent)) {
+      const instruction = new Instruction(
       row[0], row[1], Number.parseInt(row[2]), new Condition(row[4], row[5],
       Number.parseInt(row[6])))
 
-    processor.processInstruction(instruction)
+      processor.processInstruction(instruction)
+    }
+
+    return [
+      processor.getLargestRegisterValue(),
+      processor.getMaxRegisterValue()
+    ]
   }
-
-  console.log(`Part 1: ${processor.getLargestRegisterValue()}`)
-  console.log(`Part 2: ${processor.getMaxRegisterValue()}`)
 }
 
-if (process.argv.length < 2) {
-  process.exit(-1)
-}
-
-run(process.argv[2])
+module.exports = Day08

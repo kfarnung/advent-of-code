@@ -7,5 +7,5 @@ Solutions implemented using Node.js 9.2.1
 ## Usage
 
 ```console
-$ node <day>/index.js <input>
+$ node ./index.js <dayXX> <input>
 ```

@@ -64,41 +64,41 @@ class Firewall {
   }
 }
 
-function * parseRows (str) {
-  let current = ''
-  let row = []
+class Day13 {
+  static * parseRows (str) {
+    let current = ''
+    let row = []
 
-  for (const ch of str) {
-    if (ch === '\n' || ch === ' ' || ch === ':') {
-      if (current.length > 0) {
-        row.push(Number.parseInt(current))
-        current = ''
-      }
+    for (const ch of str) {
+      if (ch === '\n' || ch === ' ' || ch === ':') {
+        if (current.length > 0) {
+          row.push(Number.parseInt(current))
+          current = ''
+        }
 
-      if (ch === '\n') {
-        yield row
-        row = []
+        if (ch === '\n') {
+          yield row
+          row = []
+        }
+      } else if (ch >= '0' && ch <= '9') {
+        current += ch
       }
-    } else if (ch >= '0' && ch <= '9') {
-      current += ch
     }
   }
-}
 
-function run (input) {
-  const fileContent = fs.readFileSync(process.argv[2], 'utf8')
-  const firewall = new Firewall()
+  static run (input) {
+    const fileContent = fs.readFileSync(input, 'utf8')
+    const firewall = new Firewall()
 
-  for (const row of parseRows(fileContent)) {
-    firewall.addRawLayer(row)
+    for (const row of this.parseRows(fileContent)) {
+      firewall.addRawLayer(row)
+    }
+
+    return [
+      firewall.getSeverity(0),
+      firewall.findSafeDelay()
+    ]
   }
-
-  console.log(`Part 1: ${firewall.getSeverity(0)}`)
-  console.log(`Part 2: ${firewall.findSafeDelay()}`)
 }
 
-if (process.argv.length < 2) {
-  process.exit(-1)
-}
-
-run(process.argv[2])
+module.exports = Day13

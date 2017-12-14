@@ -79,41 +79,41 @@ class ProgramGraph {
   }
 }
 
-function * parseRows (str) {
-  let current = ''
-  let row = []
+class Day12 {
+  static * parseRows (str) {
+    let current = ''
+    let row = []
 
-  for (const ch of str) {
-    if (ch === '\n' || ch === ' ' || ch === ',') {
-      if (current.length > 0) {
-        row.push(Number.parseInt(current))
-        current = ''
-      }
+    for (const ch of str) {
+      if (ch === '\n' || ch === ' ' || ch === ',') {
+        if (current.length > 0) {
+          row.push(Number.parseInt(current))
+          current = ''
+        }
 
-      if (ch === '\n') {
-        yield row
-        row = []
+        if (ch === '\n') {
+          yield row
+          row = []
+        }
+      } else if (ch >= '0' && ch <= '9') {
+        current += ch
       }
-    } else if (ch >= '0' && ch <= '9') {
-      current += ch
     }
   }
-}
 
-function run (input) {
-  const fileContent = fs.readFileSync(process.argv[2], 'utf8')
+  static run (input) {
+    const fileContent = fs.readFileSync(input, 'utf8')
 
-  const graph = new ProgramGraph()
-  for (const row of parseRows(fileContent)) {
-    graph.addRawData(row)
+    const graph = new ProgramGraph()
+    for (const row of this.parseRows(fileContent)) {
+      graph.addRawData(row)
+    }
+
+    return [
+      graph.countNodesInGroup(0),
+      graph.countGroups()
+    ]
   }
-
-  console.log(`Part 1: ${graph.countNodesInGroup(0)}`)
-  console.log(`Part 2: ${graph.countGroups()}`)
 }
 
-if (process.argv.length < 2) {
-  process.exit(-1)
-}
-
-run(process.argv[2])
+module.exports = Day12
