@@ -144,5 +144,15 @@
                 "ugkiagan"
             ]
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 15",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day15",
+                "${workspaceFolder}/day15/input"
+            ]
+        },
     ]
 }
