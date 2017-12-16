@@ -7,5 +7,7 @@ Solutions implemented using Node.js 9.2.1
 ## Usage
 
 ```console
+$ npm install
+$ npm test
 $ node ./index.js <dayXX> <input>
 ```

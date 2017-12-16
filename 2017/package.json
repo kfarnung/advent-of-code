@@ -1,0 +1,23 @@
+{
+  "name": "advent-of-code-2017",
+  "version": "1.0.0",
+  "description": "http://adventofcode.com/2017",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^4.0.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kfarnung/advent-of-code.git"
+  },
+  "author": "Kyle Farnung",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kfarnung/advent-of-code/issues"
+  },
+  "homepage": "https://github.com/kfarnung/advent-of-code#readme"
+}

@@ -1,6 +1,15 @@
 class Day03 {
-  static findCoordinates (count) {
+  static getSideLength (count) {
     const length = Math.ceil(Math.sqrt(count))
+    if (length % 2 === 0) {
+      return length + 1
+    }
+
+    return length
+  }
+
+  static findCoordinates (count) {
+    const length = this.getSideLength(count)
     const halfLength = Math.floor(length / 2)
 
     if (count === length * length) {

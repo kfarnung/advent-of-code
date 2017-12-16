@@ -3,25 +3,20 @@ const fs = require('fs')
 class Day04 {
   static * parseRows (str) {
     let current = ''
-    let row = []
 
     for (const ch of str) {
-      if (ch === '\n' || ch === ' ') {
-        row.push(current)
+      if (ch === '\n') {
+        yield current
         current = ''
-
-        if (ch === '\n') {
-          yield row
-          row = []
-        }
-      } else if (ch >= 'a' && ch <= 'z') {
+      } else {
         current += ch
       }
     }
   }
 
-  static isPassphraseValid (words, checkAnagrams = false) {
+  static isPassphraseValid (passphrase, checkAnagrams = false) {
     let set = new Set()
+    const words = passphrase.split(' ')
     for (let word of words) {
       if (checkAnagrams) {
         word = word.split('').sort().join('')
@@ -42,12 +37,12 @@ class Day04 {
 
     let validCount = 0
     let validAnagramCount = 0
-    for (const words of this.parseRows(fileContent)) {
-      if (this.isPassphraseValid(words)) {
+    for (const passphrase of this.parseRows(fileContent)) {
+      if (this.isPassphraseValid(passphrase)) {
         validCount++
       }
 
-      if (this.isPassphraseValid(words, true)) {
+      if (this.isPassphraseValid(passphrase, true)) {
         validAnagramCount++
       }
     }
