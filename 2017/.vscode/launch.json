@@ -164,5 +164,15 @@
                 "${workspaceFolder}/day16/input"
             ]
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 17",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day17",
+                "386"
+            ]
+        },
     ]
 }
