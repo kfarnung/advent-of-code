@@ -174,5 +174,15 @@
                 "386"
             ]
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 18",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day18",
+                "${workspaceFolder}/day18/input"
+            ]
+        },
     ]
 }
