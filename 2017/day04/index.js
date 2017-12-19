@@ -1,57 +1,57 @@
-const fs = require('fs')
+const fs = require('fs');
 
 class Day04 {
   static * parseRows (str) {
-    let current = ''
+    let current = '';
 
     for (const ch of str) {
       if (ch === '\n') {
-        yield current
-        current = ''
+        yield current;
+        current = '';
       } else {
-        current += ch
+        current += ch;
       }
     }
   }
 
   static isPassphraseValid (passphrase, checkAnagrams = false) {
-    let set = new Set()
-    const words = passphrase.split(' ')
+    let set = new Set();
+    const words = passphrase.split(' ');
     for (let word of words) {
       if (checkAnagrams) {
-        word = word.split('').sort().join('')
+        word = word.split('').sort().join('');
       }
 
       if (set.has(word)) {
-        return false
+        return false;
       }
 
-      set.add(word)
+      set.add(word);
     }
 
-    return true
+    return true;
   }
 
   static run (input) {
-    const fileContent = fs.readFileSync(input, 'utf8')
+    const fileContent = fs.readFileSync(input, 'utf8');
 
-    let validCount = 0
-    let validAnagramCount = 0
+    let validCount = 0;
+    let validAnagramCount = 0;
     for (const passphrase of this.parseRows(fileContent)) {
       if (this.isPassphraseValid(passphrase)) {
-        validCount++
+        validCount++;
       }
 
       if (this.isPassphraseValid(passphrase, true)) {
-        validAnagramCount++
+        validAnagramCount++;
       }
     }
 
     return [
       validCount,
       validAnagramCount
-    ]
+    ];
   }
 }
 
-module.exports = Day04
+module.exports = Day04;

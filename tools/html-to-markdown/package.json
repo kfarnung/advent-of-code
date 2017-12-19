@@ -1,14 +1,17 @@
 {
-  "name": "get-puzzle",
+  "name": "html-to-markdown",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "semistandard"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "to-markdown": "^3.1.1"
+  },
+  "devDependencies": {
+    "semistandard": "^11.0.0"
   }
 }

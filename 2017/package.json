@@ -5,10 +5,11 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "semistandard": "^11.0.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "semistandard && mocha"
   },
   "repository": {
     "type": "git",

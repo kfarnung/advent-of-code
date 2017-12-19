@@ -6,5 +6,6 @@ Simple tool that converts HTML to GitHub style markdown.
 
 ```console
 $ npm install
+$ npm test
 $ node index.js <input> <output>
 ```
