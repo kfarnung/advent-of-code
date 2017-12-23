@@ -224,5 +224,15 @@
                 "${workspaceFolder}/day22/input"
             ]
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Day 23",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "day23",
+                "${workspaceFolder}/day23/input"
+            ]
+        },
     ]
 }
