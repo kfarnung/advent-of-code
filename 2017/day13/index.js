@@ -17,21 +17,21 @@ class FirewallLayer {
 
 class Firewall {
   constructor () {
-    this._layers = new Map();
+    this._layers = [];
     this._maxDepth = 0;
   }
 
   addRawLayer (rawData) {
     const depth = rawData[0];
     this._maxDepth = Math.max(this._maxDepth, depth);
-    this._layers.set(depth, new FirewallLayer(depth, rawData[1]));
+    this._layers[depth] = new FirewallLayer(depth, rawData[1]);
   }
 
   getSeverity () {
     let severity = 0;
 
     for (let i = 0; i <= this._maxDepth; i++) {
-      const layer = this._layers.get(i);
+      const layer = this._layers[i];
       if (layer !== undefined) {
         if (layer.isAtTop(i)) {
           severity += layer.severity;
@@ -44,7 +44,7 @@ class Firewall {
 
   isCaught (delay = 0) {
     for (let i = 0; i <= this._maxDepth; i++) {
-      const layer = this._layers.get(i);
+      const layer = this._layers[i];
       if (layer !== undefined) {
         if (layer.isAtTop(i + delay)) {
           return true;
