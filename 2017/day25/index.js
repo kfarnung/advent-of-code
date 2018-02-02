@@ -56,7 +56,7 @@ class Blueprint {
     this._lineIndex = 0;
     this._beginState = null;
     this._checksumInterval = -1;
-    this._stateMap = new Map();
+    this._stateMap = [];
   }
 
   get beginState () {
@@ -75,12 +75,16 @@ class Blueprint {
     return blueprint;
   }
 
-  getState (name) {
-    return this._stateMap.get(name);
+  getState (index) {
+    return this._stateMap[index];
   }
 
   _getNextLine () {
     return this._lines[this._lineIndex++];
+  }
+
+  _getStateIndex (name) {
+    return name.charCodeAt(0) - 'A'.charCodeAt(0);
   }
 
   _parseState () {
@@ -100,7 +104,7 @@ class Blueprint {
       throw new Error('Expected a blank line');
     }
 
-    this._stateMap.set(state.name, state);
+    this._stateMap[this._getStateIndex(state.name)] = state;
 
     return true;
   }
@@ -122,7 +126,7 @@ class Blueprint {
 
     const nextStateRegex = / {4}- Continue with state ([A-Z])./;
     result = nextStateRegex.exec(this._getNextLine());
-    const nextState = result[1];
+    const nextState = this._getStateIndex(result[1]);
 
     state.addCondition(new BlueprintStateCondition(currentValue, newValue, direction, nextState));
   }
@@ -132,7 +136,7 @@ class Blueprint {
 
     const beginRegex = /Begin in state ([A-Z])./;
     result = beginRegex.exec(this._getNextLine());
-    this._beginState = result[1];
+    this._beginState = this._getStateIndex(result[1]);
 
     const checksumRegex = /Perform a diagnostic checksum after ([0-9]+) steps./;
     result = checksumRegex.exec(this._getNextLine());
@@ -146,11 +150,18 @@ class Blueprint {
 
 class InfiniteTape {
   constructor () {
-    this._map = new Map();
+    this._positive = [];
+    this._negative = [];
   }
 
   getValue (index) {
-    const value = this._map.get(index);
+    let value = 0;
+    if (index >= 0) {
+      value = this._positive[index];
+    } else {
+      value = this._negative[~index];
+    }
+
     if (value !== undefined) {
       return value;
     }
@@ -159,15 +170,29 @@ class InfiniteTape {
   }
 
   setValue (index, value) {
-    if (value !== 0) {
-      this._map.set(index, value);
+    if (index >= 0) {
+      this._positive[index] = value;
     } else {
-      this._map.delete(index);
+      this._negative[~index] = value;
     }
   }
 
   countNonZero () {
-    return this._map.size;
+    let count = 0;
+
+    for (const item of this._positive) {
+      if (item !== 0) {
+        count++;
+      }
+    }
+
+    for (const item of this._negative) {
+      if (item !== 0) {
+        count++;
+      }
+    }
+
+    return count;
   }
 }
 
