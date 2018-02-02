@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/index.js",
             "args": [
                 "day01",
-                "${workspaceFolder}/day01/input",
+                "${workspaceFolder}/day01/input"
             ]
         },
         {
@@ -21,7 +21,7 @@
             "program": "${workspaceFolder}/index.js",
             "args": [
                 "day02",
-                "${workspaceFolder}/day02/input",
+                "${workspaceFolder}/day02/input"
             ]
         },
         {
@@ -254,5 +254,11 @@
                 "${workspaceFolder}/day25/input"
             ]
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Perf Script",
+            "program": "${workspaceFolder}/perfmeasure.js"
+        }
     ]
 }
