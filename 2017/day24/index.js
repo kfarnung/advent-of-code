@@ -4,9 +4,7 @@ class Component {
   constructor (pinsA, pinsB) {
     this._pinsA = pinsA;
     this._pinsB = pinsB;
-
-    this._connectionsA = [];
-    this._connectionsB = [];
+    this._inUse = false;
   }
 
   get pinsA () {
@@ -17,76 +15,15 @@ class Component {
     return this._pinsB;
   }
 
-  addConnection (component) {
-    if (component._pinsA === this._pinsA || component._pinsB === this._pinsA) {
-      this._connectionsA.push(component);
-    }
-
-    if (component._pinsA === this._pinsB || component._pinsB === this._pinsB) {
-      this._connectionsB.push(component);
-    }
+  get inUse () {
+    return this._inUse;
   }
 
-  getMaxStrength (incomingPin, visited) {
-    let max = Number.MIN_SAFE_INTEGER;
-    const connections = this._getConnections(incomingPin);
-    const outgoingPin = this._getOutgoingPin(incomingPin);
-
-    if (visited.indexOf(this) >= 0) {
-      return 0;
-    }
-
-    visited.push(this);
-
-    for (const connection of connections) {
-      max = Math.max(max, connection.getMaxStrength(outgoingPin, visited));
-    }
-
-    visited.pop();
-
-    return this._pinsA + this._pinsB + max;
+  set inUse (value) {
+    this._inUse = value;
   }
 
-  getLongestStrength (incomingPin, visited) {
-    let maxStrength = Number.MIN_SAFE_INTEGER;
-    let maxLength = Number.MIN_SAFE_INTEGER;
-    const connections = this._getConnections(incomingPin);
-    const outgoingPin = this._getOutgoingPin(incomingPin);
-
-    if (visited.indexOf(this) >= 0) {
-      return { length: visited.length, strength: 0 };
-    }
-
-    visited.push(this);
-
-    for (const connection of connections) {
-      const result = connection.getLongestStrength(outgoingPin, visited);
-      if (result.length > maxLength) {
-        maxLength = result.length;
-        maxStrength = result.strength;
-      } else if (result.length === maxLength) {
-        if (result.strength > maxStrength) {
-          maxStrength = result.strength;
-        }
-      }
-    }
-
-    visited.pop();
-
-    return { length: maxLength, strength: this._pinsA + this._pinsB + maxStrength };
-  }
-
-  _getConnections (incomingPin) {
-    if (incomingPin === this._pinsA) {
-      return this._connectionsB;
-    } else if (incomingPin === this._pinsB) {
-      return this._connectionsA;
-    } else {
-      throw new Error('Invalid pin');
-    }
-  }
-
-  _getOutgoingPin (incomingPin) {
+  getOutgoingPin (incomingPin) {
     if (incomingPin === this._pinsA) {
       return this._pinsB;
     } else if (incomingPin === this._pinsB) {
@@ -97,61 +34,74 @@ class Component {
   }
 }
 
-class ComponentGraph {
+class ComponentManager {
   constructor () {
-    this._map = new Map();
+    this._map = [];
   }
 
   addNode (component) {
-    this._connectNodes(component.pinsA, component);
-    this._connectNodes(component.pinsB, component);
+    this._addToMap(component.pinsA, component);
+
+    if (component.pinsA !== component.pinsB) {
+      this._addToMap(component.pinsB, component);
+    }
   }
 
-  getMaxStrength () {
-    let max = Number.MIN_SAFE_INTEGER;
-    const roots = this._getFromMap(0);
-    const visited = [];
+  getMaxStrength (current = null, incomingPin = 0) {
+    let max = 0;
 
-    for (const root of roots) {
-      max = Math.max(max, root.getMaxStrength(0, visited));
+    for (const next of this._getFromMap(incomingPin)) {
+      if (!next.inUse) {
+        next.inUse = true;
+        max = Math.max(max, this.getMaxStrength(next, next.getOutgoingPin(incomingPin)));
+        next.inUse = false;
+      }
+    }
+
+    if (current !== null) {
+      max += current.pinsA;
+      max += current.pinsB;
     }
 
     return max;
   }
 
   getLongestStrength () {
-    let maxLength = Number.MIN_SAFE_INTEGER;
-    let maxStrength = Number.MIN_SAFE_INTEGER;
-    const roots = this._getFromMap(0);
-    const visited = [];
+    return this._getLongestStrength().strength;
+  }
 
-    for (const root of roots) {
-      const result = root.getLongestStrength(0, visited);
-      if (result.length > maxLength) {
-        maxLength = result.length;
-        maxStrength = result.strength;
-      } else if (result.length === maxLength) {
-        if (result.strength > maxStrength) {
+  _getLongestStrength (current = null, incomingPin = 0, currentLength = 0) {
+    let maxStrength = 0;
+    let maxLength = currentLength;
+
+    for (const next of this._getFromMap(incomingPin)) {
+      if (!next.inUse) {
+        next.inUse = true;
+
+        const result = this._getLongestStrength(next, next.getOutgoingPin(incomingPin), currentLength + 1);
+        if (result.length > maxLength) {
+          maxLength = result.length;
           maxStrength = result.strength;
+        } else if (result.length === maxLength) {
+          if (result.strength > maxStrength) {
+            maxStrength = result.strength;
+          }
         }
+
+        next.inUse = false;
       }
     }
 
-    return maxStrength;
-  }
-
-  _connectNodes (numPins, component) {
-    const components = this._getFromMap(numPins);
-    for (const c of components) {
-      c.addConnection(component);
-      component.addConnection(c);
+    if (current !== null) {
+      maxStrength += current.pinsA;
+      maxStrength += current.pinsB;
     }
 
-    this._addToMap(numPins, component);
+    return { length: maxLength, strength: maxStrength };
   }
 
   _getFromMap (numPins) {
-    const components = this._map.get(numPins);
+    const components = this._map[numPins];
     if (components !== undefined) {
       return components;
     }
@@ -160,10 +110,10 @@ class ComponentGraph {
   }
 
   _addToMap (numPins, component) {
-    let components = this._map.get(numPins);
+    let components = this._map[numPins];
     if (components === undefined) {
       components = [];
-      this._map.set(numPins, components);
+      this._map[numPins] = components;
     }
 
     components.push(component);
@@ -185,14 +135,14 @@ class Day24 {
 
   static * run (input) {
     const fileContent = fs.readFileSync(input, 'utf8');
-    const graph = new ComponentGraph();
+    const manager = new ComponentManager();
 
     for (const component of this.parseComponents(fileContent)) {
-      graph.addNode(component);
+      manager.addNode(component);
     }
 
-    yield graph.getMaxStrength();
-    yield graph.getLongestStrength();
+    yield manager.getMaxStrength();
+    yield manager.getLongestStrength();
   }
 }
 
