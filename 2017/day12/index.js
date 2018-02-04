@@ -21,7 +21,7 @@ class ProgramNode {
 
 class ProgramGraph {
   constructor () {
-    this._map = new Map();
+    this._map = [];
   }
 
   addRawData (rawData) {
@@ -35,41 +35,43 @@ class ProgramGraph {
   }
 
   findOrCreateNode (id) {
-    let node = this._map.get(id);
+    let node = this._map[id];
 
     if (node === undefined) {
       node = new ProgramNode(id);
-      this._map.set(id, node);
+      this._map[id] = node;
     }
 
     return node;
   }
 
-  countNodesInGroup (id, visited = new Set()) {
+  countNodesInGroup (id, visited = []) {
     const processingQueue = [];
-    processingQueue.push(this.findOrCreateNode(id));
+
+    const startingNode = this.findOrCreateNode(id);
+    visited.push(startingNode.id);
+    processingQueue.push(startingNode);
 
     while (processingQueue.length > 0) {
       const current = processingQueue.shift();
-      visited.add(current.id);
 
       for (const neighbor of current.neighbors) {
-        if (!visited.has(neighbor.id)) {
-          visited.add(neighbor.id);
+        if (visited.indexOf(neighbor.id) < 0) {
+          visited.push(neighbor.id);
           processingQueue.push(neighbor);
         }
       }
     }
 
-    return visited.size;
+    return visited.length;
   }
 
   countGroups () {
-    const visited = new Set();
+    const visited = [];
     let groupCount = 0;
 
-    for (const startingNode of this._map.values()) {
-      if (!visited.has(startingNode.id)) {
+    for (const startingNode of this._map) {
+      if (visited.indexOf(startingNode.id) < 0) {
         this.countNodesInGroup(startingNode.id, visited);
         groupCount++;
       }
