@@ -52,7 +52,7 @@ class BlueprintState {
 
 class Blueprint {
   constructor (str) {
-    this._lines = str.split('\n');
+    this._lines = str.split(/\r?\n/);
     this._lineIndex = 0;
     this._beginState = null;
     this._checksumInterval = -1;

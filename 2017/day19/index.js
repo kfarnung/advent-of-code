@@ -55,7 +55,7 @@ class Board {
       } else if (ch === '\n') {
         rows.push(row);
         row = [];
-      } else {
+      } else if (ch !== '\r') {
         throw new Error('Unexpected character!');
       }
     }
