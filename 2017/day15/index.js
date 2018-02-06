@@ -1,4 +1,11 @@
 const fs = require('fs');
+const wasmDay15 = require('../wasm/day15');
+
+const readyPromise = new Promise((resolve) => {
+  wasmDay15.onRuntimeInitialized = function () {
+    resolve();
+  };
+});
 
 class Generator {
   constructor (startingValue, factor, requiredMultiple = 1) {
@@ -8,14 +15,8 @@ class Generator {
   }
 
   next () {
-    while (true) {
-      const value = this._previousValue = (this._previousValue * this._factor) % 2147483647;
-
-      const requiredMultiple = this._requiredMultiple;
-      if (requiredMultiple === 1 || value % requiredMultiple === 0) {
-        return value;
-      }
-    }
+    this._previousValue = wasmDay15._calculateNext(this._previousValue, this._factor, this._requiredMultiple);
+    return this._previousValue;
   }
 }
 
@@ -45,12 +46,17 @@ class Day15 {
     return count;
   }
 
-  static * run (input) {
+  static * runScenarios (input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const [ startingValueA, startingValueB ] = this.parseInput(fileContent);
 
     yield this.countMatches(startingValueA, startingValueB, 40000000);
     yield this.countMatches(startingValueA, startingValueB, 5000000, 4, 8);
+  }
+
+  static async run (input) {
+    await readyPromise;
+    return this.runScenarios(input);
   }
 }
 
