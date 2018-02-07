@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "http://adventofcode.com/2017",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "minimist": "^1.2.0"
+  },
   "devDependencies": {
     "mocha": "^4.0.1",
     "semistandard": "^11.0.0"
