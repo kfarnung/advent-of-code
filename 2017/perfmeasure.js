@@ -16,7 +16,9 @@ if (argv.n) {
   }
 }
 
-async function runPerfTests (filter = null, iterations = 1) {
+const csvFile = argv.csv;
+
+async function runPerfTests (filter = null, iterations = 1, csvFile = null) {
   const content = fs.readFileSync(path.resolve(__dirname, './.vscode/launch.json'), 'utf8');
   const json = JSON.parse(content.replace(/^\s*\/\/ .+/mg, ''));
 
@@ -37,15 +39,14 @@ async function runPerfTests (filter = null, iterations = 1) {
 
       const testName = config.args[0];
       const input = config.args[1].replace('${workspaceFolder}', `${__dirname}`); // eslint-disable-line no-template-curly-in-string
+      const testModule = require(`./${testName}`);
 
       console.log(`Running ${name}...`);
       csvContent += name;
 
       for (let i = 0; i < iterations; i++) {
-        const day = require(`./${testName}`);
-
         const start = performance.now();
-        let results = day.run(input);
+        let results = testModule.run(input);
 
         if (results instanceof Promise) {
           results = await results;
@@ -68,11 +69,11 @@ async function runPerfTests (filter = null, iterations = 1) {
     }
   }
 
-  console.info();
-  console.info('CSV output follows in the error stream');
-  console.info('======================================');
+  if (csvFile) {
+    fs.writeFileSync(path.normalize(csvFile), csvContent, 'utf8');
+  }
 
-  console.error(csvContent);
+  console.log('Done!');
 }
 
-runPerfTests(filter, iterations);
+runPerfTests(filter, iterations, csvFile);
