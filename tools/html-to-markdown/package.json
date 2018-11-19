@@ -4,12 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "semistandard"
+    "lint": "semistandard",
+    "lint-fix": "semistandard --fix",
+    "test": "npm run lint"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "to-markdown": "^3.1.1"
+    "ajv": "^6.5.5",
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.88.0",
+    "turndown": "^5.0.1",
+    "turndown-plugin-gfm": "^1.0.2",
+    "yargs": "^12.0.4"
   },
   "devDependencies": {
     "semistandard": "^11.0.0"
