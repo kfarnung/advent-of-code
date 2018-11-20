@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "name": "AoC to Markdown",
+    "version": "1.0.0",
+    "description": "Generates Markdown for a given Advent of Code page.",
+    "icons": {
+        "32": "icons/aoc-page-to-markdown.svg"
+    },
+    "browser_action": {
+        "default_icon": "icons/aoc-page-to-markdown.svg",
+        "default_title": "AoC to Markdown"
+    },
+    "background": {
+        "scripts": ["background_scripts/index.js"]
+    },
+    "permissions": [
+      "activeTab",
+      "downloads"
+    ],
+    "applications": {
+        "gecko": {
+            "id": "{9255ec71-5fba-48c8-9d40-0ae6ef3d6fb3}"
+        }
+    }
+}
