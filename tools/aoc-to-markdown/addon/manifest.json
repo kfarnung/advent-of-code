@@ -4,10 +4,10 @@
     "version": "1.0.0",
     "description": "Generates Markdown for a given Advent of Code page.",
     "icons": {
-        "32": "icons/aoc-page-to-markdown.svg"
+        "32": "icons/aoc-to-markdown.svg"
     },
     "browser_action": {
-        "default_icon": "icons/aoc-page-to-markdown.svg",
+        "default_icon": "icons/aoc-to-markdown.svg",
         "default_title": "AoC to Markdown"
     },
     "background": {
