@@ -1,4 +1,0 @@
-# Build output
-/addon/**/*.js
-/addon/web-ext-artifacts/
-.web-extension-id
