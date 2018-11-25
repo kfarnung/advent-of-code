@@ -16,7 +16,7 @@
     "request": "^2.88.0",
     "turndown": "^5.0.1",
     "turndown-plugin-gfm": "^1.0.2",
-    "yargs": "^12.0.4"
+    "yargs": "^12.0.5"
   },
   "devDependencies": {
     "semistandard": "^13.0.1"
