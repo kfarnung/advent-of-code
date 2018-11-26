@@ -1,6 +1,6 @@
 # Day 10: Knot Hash
 
-http://adventofcode.com/2017/day/10
+[https://adventofcode.com/2017/day/10](https://adventofcode.com/2017/day/10)
 
 ## Description
 
@@ -10,14 +10,12 @@ You come across some programs that are trying to implement a software emulation 
 
 This hash function simulates tying a knot in a circle of string with 256 marks on it. Based on the input to be hashed, the function repeatedly selects a span of string, brings the ends together, and gives the span a half-twist to reverse the order of the marks within it. After doing this many times, the order of the marks is used to build the resulting hash.
 
-```
-  4--5   pinch   4  5           4   1
- /    \  5,0,1  / \/ \  twist  / \ / \
-3      0  -->  3      0  -->  3   X   0
- \    /         \ /\ /         \ / \ /
-  2--1           2  1           2   5
-
-```
+      4--5   pinch   4  5           4   1
+     /    \  5,0,1  / \/ \  twist  / \ / \
+    3      0  -->  3      0  -->  3   X   0
+     \    /         \ /\ /         \ / \ /
+      2--1           2  1           2   5
+    
 
 To achieve this, begin with a _list_ of numbers from `0` to `255`, a _current position_ which begins at `0` (the first element in the list), a _skip size_ (which starts at `0`), and a sequence of _lengths_ (your puzzle input). Then, for each length:
 
@@ -64,13 +62,11 @@ Once the rounds are complete, you will be left with the numbers from `0` to `255
 
 For example, if the first sixteen elements of your sparse hash are as shown below, and the XOR operator is `^`, you would calculate the first output number like this:
 
-```
-65 ^ 27 ^ 9 ^ 1 ^ 4 ^ 3 ^ 40 ^ 50 ^ 91 ^ 7 ^ 6 ^ 0 ^ 2 ^ 5 ^ 68 ^ 22 = 64
-```
+    65 ^ 27 ^ 9 ^ 1 ^ 4 ^ 3 ^ 40 ^ 50 ^ 91 ^ 7 ^ 6 ^ 0 ^ 2 ^ 5 ^ 68 ^ 22 = 64
 
 Perform this operation on each of the sixteen blocks of sixteen numbers in your sparse hash to determine the sixteen numbers in your dense hash.
 
-Finally, the standard way to represent a Knot Hash is as a single [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) string; the final output is the dense hash in hexadecimal notation. Because each number in your dense hash will be between `0` and `255` (inclusive), always represent each number as two hexadecimal digits (including a leading zero as necessary). So, if your first three numbers are `64, 7, 255`, they correspond to the hexadecimal numbers `40, 07, ff`, and so the first six characters of the hash would be `4007ff`. Because every Knot Hash is sixteen such numbers, the hexadecimal representation is always `32` hexadecimal digits (`0`-`f`) long.
+Finally, the standard way to represent a Knot Hash is as a single [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) string; the final output is the dense hash in hexadecimal notation. Because each number in your dense hash will be between `0` and `255` (inclusive), always represent each number as two hexadecimal digits (including a leading zero as necessary). So, if your first three numbers are `64, 7, 255`, they correspond to the hexadecimal numbers `40, 07, ff`, and so the first six characters of the hash would be `4007ff`. Because every Knot Hash is sixteen such numbers, the hexadecimal representation is always `32` hexadecimal digits (`0`\-`f`) long.
 
 Here are some example hashes:
 

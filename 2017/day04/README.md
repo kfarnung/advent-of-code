@@ -1,6 +1,6 @@
 # Day 4: High-Entropy Passphrases
 
-http://adventofcode.com/2017/day/4
+[https://adventofcode.com/2017/day/4](https://adventofcode.com/2017/day/4)
 
 ## Description
 

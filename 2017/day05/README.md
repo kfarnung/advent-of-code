@@ -1,6 +1,6 @@
 # Day 5: A Maze of Twisty Trampolines, All Alike
 
-http://adventofcode.com/2017/day/5
+[https://adventofcode.com/2017/day/5](https://adventofcode.com/2017/day/5)
 
 ## Description
 
@@ -14,14 +14,12 @@ In addition, these instructions are a little strange; after each jump, the offse
 
 For example, consider the following list of jump offsets:
 
-```
-0
-3
-0
-1
--3
-
-```
+    0
+    3
+    0
+    1
+    -3
+    
 
 Positive jumps ("forward") move downward; negative jumps move upward. For legibility in this example, these offset values will be written all on one line, with the current instruction marked in parentheses. The following steps would be taken before an exit is found:
 

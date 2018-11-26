@@ -1,6 +1,6 @@
 # Day 8: I Heard You Like Registers
 
-http://adventofcode.com/2017/day/8
+[https://adventofcode.com/2017/day/8](https://adventofcode.com/2017/day/8)
 
 ## Description
 
@@ -10,13 +10,11 @@ You receive a <span title="There's that sorcery I told you about.">signal</span>
 
 Each instruction consists of several parts: the register to modify, whether to increase or decrease that register's value, the amount by which to increase or decrease it, and a condition. If the condition fails, skip the instruction without modifying the register. The registers all start at `0`. The instructions look like this:
 
-```
-b inc 5 if a > 1
-a inc 1 if b < 5
-c dec -10 if a >= 1
-c inc -20 if c == 10
-
-```
+    b inc 5 if a > 1
+    a inc 1 if b < 5
+    c dec -10 if a >= 1
+    c inc -20 if c == 10
+    
 
 These instructions would be processed as follows:
 

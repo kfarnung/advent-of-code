@@ -1,6 +1,6 @@
 # Day 9: Stream Processing
 
-http://adventofcode.com/2017/day/9
+[https://adventofcode.com/2017/day/9](https://adventofcode.com/2017/day/9)
 
 ## Description
 

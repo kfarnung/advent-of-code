@@ -1,6 +1,6 @@
 # Day 19: A Series of Tubes
 
-http://adventofcode.com/2017/day/19
+[https://adventofcode.com/2017/day/19](https://adventofcode.com/2017/day/19)
 
 ## Description
 
@@ -12,15 +12,14 @@ Its starting point is just off the top of the diagram. Lines (drawn with `|`, `-
 
 Sometimes, the lines cross over each other; in these cases, it needs to continue going the same direction, and only turn left or right when there's no other option. In addition, someone has left _letters_ on the line; these also don't change its direction, but it can use them to keep track of where it's been. For example:
 
-```
-     |          
-     |  +--+    
-     A  |  C    
- F---|----E|--+ 
-     |  |  |  D 
-     +B-+  +--+ 
-
-```
+         |          
+         |  +--+    
+         A  |  C    
+     F---|----E|--+ 
+         |  |  |  D 
+         +B-+  +--+ 
+    
+    
 
 Given this diagram, the packet needs to take the following path:
 
@@ -39,15 +38,14 @@ The packet is curious how many steps it needs to go.
 
 For example, using the same routing diagram from the example above...
 
-```
-     |          
-     |  +--+    
-     A  |  C    
- F---|--|-E---+ 
-     |  |  |  D 
-     +B-+  +--+ 
-
-```
+         |          
+         |  +--+    
+         A  |  C    
+     F---|--|-E---+ 
+         |  |  |  D 
+         +B-+  +--+ 
+    
+    
 
 ...the packet would go:
 

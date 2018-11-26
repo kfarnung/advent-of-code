@@ -1,6 +1,6 @@
 # Day 12: Digital Plumber
 
-http://adventofcode.com/2017/day/12
+[https://adventofcode.com/2017/day/12](https://adventofcode.com/2017/day/12)
 
 ## Description
 
@@ -18,16 +18,14 @@ You need to figure out how many programs are in the group that contains program 
 
 For example, suppose you go door-to-door like a travelling salesman and record the following list:
 
-```
-0 <-> 2
-1 <-> 1
-2 <-> 0, 3, 4
-3 <-> 2, 4
-4 <-> 2, 3, 6
-5 <-> 6
-6 <-> 4, 5
-
-```
+    0 <-> 2
+    1 <-> 1
+    2 <-> 0, 3, 4
+    3 <-> 2, 4
+    4 <-> 2, 3, 6
+    5 <-> 6
+    6 <-> 4, 5
+    
 
 In this example, the following programs are in the group that contains program ID `0`:
 

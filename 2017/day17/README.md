@@ -1,6 +1,6 @@
 # Day 17: Spinlock
 
-http://adventofcode.com/2017/day/17
+[https://adventofcode.com/2017/day/17](https://adventofcode.com/2017/day/17)
 
 ## Description
 
@@ -32,9 +32,7 @@ And so on:
 
 Eventually, after 2017 insertions, the section of the circular buffer near the last insertion looks like this:
 
-```
-1512  1134  151 (2017) 638  1513  851
-```
+    1512  1134  151 (2017) 638  1513  851
 
 Perhaps, if you can identify the value that will ultimately be _after_ the last value written (`2017`), you can short-circuit the spinlock. In this example, that would be `638`.
 

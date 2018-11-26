@@ -1,6 +1,6 @@
 # Day 22: Sporifica Virus
 
-http://adventofcode.com/2017/day/22
+[https://adventofcode.com/2017/day/22](https://adventofcode.com/2017/day/22)
 
 ## Description
 
@@ -22,98 +22,84 @@ The virus carrier begins in the middle of the map facing _up_.
 
 For example, suppose you are given a map like this:
 
-```
-..#
-#..
-...
-
-```
+    ..#
+    #..
+    ...
+    
 
 Then, the middle of the infinite grid looks like this, with the virus carrier's position marked with `[ ]`:
 
-```
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . # . . .
-. . . #[.]. . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . # . . .
+    . . . #[.]. . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 The virus carrier is on a _clean_ node, so it turns _left_, _infects_ the node, and moves left:
 
-```
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . # . . .
-. . .[#]# . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . # . . .
+    . . .[#]# . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 The virus carrier is on an _infected_ node, so it turns _right_, _cleans_ the node, and moves up:
 
-```
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . .[.]. # . . .
-. . . . # . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . .[.]. # . . .
+    . . . . # . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 Four times in a row, the virus carrier finds a _clean_, _infects_ it, turns _left_, and moves forward, ending in the same place and still facing up:
 
-```
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . #[#]. # . . .
-. . # # # . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . #[#]. # . . .
+    . . # # # . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 Now on the same node as before, it sees an infection, which causes it to turn _right_, _clean_ the node, and move forward:
 
-```
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . # .[.]# . . .
-. . # # # . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . # .[.]# . . .
+    . . # # # . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 After the above actions, a total of `7` bursts of activity had taken place. Of them, `5` bursts of activity caused an infection.
 
 After a total of `70`, the grid looks like this, with the virus carrier facing up:
 
-```
-. . . . . # # . .
-. . . . # . . # .
-. . . # . . . . #
-. . # . #[.]. . #
-. . # . # . . # .
-. . . . . # # . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . # # . .
+    . . . . # . . # .
+    . . . # . . . . #
+    . . # . #[.]. . #
+    . . # . # . . # .
+    . . . . . # # . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 By this time, `41` bursts of activity caused an infection (though most of those nodes have since been cleaned).
 
@@ -148,87 +134,75 @@ Start with the same map (still using `.` for _clean_ and `#` for infected) and s
 
 Using the same initial state as the previous example, and drawing _weakened_ as `W` and _flagged_ as `F`, the middle of the infinite grid looks like this, with the virus carrier's position again marked with `[ ]`:
 
-```
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . # . . .
-. . . #[.]. . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . # . . .
+    . . . #[.]. . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 This is the same as before, since no initial nodes are _weakened_ or _flagged_. The virus carrier is on a clean node, so it still turns left, instead _weakens_ the node, and moves left:
 
-```
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . # . . .
-. . .[#]W . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . # . . .
+    . . .[#]W . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 The virus carrier is on an infected node, so it still turns right, instead _flags_ the node, and moves up:
 
-```
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . .[.]. # . . .
-. . . F W . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . .[.]. # . . .
+    . . . F W . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 This process repeats three more times, ending on the previously-flagged node and facing right:
 
-```
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . W W . # . . .
-. . W[F]W . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . W W . # . . .
+    . . W[F]W . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 Finding a flagged node, it reverses direction and _cleans_ the node:
 
-```
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . W W . # . . .
-. .[W]. W . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . W W . # . . .
+    . .[W]. W . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 The _weakened_ node becomes infected, and it continues in the same direction:
 
-```
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . W W . # . . .
-.[.]# . W . . . .
-. . . . . . . . .
-. . . . . . . . .
-. . . . . . . . .
-
-```
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . W W . # . . .
+    .[.]# . W . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . .
+    
 
 Of the first `100` bursts, `26` will result in _infection_. Unfortunately, another feature of this evolved virus is _speed_; of the first `10000000` bursts, `2511944` will result in _infection_.
 

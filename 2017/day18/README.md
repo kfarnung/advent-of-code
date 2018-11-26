@@ -1,6 +1,6 @@
 # Day 18: Duet
 
-http://adventofcode.com/2017/day/18
+[https://adventofcode.com/2017/day/18](https://adventofcode.com/2017/day/18)
 
 ## Description
 
@@ -26,19 +26,17 @@ After each _jump_ instruction, the program continues with the instruction to whi
 
 For example:
 
-```
-set a 1
-add a 2
-mul a a
-mod a 5
-snd a
-set a 0
-rcv a
-jgz a -1
-set a 1
-jgz a -2
-
-```
+    set a 1
+    add a 2
+    mul a a
+    mod a 5
+    snd a
+    set a 0
+    rcv a
+    jgz a -1
+    set a 1
+    jgz a -2
+    
 
 *   The first four instructions set `a` to `1`, add `2` to it, square it, and then set it to itself modulo `5`, resulting in a value of `4`.
 *   Then, a sound with frequency `4` (the value of `a`) is played.
@@ -62,16 +60,14 @@ Each program also has its own _program ID_ (one `0` and the other `1`); the regi
 
 For example:
 
-```
-snd 1
-snd 2
-snd p
-rcv a
-rcv b
-rcv c
-rcv d
-
-```
+    snd 1
+    snd 2
+    snd p
+    rcv a
+    rcv b
+    rcv c
+    rcv d
+    
 
 Both programs begin by sending three values to the other. Program `0` sends `1, 2, 0`; program `1` sends `1, 2, 1`. Then, each program receives a value (both `1`) and stores it in `a`, receives another value (both `2`) and stores it in `b`, and then each receives the program ID of the other program (program `0` receives `1`; program `1` receives `0`) and stores it in `c`. Each program now sees a different value in its own copy of register `c`.
 

@@ -1,6 +1,6 @@
 # Day 11: Hex Ed
 
-http://adventofcode.com/2017/day/11
+[https://adventofcode.com/2017/day/11](https://adventofcode.com/2017/day/11)
 
 ## Description
 
@@ -14,16 +14,14 @@ Unfortunately for you, it's a [hex grid](https://en.wikipedia.org/wiki/Hexagonal
 
 The hexagons ("hexes") in <span title="Raindrops on roses and whiskers on kittens.">this grid</span> are aligned such that adjacent hexes can be found to the north, northeast, southeast, south, southwest, and northwest:
 
-```
-  \ n  /
-nw +--+ ne
-  /    \
--+      +-
-  \    /
-sw +--+ se
-  / s  \
-
-```
+      \ n  /
+    nw +--+ ne
+      /    \
+    -+      +-
+      \    /
+    sw +--+ se
+      / s  \
+    
 
 You have the path the child process took. Starting where he started, you need to determine the fewest number of steps required to reach him. (A "step" means to move from the hex you are in to any adjacent hex.)
 

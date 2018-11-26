@@ -1,6 +1,6 @@
 # Day 25: The Halting Problem
 
-http://adventofcode.com/2017/day/25
+[https://adventofcode.com/2017/day/25](https://adventofcode.com/2017/day/25)
 
 ## Description
 
@@ -28,44 +28,40 @@ Each slot on the tape has two possible values: `0` (the starting value for all s
 
 For example, suppose you found the following blueprint:
 
-```
-Begin in state A.
-Perform a diagnostic checksum after 6 steps.
-
-In state A:
-  If the current value is 0:
-    - Write the value 1.
-    - Move one slot to the right.
-    - Continue with state B.
-  If the current value is 1:
-    - Write the value 0.
-    - Move one slot to the left.
-    - Continue with state B.
-
-In state B:
-  If the current value is 0:
-    - Write the value 1.
-    - Move one slot to the left.
-    - Continue with state A.
-  If the current value is 1:
-    - Write the value 1.
-    - Move one slot to the right.
-    - Continue with state A.
-
-```
+    Begin in state A.
+    Perform a diagnostic checksum after 6 steps.
+    
+    In state A:
+      If the current value is 0:
+        - Write the value 1.
+        - Move one slot to the right.
+        - Continue with state B.
+      If the current value is 1:
+        - Write the value 0.
+        - Move one slot to the left.
+        - Continue with state B.
+    
+    In state B:
+      If the current value is 0:
+        - Write the value 1.
+        - Move one slot to the left.
+        - Continue with state A.
+      If the current value is 1:
+        - Write the value 1.
+        - Move one slot to the right.
+        - Continue with state A.
+    
 
 Running it until the number of steps required to take the listed _diagnostic checksum_ would result in the following tape configurations (with the _cursor_ marked in square brackets):
 
-```
-... 0  0  0 [0] 0  0 ... (before any steps; about to run state A)
-... 0  0  0  1 [0] 0 ... (after 1 step;     about to run state B)
-... 0  0  0 [1] 1  0 ... (after 2 steps;    about to run state A)
-... 0  0 [0] 0  1  0 ... (after 3 steps;    about to run state B)
-... 0 [0] 1  0  1  0 ... (after 4 steps;    about to run state A)
-... 0  1 [1] 0  1  0 ... (after 5 steps;    about to run state B)
-... 0  1  1 [0] 1  0 ... (after 6 steps;    about to run state A)
-
-```
+    ... 0  0  0 [0] 0  0 ... (before any steps; about to run state A)
+    ... 0  0  0  1 [0] 0 ... (after 1 step;     about to run state B)
+    ... 0  0  0 [1] 1  0 ... (after 2 steps;    about to run state A)
+    ... 0  0 [0] 0  1  0 ... (after 3 steps;    about to run state B)
+    ... 0 [0] 1  0  1  0 ... (after 4 steps;    about to run state A)
+    ... 0  1 [1] 0  1  0 ... (after 5 steps;    about to run state B)
+    ... 0  1  1 [0] 1  0 ... (after 6 steps;    about to run state A)
+    
 
 The CPU can confirm that the Turing machine is working by taking a _diagnostic checksum_ after a specific number of steps (given in the blueprint). Once the specified number of steps have been executed, the Turing machine should pause; once it does, count the number of times `1` appears on the tape. In the above example, the _diagnostic checksum_ is _`3`_.
 
@@ -75,19 +71,15 @@ Recreate the Turing machine and save the computer! _What is the diagnostic check
 
 The Turing machine, and soon the entire computer, springs back to life. A console glows dimly nearby, awaiting your command.
 
-```
-> reboot printer
-Error: That command requires priority 50. You currently have priority 0.
-You must deposit 50 stars to increase your priority to the required level.
-
-```
+    > reboot printer
+    Error: That command requires priority 50. You currently have priority 0.
+    You must deposit 50 stars to increase your priority to the required level.
+    
 
 The console flickers for a moment, and then prints another message:
 
-```
-Star accepted.
-You must deposit 49 stars to increase your priority to the required level.
-
-```
+    Star accepted.
+    You must deposit 49 stars to increase your priority to the required level.
+    
 
 The _garbage collector_ winks at you, then continues sweeping.

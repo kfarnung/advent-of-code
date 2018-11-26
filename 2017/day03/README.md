@@ -1,6 +1,6 @@
 # Day 3: Spiral Memory
 
-http://adventofcode.com/2017/day/3
+[https://adventofcode.com/2017/day/3](https://adventofcode.com/2017/day/3)
 
 ## Description
 
@@ -10,14 +10,12 @@ You come across an experimental new kind of memory stored on an <span title="Goo
 
 Each square on the grid is allocated in a spiral pattern starting at a location marked `1` and then counting up while spiraling outward. For example, the first few squares are allocated like this:
 
-```
-17  16  15  14  13
-18   5   4   3  12
-19   6   1   2  11
-20   7   8   9  10
-21  22  23---> ...
-
-```
+    17  16  15  14  13
+    18   5   4   3  12
+    19   6   1   2  11
+    20   7   8   9  10
+    21  22  23---> ...
+    
 
 While this is very space-efficient (no squares are skipped), requested data must be carried back to square `1` (the location of the only access port for this memory system) by programs that can only move up, down, left, or right. They always take the shortest path: the [Manhattan Distance](https://en.wikipedia.org/wiki/Taxicab_geometry) between the location of the data and square `1`.
 
@@ -44,13 +42,11 @@ So, the first few squares' values are chosen as follows:
 
 Once a square is written, its value does not change. Therefore, the first few squares would receive the following values:
 
-```
-147  142  133  122   59
-304    5    4    2   57
-330   10    1    1   54
-351   11   23   25   26
-362  747  806--->   ...
-
-```
+    147  142  133  122   59
+    304    5    4    2   57
+    330   10    1    1   54
+    351   11   23   25   26
+    362  747  806--->   ...
+    
 
 What is the _first value written_ that is _larger_ than your puzzle input?

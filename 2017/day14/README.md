@@ -1,6 +1,6 @@
 # Day 14: Disk Defragmentation
 
-http://adventofcode.com/2017/day/14
+[https://adventofcode.com/2017/day/14](https://adventofcode.com/2017/day/14)
 
 ## Description
 
@@ -18,19 +18,17 @@ The output of a knot hash is traditionally represented by 32 hexadecimal digits;
 
 Continuing this process, the _first 8 rows and columns_ for key `flqrgnkx` appear as follows, using `#` to denote used squares, and `.` to denote free ones:
 
-```
-##.#.#..-->
-.#.#.#.#   
-....#.#.   
-#.#.##.#   
-.##.#...   
-##..#..#   
-.#...#..   
-##.#.##.-->
-|      |   
-V      V   
-
-```
+    ##.#.#..-->
+    .#.#.#.#   
+    ....#.#.   
+    #.#.##.#   
+    .##.#...   
+    ##..#..#   
+    .#...#..   
+    ##.#.##.-->
+    |      |   
+    V      V   
+    
 
 In this example, `8108` squares are used across the entire 128x128 grid.
 
@@ -42,19 +40,17 @@ Now, <span title="This is exactly how it works in real life.">all the defragment
 
 In the example above, the following nine regions are visible, each marked with a distinct digit:
 
-```
-11.2.3..-->
-.1.2.3.4   
-....5.6\.   
-7.8.55.9   
-.88.5...   
-88..5..8   
-.8...8..   
-88.8.88.-->
-|      |   
-V      V   
-
-```
+    11.2.3..-->
+    .1.2.3.4   
+    ....5.6.   
+    7.8.55.9   
+    .88.5...   
+    88..5..8   
+    .8...8..   
+    88.8.88.-->
+    |      |   
+    V      V   
+    
 
 Of particular interest is the region marked `8`; while it does not appear contiguous in this small view, all of the squares marked `8` are connected when considering the whole 128x128 grid. In total, in this example, `1242` regions are present.
 

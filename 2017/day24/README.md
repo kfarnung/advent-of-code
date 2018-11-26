@@ -1,6 +1,6 @@
 # Day 24: Electromagnetic Moat
 
-http://adventofcode.com/2017/day/24
+[https://adventofcode.com/2017/day/24](https://adventofcode.com/2017/day/24)
 
 ## Description
 
@@ -18,35 +18,33 @@ The _strength_ of a bridge is the sum of the port types in each component. For e
 
 For example, suppose you had the following components:
 
-```
-0/2
-2/2
-2/3
-3/4
-3/5
-0/1
-10/1
-9/10
-
-```
+    0/2
+    2/2
+    2/3
+    3/4
+    3/5
+    0/1
+    10/1
+    9/10
+    
 
 With them, you could make the following valid bridges:
 
 *   `0/1`
-*   `0/1`--`10/1`
-*   `0/1`--`10/1`--`9/10`
+*   `0/1`\--`10/1`
+*   `0/1`\--`10/1`\--`9/10`
 *   `0/2`
-*   `0/2`--`2/3`
-*   `0/2`--`2/3`--`3/4`
-*   `0/2`--`2/3`--`3/5`
-*   `0/2`--`2/2`
-*   `0/2`--`2/2`--`2/3`
-*   `0/2`--`2/2`--`2/3`--`3/4`
-*   `0/2`--`2/2`--`2/3`--`3/5`
+*   `0/2`\--`2/3`
+*   `0/2`\--`2/3`\--`3/4`
+*   `0/2`\--`2/3`\--`3/5`
+*   `0/2`\--`2/2`
+*   `0/2`\--`2/2`\--`2/3`
+*   `0/2`\--`2/2`\--`2/3`\--`3/4`
+*   `0/2`\--`2/2`\--`2/3`\--`3/5`
 
 (Note how, as shown by `10/1`, order of ports within a component doesn't matter. However, you may only use each port on a component once.)
 
-Of these bridges, the _strongest_ one is `0/1`--`10/1`--`9/10`; it has a strength of `0+1 + 1+10 + 10+9 = _31_`.
+Of these bridges, the _strongest_ one is `0/1`\--`10/1`\--`9/10`; it has a strength of `0+1 + 1+10 + 10+9 = _31_`.
 
 _What is the strength of the strongest bridge you can make_ with the components you have available?
 
@@ -56,8 +54,8 @@ The bridge you've built isn't long enough; you can't <span title="Who do you thi
 
 In the example above, there are two longest bridges:
 
-*   `0/2`--`2/2`--`2/3`--`3/4`
-*   `0/2`--`2/2`--`2/3`--`3/5`
+*   `0/2`\--`2/2`\--`2/3`\--`3/4`
+*   `0/2`\--`2/2`\--`2/3`\--`3/5`
 
 Of them, the one which uses the `3/5` component is stronger; its strength is `0+2 + 2+2 + 2+3 + 3+5 = _19_`.
 
