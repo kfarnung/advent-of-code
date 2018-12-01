@@ -4,24 +4,12 @@ Implementation for Advent of Code Day 1.
 https://adventofcode.com/2018/day/1
 """
 
-def get_new_frequency(frequency, modification):
-    """Calculates the frequency for a given input."""
-    operation = modification[0]
-    magnitude = int(modification[1:])
-    if operation == '+':
-        return frequency + magnitude
-
-    return frequency - magnitude
-
-
 def calculate_frequency(inputs):
     """Calculates the frequency for a given set of inputs."""
-    frequency = 0
-
-    for modification in inputs:
-        frequency = get_new_frequency(frequency, modification)
-
-    return frequency
+    return reduce(
+        lambda prev, current: prev + int(current),
+        inputs,
+        0)
 
 def calculate_frequency_two_match(inputs):
     """Calculates the frequency for a given set of inputs."""
@@ -31,7 +19,7 @@ def calculate_frequency_two_match(inputs):
 
     while True:
         for modification in inputs:
-            frequency = get_new_frequency(frequency, modification)
+            frequency += int(modification)
 
             if frequency in seen:
                 return frequency
