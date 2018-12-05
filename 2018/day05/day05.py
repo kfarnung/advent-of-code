@@ -13,7 +13,7 @@ def _reduce_polymer(polymer):
     characters = list(polymer)
 
     # Going backwards through the list only requires one pass
-    for index in reversed(xrange(len(characters) - 1)):
+    for index in reversed(xrange(1, len(characters))):
         if index < len(characters) and _does_react(characters[index - 1], characters[index]):
             del characters[index]
             del characters[index - 1]
