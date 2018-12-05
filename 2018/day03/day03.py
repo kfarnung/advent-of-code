@@ -24,8 +24,8 @@ def _parse_claim(claim):
 
 def _add_claim(claim_map, parsed_claim):
     """Claims the desired cells in the map."""
-    for pos_x in range(parsed_claim[1], parsed_claim[1] + parsed_claim[3]):
-        for pos_y in range(parsed_claim[2], parsed_claim[2] + parsed_claim[4]):
+    for pos_x in xrange(parsed_claim[1], parsed_claim[1] + parsed_claim[3]):
+        for pos_y in xrange(parsed_claim[2], parsed_claim[2] + parsed_claim[4]):
             key = "{},{}".format(pos_x, pos_y)
             claim_map[key] += 1
 
@@ -39,8 +39,8 @@ def _create_claim_map(parsed_claims):
 
 def _check_unique_claim(claim_map, parsed_claim):
     """Checks if all cells for a given claim were only claimed once."""
-    for pos_x in range(parsed_claim[1], parsed_claim[1] + parsed_claim[3]):
-        for pos_y in range(parsed_claim[2], parsed_claim[2] + parsed_claim[4]):
+    for pos_x in xrange(parsed_claim[1], parsed_claim[1] + parsed_claim[3]):
+        for pos_y in xrange(parsed_claim[2], parsed_claim[2] + parsed_claim[4]):
             key = "{},{}".format(pos_x, pos_y)
             if claim_map[key] > 1:
                 return False

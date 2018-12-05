@@ -35,7 +35,7 @@ class _Guard(object):
         """Logs a sleep event for the guard"""
         self.total_sleep += wake - sleep
 
-        for minute in range(sleep, wake):
+        for minute in xrange(sleep, wake):
             self.sleep_minutes[minute] += 1
 
     def get_sleepiest_minute(self):
