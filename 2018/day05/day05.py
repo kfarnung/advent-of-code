@@ -5,24 +5,18 @@ https://adventofcode.com/2018/day/5
 """
 
 import string
-import sys
 
 def _does_react(unit1, unit2):
     return abs(ord(unit1) - ord(unit2)) == 32
 
 def _reduce_polymer(polymer):
     characters = list(polymer)
-    index = 1
 
-    while index < len(characters):
-        if _does_react(characters[index - 1], characters[index]):
+    # Going backwards through the list only requires one pass
+    for index in reversed(xrange(len(characters) - 1)):
+        if index < len(characters) and _does_react(characters[index - 1], characters[index]):
             del characters[index]
             del characters[index - 1]
-
-            # Back up a little bit to catch any new matches
-            index = max(index - 2, 1)
-        else:
-            index += 1
 
     return characters
 
@@ -36,7 +30,7 @@ def run_part1(file_content):
 
 def run_part2(file_content):
     """Implmentation for Part 2."""
-    size = sys.maxint
+    size = len(file_content)
 
     for unit_type in string.ascii_lowercase:
         reduced = _remove_unit_type(file_content, unit_type)
@@ -46,6 +40,8 @@ def run_part2(file_content):
     return size
 
 if __name__ == "__main__":
+    import sys
+
     def run(input_path):
         """The main function."""
         with open(input_path, 'r') as input_file:
