@@ -29,13 +29,13 @@ def calculate_checksum(inputs):
 
     return duplicate_counts[2] * duplicate_counts[3]
 
-def find_correct_ids(inputs):
+def find_correct_id(inputs):
     """Finds the pair of IDs which differ by only one character."""
     for input1 in inputs:
         for input2 in inputs:
             matching = _remove_differences(input1, input2)
             if len(matching) == len(input1) - 1:
-                return matching
+                return matching.strip()
 
     return None
 
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         with open(input_path, 'r') as input_file:
             file_content = input_file.readlines()
             print "Part 1: {}".format(calculate_checksum(file_content))
-            print "Part 2: {}".format(find_correct_ids(file_content))
+            print "Part 2: {}".format(find_correct_id(file_content))
 
     if len(sys.argv) < 2:
         print "Usage: python {} <input>".format(sys.argv[0])
