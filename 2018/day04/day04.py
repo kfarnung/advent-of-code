@@ -105,6 +105,7 @@ if __name__ == "__main__":
             print "Part 2: {}".format(run_part2(file_content))
 
     if len(sys.argv) < 2:
-        raise RuntimeError("Usage: day04.py <input>")
+        print "Usage: python {} <input>".format(sys.argv[0])
+        sys.exit(1)
 
     run(sys.argv[1])

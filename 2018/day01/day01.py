@@ -37,6 +37,7 @@ if __name__ == "__main__":
             print "Part 2: {}".format(calculate_frequency_two_match(file_content))
 
     if len(sys.argv) < 2:
-        raise RuntimeError("Usage: day01.py <input>")
+        print "Usage: python {} <input>".format(sys.argv[0])
+        sys.exit(1)
 
     run(sys.argv[1])
