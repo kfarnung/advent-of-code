@@ -4,7 +4,7 @@ Implementation for Advent of Code Day 5.
 https://adventofcode.com/2018/day/5
 """
 
-import string
+from string import ascii_lowercase
 
 def _does_react(unit1, unit2):
     return abs(ord(unit1) - ord(unit2)) == 32
@@ -32,7 +32,7 @@ def run_part2(file_content):
     """Implmentation for Part 2."""
     size = len(file_content)
 
-    for unit_type in string.ascii_lowercase:
+    for unit_type in ascii_lowercase:
         reduced = _remove_unit_type(file_content, unit_type)
         reduced = _reduce_polymer(reduced)
         size = min(size, len(reduced))
