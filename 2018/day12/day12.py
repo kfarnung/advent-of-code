@@ -6,7 +6,7 @@ https://adventofcode.com/2018/day/12
 
 import re
 from collections import defaultdict, deque
-from itertools import repeat
+from itertools import count, repeat
 
 _INITIAL_STATE_REGEX = re.compile(r'^initial state: ([#.]+)$')
 _RULE_REGEX = re.compile(r'^([#.]+) => ([#.])$')
@@ -91,7 +91,7 @@ def _predict_plant_generations(greenhouse, rules, generation_count):
     seen_patterns = {}
     seen_patterns[_get_key(greenhouse)] = _sum_plant_locations(greenhouse)
 
-    for index in xrange(generation_count):
+    for index in iter(count().next, generation_count):
         greenhouse = _next_generation(greenhouse, rules)
         key = _get_key(greenhouse)
 
