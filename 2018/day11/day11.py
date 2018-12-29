@@ -18,9 +18,9 @@ def _init_grid(size, serial_number):
     """Initialize the grid with the sums from 0,0."""
     grid = []
 
-    for coord_x in xrange(size):
+    for coord_x in range(size):
         col = []
-        for coord_y in xrange(size):
+        for coord_y in range(size):
             current_power = get_power_level(serial_number, coord_x + 1, coord_y + 1)
 
             if coord_x > 0:
@@ -44,8 +44,8 @@ def _find_max_power(grid, size):
     max_power = grid[size][size]
     max_coords = (1, 1)
 
-    for coord_x in xrange(300 - size):
-        for coord_y in xrange(300 - size):
+    for coord_x in range(300 - size):
+        for coord_y in range(300 - size):
             power = grid[coord_x + size][coord_y + size]
 
             if coord_x > 0:
@@ -75,7 +75,7 @@ def run_part2(serial_number):
     max_power, max_coords = _find_max_power(grid, 1)
     max_size = 1
 
-    for size in xrange(2, grid_size + 1):
+    for size in range(2, grid_size + 1):
         power, coords = _find_max_power(grid, size)
         if power > max_power:
             max_power = power
@@ -92,13 +92,13 @@ if __name__ == "__main__":
         serial_number = int(input_str)
 
         coord_x, coord_y = run_part1(serial_number)
-        print "Part 1: {},{}".format(coord_x, coord_y)
+        print("Part 1: {},{}".format(coord_x, coord_y))
 
         coords, size = run_part2(serial_number)
-        print "Part 2: {},{},{}".format(coords[0], coords[1], size)
+        print("Part 2: {},{},{}".format(coords[0], coords[1], size))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

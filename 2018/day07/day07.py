@@ -9,7 +9,7 @@ from collections import defaultdict
 
 _INSTRUCTION_REGEX = re.compile(r'^Step ([A-Z]) must be finished before step ([A-Z]) can begin.$')
 
-class Graph(object):
+class Graph:
     """Represents a graph of nodes."""
     def __init__(self):
         self.nodes = set()
@@ -50,7 +50,7 @@ class Graph(object):
         """Get the set of nodes that haven't completed"""
         return self.nodes - done
 
-class Factory(object):
+class Factory:
     """Represents a factory with time and worker constraints."""
     def __init__(self, worker_count, base_time):
         self.current_time = 0
@@ -65,12 +65,12 @@ class Factory(object):
             # Figure out what's currently done
             done = set(
                 key
-                for key, value in node_available_time.iteritems()
+                for key, value in node_available_time.items()
                 if value <= self.current_time
             )
 
             while True:
-                running = set(node_available_time.iterkeys())
+                running = set(node_available_time.keys())
                 available_work = graph.get_next_ready_node(done, running)
                 available_worker = self._get_available_worker()
 
@@ -82,7 +82,7 @@ class Factory(object):
                     break
 
             if not graph.get_remaining_nodes(done):
-                return max(node_available_time.itervalues())
+                return max(node_available_time.values())
 
             self.current_time += 1
 
@@ -135,11 +135,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(input_path, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content, 5, 60))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content, 5, 60)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

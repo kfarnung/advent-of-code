@@ -5,10 +5,11 @@ https://adventofcode.com/2018/day/6
 """
 
 import sys
+from functools import reduce
 
 _MIN_INT = -sys.maxsize - 1
 
-class Point(object):
+class Point:
     """Represents a point in 2D space."""
     @staticmethod
     def from_string(input_str):
@@ -27,7 +28,7 @@ class Point(object):
         """Calculates the Manhattan distance between the two points"""
         return abs(other.coord_x - self.coord_x) + abs(other.coord_y - self.coord_y)
 
-class Rect(object):
+class Rect:
     """Represents a rectangle in 2D space."""
     @staticmethod
     def bounding_box(points):
@@ -54,11 +55,11 @@ class Rect(object):
 
     def get_range_x(self):
         """Gets the range of x-coordinates for the rectangle"""
-        return xrange(self.upper_left.coord_x, self.lower_right.coord_x + 1)
+        return range(self.upper_left.coord_x, self.lower_right.coord_x + 1)
 
     def get_range_y(self):
         """Gets the range of y-coordinates for the rectangle"""
-        return xrange(self.upper_left.coord_y, self.lower_right.coord_y + 1)
+        return range(self.upper_left.coord_y, self.lower_right.coord_y + 1)
 
     def point_on_boundary(self, point):
         """Checks if the point is on the boundary of the rectangle"""
@@ -99,7 +100,7 @@ def _map_closest_points(points, boundary):
 def _calculate_point_area(area_map, boundary, point):
     total_area = 0
 
-    for key, value in area_map.iteritems():
+    for key, value in area_map.items():
         if value == point:
             if boundary.point_on_boundary(key):
                 # Assume boundary points would have led to infinity
@@ -144,11 +145,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(input_path, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content, 10000))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content, 10000)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

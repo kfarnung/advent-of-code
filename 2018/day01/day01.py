@@ -4,6 +4,8 @@ Implementation for Advent of Code Day 1.
 https://adventofcode.com/2018/day/1
 """
 
+from functools import reduce
+
 def calculate_frequency(inputs):
     """Calculates the frequency for a given set of inputs."""
     return reduce(
@@ -33,11 +35,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(input_path, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(calculate_frequency(file_content))
-            print "Part 2: {}".format(calculate_frequency_two_match(file_content))
+            print("Part 1: {}".format(calculate_frequency(file_content)))
+            print("Part 2: {}".format(calculate_frequency_two_match(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

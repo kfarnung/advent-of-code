@@ -7,7 +7,7 @@ https://adventofcode.com/2018/day/15
 from collections import defaultdict, deque
 from operator import attrgetter
 
-class Unit(object):
+class Unit:
     """Represents a single unit in the battle."""
     def __init__(self, unit_type, position, attack_power):
         self.unit_type = unit_type
@@ -24,7 +24,7 @@ class Unit(object):
         """Gets the sort key for a given unit."""
         return (unit.hit_points, unit.position)
 
-class Battle(object):
+class Battle:
     """Represents the current state of the battle."""
     def __init__(self, initial_state, elf_power=3):
         self.rounds_completed = 0
@@ -205,11 +205,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(argv1, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

@@ -4,7 +4,7 @@ Implementation for Advent of Code Day 8.
 https://adventofcode.com/2018/day/8
 """
 
-class TreeNode(object):
+class TreeNode:
     """Represents a single node in the tree."""
     def __init__(self):
         self.children = []
@@ -15,10 +15,10 @@ def _build_tree(inputs):
     metadata_count = next(inputs)
     node = TreeNode()
 
-    for _ in xrange(child_count):
+    for _ in range(child_count):
         node.children.append(_build_tree(inputs))
 
-    for _ in xrange(metadata_count):
+    for _ in range(metadata_count):
         node.metadata.append(next(inputs))
 
     return node
@@ -64,11 +64,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(input_path, 'r') as input_file:
             file_content = input_file.read().strip()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

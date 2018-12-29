@@ -12,7 +12,7 @@ from sys import maxsize
 
 _FIELD_REGEX = re.compile(r'^([a-z]+): (\d+)(?:,(\d+))?$')
 
-class CaveSystem(object):
+class CaveSystem:
     """Represents a system of caves."""
     _NEIGHBORS = [
         (0, -1),
@@ -30,8 +30,8 @@ class CaveSystem(object):
         """Calculate the total risk level of the cave area."""
         risk_level = 0
 
-        for row in xrange(self.target[1] + 1):
-            for col in xrange(self.target[0] + 1):
+        for row in range(self.target[1] + 1):
+            for col in range(self.target[0] + 1):
                 risk_level += self._get_region_type((col, row))
 
         return risk_level
@@ -39,7 +39,7 @@ class CaveSystem(object):
     def calculate_shortest_time(self):
         """Calculate the shortest time to reach the target position."""
         to_visit = set()
-        shortest_times = defaultdict(repeat(maxsize).next)
+        shortest_times = defaultdict(repeat(maxsize).__next__)
 
         to_visit.add(((0, 0), 1, 0))
 
@@ -98,7 +98,7 @@ class CaveSystem(object):
         raise Exception('Invalid region type')
 
     def _get_intersecting_item(self, current_position, next_position):
-        for item in xrange(3):
+        for item in range(3):
             if (self._is_item_valid(current_position, item) and
                     self._is_item_valid(next_position, item)):
                 return item
@@ -188,11 +188,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(argv1, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

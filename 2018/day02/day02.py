@@ -5,10 +5,11 @@ https://adventofcode.com/2018/day/2
 """
 
 from collections import Counter, defaultdict
+from functools import reduce
 
 def _count_duplicate_letters(string):
     """Returns the counts of duplicate letters in a string."""
-    return set(Counter(string).itervalues())
+    return set(Counter(string).values())
 
 def _remove_differences(str1, str2):
     """Returns a new string which contains only the matching characters of the input strings."""
@@ -46,11 +47,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(input_path, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(calculate_checksum(file_content))
-            print "Part 2: {}".format(find_correct_id(file_content))
+            print("Part 1: {}".format(calculate_checksum(file_content)))
+            print("Part 2: {}".format(find_correct_id(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

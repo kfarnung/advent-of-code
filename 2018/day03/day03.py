@@ -6,6 +6,7 @@ https://adventofcode.com/2018/day/3
 
 import re
 from collections import defaultdict
+from functools import reduce
 
 CLAIM_REGEX = re.compile(r"^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)$")
 
@@ -24,8 +25,8 @@ def _parse_claim(claim):
 
 def _add_claim(claim_map, parsed_claim):
     """Claims the desired cells in the map."""
-    for pos_x in xrange(parsed_claim[1], parsed_claim[1] + parsed_claim[3]):
-        for pos_y in xrange(parsed_claim[2], parsed_claim[2] + parsed_claim[4]):
+    for pos_x in range(parsed_claim[1], parsed_claim[1] + parsed_claim[3]):
+        for pos_y in range(parsed_claim[2], parsed_claim[2] + parsed_claim[4]):
             key = "{},{}".format(pos_x, pos_y)
             claim_map[key] += 1
 
@@ -39,8 +40,8 @@ def _create_claim_map(parsed_claims):
 
 def _check_unique_claim(claim_map, parsed_claim):
     """Checks if all cells for a given claim were only claimed once."""
-    for pos_x in xrange(parsed_claim[1], parsed_claim[1] + parsed_claim[3]):
-        for pos_y in xrange(parsed_claim[2], parsed_claim[2] + parsed_claim[4]):
+    for pos_x in range(parsed_claim[1], parsed_claim[1] + parsed_claim[3]):
+        for pos_y in range(parsed_claim[2], parsed_claim[2] + parsed_claim[4]):
             key = "{},{}".format(pos_x, pos_y)
             if claim_map[key] > 1:
                 return False
@@ -53,7 +54,7 @@ def run_part1(inputs):
 
     return reduce(
         lambda area, position: area + 1 if position > 1 else area,
-        _create_claim_map(parsed_claims).itervalues(),
+        _create_claim_map(parsed_claims).values(),
         0
     )
 
@@ -76,11 +77,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(input_path, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

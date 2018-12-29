@@ -14,7 +14,7 @@ _CART_DIRECTIONS = [
     '^', '>', 'v', '<',
 ]
 
-class Cart(object):
+class Cart:
     """Represents a cart on the track."""
     def __init__(self, row_index, cell_index, direction):
         self.row_index = row_index
@@ -75,7 +75,7 @@ class Cart(object):
         self.intersection_count = (self.intersection_count + 1) % len(_TURN_ORDER)
         return turn
 
-class CartTrack(object):
+class CartTrack:
     """Represents the current state of the cart track."""
     def __init__(self, content):
         self.grid = [[cell for cell in row] for row in content]
@@ -163,11 +163,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(input_path, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(_print_coordinates(run_part1(file_content)))
-            print "Part 2: {}".format(_print_coordinates(run_part2(file_content)))
+            print("Part 1: {}".format(_print_coordinates(run_part1(file_content))))
+            print("Part 2: {}".format(_print_coordinates(run_part2(file_content))))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

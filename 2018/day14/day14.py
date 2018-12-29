@@ -4,7 +4,7 @@ Implementation for Advent of Code Day 14.
 https://adventofcode.com/2018/day/14
 """
 
-class RecipeGenerator(object):
+class RecipeGenerator:
     """Generator for the recipe combinations."""
     def __init__(self):
         self.recipes = [3, 7]
@@ -15,7 +15,7 @@ class RecipeGenerator(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         """Get the next recipe generated."""
         if self.next_index >= len(self.recipes):
             elf_1 = self.recipes[self.index_1]
@@ -33,18 +33,18 @@ class RecipeGenerator(object):
 
     def skip(self, count):
         """Skip the specified number of recipes."""
-        for _ in xrange(count):
+        for _ in range(count):
             next(self)
 
     def take(self, count):
         """Take the specified number of recipes."""
         result = []
-        for _ in xrange(count):
+        for _ in range(count):
             result.append(next(self))
 
         return result
 
-class DigitsMatcher(object):
+class DigitsMatcher:
     """Look in the incoming digits for a match."""
     def __init__(self, digits):
         self.digits = [int(digit) for digit in str(digits)]
@@ -91,11 +91,11 @@ if __name__ == "__main__":
     def run(argv1):
         """The main function."""
         recipe_count = int(argv1)
-        print "Part 1: {}".format(run_part1(recipe_count))
-        print "Part 2: {}".format(run_part2(recipe_count))
+        print("Part 1: {}".format(run_part1(recipe_count)))
+        print("Part 2: {}".format(run_part2(recipe_count)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

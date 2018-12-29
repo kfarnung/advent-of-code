@@ -13,7 +13,7 @@ def _reduce_polymer(polymer):
     characters = list(polymer)
 
     # Going backwards through the list only requires one pass
-    for index in reversed(xrange(1, len(characters))):
+    for index in reversed(range(1, len(characters))):
         if index < len(characters) and _does_react(characters[index - 1], characters[index]):
             del characters[index]
             del characters[index - 1]
@@ -46,11 +46,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(input_path, 'r') as input_file:
             file_content = input_file.read().strip()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

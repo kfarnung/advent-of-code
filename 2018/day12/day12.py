@@ -6,6 +6,7 @@ https://adventofcode.com/2018/day/12
 
 import re
 from collections import defaultdict, deque
+from functools import reduce
 from itertools import count, repeat
 
 _INITIAL_STATE_REGEX = re.compile(r'^initial state: ([#.]+)$')
@@ -33,7 +34,7 @@ def _parse_input(file_content):
     return initial_state, rules
 
 def _initialize_greenhouse(initial_state):
-    greenhouse = defaultdict(repeat('.').next)
+    greenhouse = defaultdict(repeat('.').__next__)
     for index, state in enumerate(initial_state):
         greenhouse[index] = state
 
@@ -41,7 +42,7 @@ def _initialize_greenhouse(initial_state):
 
 def _matches_rule(greenhouse, rule, pot_index):
     offset = len(rule) // 2
-    for index in xrange(-offset, offset + 1):
+    for index in range(-offset, offset + 1):
         if greenhouse[pot_index + index] != rule[index + offset]:
             return False
 
@@ -57,9 +58,9 @@ def _get_replacement(greenhouse, rules, pot_index):
 def _next_generation(greenhouse, rules):
     min_index = min(greenhouse) - 2
     max_index = max(greenhouse) + 2
-    next_gen = defaultdict(repeat('.').next)
+    next_gen = defaultdict(repeat('.').__next__)
 
-    for index in xrange(min_index, max_index + 1):
+    for index in range(min_index, max_index + 1):
         next_gen[index] = _get_replacement(greenhouse, rules, index)
 
     return next_gen
@@ -67,7 +68,7 @@ def _next_generation(greenhouse, rules):
 def _sum_plant_locations(greenhouse):
     return reduce(
         lambda prev, item: prev + item[0] if item[1] == '#' else prev,
-        greenhouse.iteritems(),
+        greenhouse.items(),
         0
     )
 
@@ -76,7 +77,7 @@ def _get_key(greenhouse):
     max_index = max(greenhouse)
 
     # Manually iterate since normal iteration doesn't seem quite right.
-    pattern = deque(greenhouse[index] for index in xrange(min_index, max_index + 1))
+    pattern = deque(greenhouse[index] for index in range(min_index, max_index + 1))
 
     # Strip off empty pots
     while pattern[0] == '.':
@@ -91,7 +92,7 @@ def _predict_plant_generations(greenhouse, rules, generation_count):
     seen_patterns = {}
     seen_patterns[_get_key(greenhouse)] = _sum_plant_locations(greenhouse)
 
-    for index in iter(count().next, generation_count):
+    for index in iter(count().__next__, generation_count):
         greenhouse = _next_generation(greenhouse, rules)
         key = _get_key(greenhouse)
 
@@ -127,11 +128,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(input_path, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

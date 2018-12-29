@@ -10,7 +10,7 @@ from collections import defaultdict
 _INSTRUCTION_REGEX = re.compile(
     r"^\[(\d{4}-\d{2}-\d{2} \d{2}:(\d{2}))] (Guard #(\d+) begins shift|.+)$")
 
-class GuardAction(object):
+class GuardAction:
     """Represents a single action by a single guard"""
     def __init__(self, instruction):
         match = _INSTRUCTION_REGEX.match(instruction)
@@ -24,7 +24,7 @@ class GuardAction(object):
     def __lt__(self, other):
         return self.time < other.time
 
-class Guard(object):
+class Guard:
     """Represents the aggregate actions of a single guard"""
     def __init__(self, guard_id):
         self.guard_id = guard_id
@@ -35,7 +35,7 @@ class Guard(object):
         """Logs a sleep event for the guard"""
         self.total_sleep += wake - sleep
 
-        for minute in xrange(sleep, wake):
+        for minute in range(sleep, wake):
             self.sleep_minutes[minute] += 1
 
     def get_sleepiest_minute(self):
@@ -79,7 +79,7 @@ def _parse_input(inputs):
 def run_part1(inputs):
     """Implmentation for Part 1."""
     sleepiest_guard = max(
-        _parse_input(inputs).itervalues(),
+        _parse_input(inputs).values(),
         key=lambda item: item.total_sleep,
     )
 
@@ -88,7 +88,7 @@ def run_part1(inputs):
 def run_part2(inputs):
     """Implmentation for Part 2."""
     sleepiest_guard = max(
-        _parse_input(inputs).itervalues(),
+        _parse_input(inputs).values(),
         key=lambda item: item.get_sleepiest_count(),
     )
 
@@ -101,11 +101,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(input_path, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

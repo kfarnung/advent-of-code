@@ -9,7 +9,7 @@ import re
 _IP_REGEX = re.compile(r'^#ip (\d)$')
 _INSTRUCTION_REGEX = re.compile(r'^([a-z]+) (\d+) (\d+) (\d+)$')
 
-class Device(object):
+class Device:
     """Represents the current state of the device."""
     def __init__(self, num_registers):
         self.registers = [0] * num_registers
@@ -114,11 +114,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(argv1, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])
