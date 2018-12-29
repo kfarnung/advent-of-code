@@ -4,21 +4,22 @@ Implementation for Advent of Code Day 8.
 https://adventofcode.com/2018/day/8
 """
 
-class _TreeNode(object):
+class TreeNode(object):
+    """Represents a single node in the tree."""
     def __init__(self):
         self.children = []
         self.metadata = []
 
 def _build_tree(inputs):
-    child_count = inputs.next()
-    metadata_count = inputs.next()
-    node = _TreeNode()
+    child_count = next(inputs)
+    metadata_count = next(inputs)
+    node = TreeNode()
 
     for _ in xrange(child_count):
         node.children.append(_build_tree(inputs))
 
     for _ in xrange(metadata_count):
-        node.metadata.append(inputs.next())
+        node.metadata.append(next(inputs))
 
     return node
 

@@ -9,24 +9,25 @@ from collections import defaultdict
 
 _INSTRUCTION_REGEX = re.compile(r'^(\d+) players; last marble is worth (\d+) points$')
 
-class _DoublyLinkedNode(object):
+class DoublyLinkedNode(object):
+    """Represents a doubly-linked list node."""
     def __init__(self, score):
         self.score = score
-        self.prev = None
-        self.next = None
+        self.prev_node = None
+        self.next_node = None
 
     def link_to_self(self):
         """Link the node to itself to form a circular list of length 1"""
-        assert self.prev is None and self.next is None
-        self.prev = self
-        self.next = self
+        assert self.prev_node is None and self.next_node is None
+        self.prev_node = self
+        self.next_node = self
 
     def insert_after(self, other):
         """Insert the provided node after the current node and return the new node."""
-        other.prev = self
-        other.next = self.next
-        self.next.prev = other
-        self.next = other
+        other.prev_node = self
+        other.next_node = self.next_node
+        self.next_node.prev_node = other
+        self.next_node = other
 
         return other
 
@@ -35,18 +36,18 @@ class _DoublyLinkedNode(object):
         current = self
         if count < 0:
             for _ in xrange(abs(count)):
-                current = current.prev
+                current = current.prev_node
         else:
             for _ in xrange(count):
-                current = current.next
+                current = current.next_node
 
         return current
 
     def remove(self):
         """Remove the current node from the list and return the next node."""
-        self.prev.next = self.next
-        self.next.prev = self.prev
-        return self.next
+        self.prev_node.next_node = self.next_node
+        self.next_node.prev_node = self.prev_node
+        return self.next_node
 
 def _parse_instruction(instruction):
     match = _INSTRUCTION_REGEX.match(instruction)
@@ -57,7 +58,7 @@ def _parse_instruction(instruction):
 
 def _play_the_game(player_count, last_move_score):
     players = defaultdict(int)
-    root_node = _DoublyLinkedNode(0)
+    root_node = DoublyLinkedNode(0)
     root_node.link_to_self()
 
     current_node = root_node
@@ -70,7 +71,7 @@ def _play_the_game(player_count, last_move_score):
             current_node = current_node.remove()
         else:
             current_node = current_node.walk(1)
-            current_node = current_node.insert_after(_DoublyLinkedNode(current_score))
+            current_node = current_node.insert_after(DoublyLinkedNode(current_score))
 
         current_player = (current_player + 1) % player_count
 

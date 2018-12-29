@@ -7,9 +7,21 @@ https://adventofcode.com/2018/day/20
 from collections import defaultdict, deque
 from itertools import repeat
 from operator import itemgetter
-from sys import maxint
+from sys import maxsize
+
+class TreeNode(object):
+    """Represents a single node in the Regex tree."""
+    def __init__(self, direction):
+        self.direction = direction
+        self.children = []
+
+    def connect(self, node):
+        """Connects a given node to the current node."""
+        self.children.append(node)
+        return node
 
 class Regex(object):
+    """Represents an input 'regex' string."""
     def __init__(self, input_str):
         root_stack = []
         path_stack = []
@@ -24,7 +36,7 @@ class Regex(object):
         current_index += 1
         while current_index < len(input_str):
             current = input_str[current_index]
-            if current == 'N' or current == 'S' or current == 'E' or current == 'W':
+            if current in ('N', 'S', 'E', 'W'):
                 current_node = current_node.connect(TreeNode(current))
             elif current == '(':
                 current_node = current_node.connect(TreeNode(current))
@@ -91,6 +103,7 @@ class Regex(object):
         return result, end_node
 
 class FacilityMap(object):
+    """Represents a map of the facility as specified by a Regex."""
     _directions = {
         'N': (-1, 0),
         'E': (0, 1),
@@ -119,8 +132,9 @@ class FacilityMap(object):
         return '\n'.join(result)
 
     def follow_path(self, root_node):
+        """Follows a path through the facility as specified by the starting node."""
         queue = deque()
-        distance_map = defaultdict(repeat(maxint).next)
+        distance_map = defaultdict(repeat(maxsize).next)
         visitors = defaultdict(set)
         queue.append(((0, 0), 0, root_node))
         self.grid[(0, 0)] = 'X'
@@ -153,12 +167,13 @@ class FacilityMap(object):
 
     @staticmethod
     def _get_door_type(direction):
-        if direction == 'N' or direction == 'S':
+        if direction in ('N', 'S'):
             return '-'
-        elif direction == 'E' or direction == 'W':
+
+        if direction in ('E', 'W'):
             return '|'
-        else:
-            raise Exception('Invalid direction')
+
+        raise Exception('Invalid direction')
 
     @staticmethod
     def _get_direction(direction):
@@ -187,15 +202,6 @@ class FacilityMap(object):
             current_distance += 1
 
         return (current_position, current_distance, next_node)
-
-class TreeNode(object):
-    def __init__(self, direction):
-        self.direction = direction
-        self.children = []
-
-    def connect(self, node):
-        self.children.append(node)
-        return node
 
 def run_part1(file_content):
     """Implmentation for Part 1."""

@@ -36,7 +36,7 @@ class Grid(object):
     def get_water_count(self):
         """Get the total number of water tiles."""
         return reduce(
-            lambda prev, current: prev + 1 if current == '~' or current == '|' else prev,
+            lambda prev, current: prev + 1 if current in ('~', '|') else prev,
             self.ground.itervalues(),
             0
         )
@@ -60,7 +60,8 @@ class Grid(object):
         if down_tile == '|':
             # Combining with other flowing water.
             return
-        elif down_tile == '.':
+
+        if down_tile == '.':
             self._flow(down)
 
         # Try to fill left and right
@@ -93,11 +94,11 @@ class Grid(object):
     def _can_flow_horizontal(self, position):
         down = (position[0], position[1] + 1)
         current_tile = self.ground[position]
-        if current_tile != '.' and current_tile != '|':
+        if current_tile not in ('.', '|'):
             return False
 
         down_tile = self.ground[down]
-        if down_tile != '#' and down_tile != '~':
+        if down_tile not in ('#', '~'):
             return False
 
         return True

@@ -35,7 +35,7 @@ class Device(object):
     def execute_program(self, reg_ip, instructions):
         """Executes the entire program given an instruction-pointer register and instructions."""
         instruction_pointer = 0
-        while instruction_pointer >= 0 and instruction_pointer < len(instructions):
+        while 0 <= instruction_pointer < len(instructions):
             self.registers[reg_ip] = instruction_pointer
             instruction = instructions[instruction_pointer]
             self._execute(instruction[0], instruction[1], instruction[2], instruction[3])
@@ -121,7 +121,7 @@ def run_part1(file_content):
 def run_part2(_):
     """Implmentation for Part 2."""
     # Reverse-engineered the input, it simply does:
-    return sum([val for val in xrange(1, 10551340 + 1) if 10551340 % val == 0])
+    return sum(val for val in xrange(1, 10551340 + 1) if 10551340 % val == 0)
 
 if __name__ == "__main__":
     import sys

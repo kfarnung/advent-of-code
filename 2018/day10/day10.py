@@ -8,7 +8,7 @@ import re
 
 _ENTRY_REGEX = re.compile(r'^position=< *(-?\d+), *(-?\d+)> velocity=< *(-?\d+), *(-?\d+)>$')
 
-class _Point2D(object):
+class Point2D(object):
     """Represents a point in 2D space."""
     def __init__(self, coord_x, coord_y):
         self.coord_x = coord_x
@@ -33,7 +33,7 @@ class _Point2D(object):
         self.coord_x -= other.coord_x
         self.coord_y -= other.coord_y
 
-class _LightPoint(object):
+class LightPoint(object):
     """Represents a moving point of light in the sky."""
     def __init__(self, position, velocity):
         self.current_position = position
@@ -47,10 +47,10 @@ class _LightPoint(object):
         """Apply the velocity to step forward in time."""
         self.current_position.add(self.velocity)
 
-class _LightPointSystem(object):
+class LightPointSystem(object):
     """Represents a system of light points in the sky."""
     def __init__(self, points):
-        self.points = points
+        self.points = list(points)
 
     def get_area(self):
         """Gets the area of the rectange that bounds the points."""
@@ -69,7 +69,7 @@ class _LightPointSystem(object):
             line = []
 
             for coord_x in xrange(upper_left.coord_x, lower_right.coord_x + 1):
-                point = _Point2D(coord_x, coord_y)
+                point = Point2D(coord_x, coord_y)
                 line.append('#' if point in points else ' ')
 
             lines.append(''.join(line))
@@ -99,7 +99,7 @@ class _LightPointSystem(object):
             max_x = max(max_x, point.current_position.coord_x)
             max_y = max(max_y, point.current_position.coord_y)
 
-        return _Point2D(min_x, min_y), _Point2D(max_x, max_y)
+        return Point2D(min_x, min_y), Point2D(max_x, max_y)
 
 def _parse_entry(input_str):
     """Parse the entry that contains the starting point and velocity."""
@@ -107,14 +107,14 @@ def _parse_entry(input_str):
     if not match:
         raise Exception('Invalid input string')
 
-    return _LightPoint(
-        _Point2D(int(match.group(1)), int(match.group(2))),
-        _Point2D(int(match.group(3)), int(match.group(4))),
+    return LightPoint(
+        Point2D(int(match.group(1)), int(match.group(2))),
+        Point2D(int(match.group(3)), int(match.group(4))),
     )
 
 def find_message(file_content):
     """Implmentation for Part 1."""
-    point_system = _LightPointSystem([_parse_entry(entry) for entry in file_content])
+    point_system = LightPointSystem(_parse_entry(entry) for entry in file_content)
     total_area = point_system.get_area()
     seconds = 0
 

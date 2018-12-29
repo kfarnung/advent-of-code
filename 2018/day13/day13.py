@@ -31,8 +31,8 @@ class Cart(object):
         """Gets the track that's under the cart (only works at start)."""
         if self.direction % 2 == 0:
             return '|'
-        elif self.direction % 2 == 1:
-            return '-'
+
+        return '-'
 
     def update_direction(self, next_track):
         """Update the direction of the cart."""
@@ -48,7 +48,7 @@ class Cart(object):
                 self._turn(-1)
             else:
                 self._turn(1)
-        elif next_track == '-' or next_track == '|':
+        elif next_track in ('-', '|'):
             # Nothing to do
             pass
         else:
