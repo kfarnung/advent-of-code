@@ -23,8 +23,8 @@ def calculate_frequency_two_match(inputs):
 
             if frequency in seen:
                 return frequency
-            else:
-                seen.add(frequency)
+
+            seen.add(frequency)
 
 if __name__ == "__main__":
     import sys

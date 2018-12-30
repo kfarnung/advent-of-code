@@ -4,16 +4,17 @@ Implementation for Advent of Code Day 6.
 https://adventofcode.com/2018/day/6
 """
 
-from sys import maxint
+import sys
 
-_MIN_INT = -maxint - 1
+_MIN_INT = -sys.maxsize - 1
 
-class _Point(object):
+class Point(object):
+    """Represents a point in 2D space."""
     @staticmethod
     def from_string(input_str):
         """Creates a point from a string of the form 'x, y'"""
         [coord_x, coord_y] = [int(part) for part in input_str.split(', ')]
-        return _Point(coord_x, coord_y)
+        return Point(coord_x, coord_y)
 
     def __init__(self, coord_x, coord_y):
         self.coord_x = coord_x
@@ -26,12 +27,13 @@ class _Point(object):
         """Calculates the Manhattan distance between the two points"""
         return abs(other.coord_x - self.coord_x) + abs(other.coord_y - self.coord_y)
 
-class _Rect(object):
+class Rect(object):
+    """Represents a rectangle in 2D space."""
     @staticmethod
     def bounding_box(points):
         """Returns a rectangle which forms the boundary of all points"""
-        min_x = maxint
-        min_y = maxint
+        min_x = sys.maxsize
+        min_y = sys.maxsize
         max_x = _MIN_INT
         max_y = _MIN_INT
 
@@ -41,7 +43,7 @@ class _Rect(object):
             max_x = max(max_x, point.coord_x)
             max_y = max(max_y, point.coord_y)
 
-        return _Rect(_Point(min_x, min_y), _Point(max_x, max_y))
+        return Rect(Point(min_x, min_y), Point(max_x, max_y))
 
     def __init__(self, upper_left, lower_right):
         self.upper_left = upper_left
@@ -89,7 +91,7 @@ def _map_closest_points(points, boundary):
 
     for coord_x in boundary.get_range_x():
         for coord_y in boundary.get_range_y():
-            point_to_check = _Point(coord_x, coord_y)
+            point_to_check = Point(coord_x, coord_y)
             area_map[point_to_check] = _find_closest_point(points, point_to_check)
 
     return area_map
@@ -97,7 +99,7 @@ def _map_closest_points(points, boundary):
 def _calculate_point_area(area_map, boundary, point):
     total_area = 0
 
-    for [key, value] in area_map.iteritems():
+    for key, value in area_map.iteritems():
         if value == point:
             if boundary.point_on_boundary(key):
                 # Assume boundary points would have led to infinity
@@ -108,18 +110,20 @@ def _calculate_point_area(area_map, boundary, point):
     return total_area
 
 def _calculate_max_area(points):
-    boundary = _Rect.bounding_box(points)
+    points = list(points)
+    boundary = Rect.bounding_box(points)
     area_map = _map_closest_points(points, boundary)
 
-    return max([_calculate_point_area(area_map, boundary, point) for point in points])
+    return max(_calculate_point_area(area_map, boundary, point) for point in points)
 
 def _find_points_within_distance(points, distance):
+    points = list(points)
     area_set = set()
-    boundary = _Rect.bounding_box(points)
+    boundary = Rect.bounding_box(points)
 
     for coord_x in boundary.get_range_x():
         for coord_y in boundary.get_range_y():
-            point_to_check = _Point(coord_x, coord_y)
+            point_to_check = Point(coord_x, coord_y)
             if _distance_to_all(points, point_to_check) < distance:
                 area_set.add(point_to_check)
 
@@ -127,17 +131,15 @@ def _find_points_within_distance(points, distance):
 
 def run_part1(file_content):
     """Implmentation for Part 1."""
-    points = [_Point.from_string(input_str) for input_str in file_content]
-    return _calculate_max_area(points)
+    return _calculate_max_area(Point.from_string(input_str) for input_str in file_content)
 
 def run_part2(file_content, distance):
     """Implmentation for Part 2."""
-    points = [_Point.from_string(input_str) for input_str in file_content]
-    return len(_find_points_within_distance(points, distance))
+    return len(_find_points_within_distance(
+        (Point.from_string(input_str) for input_str in file_content),
+        distance))
 
 if __name__ == "__main__":
-    import sys
-
     def run(input_path):
         """The main function."""
         with open(input_path, 'r') as input_file:

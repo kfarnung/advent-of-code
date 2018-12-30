@@ -12,7 +12,7 @@ CLAIM_REGEX = re.compile(r"^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)$")
 def _parse_claim(claim):
     """Parse a given claim and return a tuple containing the results."""
     match = CLAIM_REGEX.match(claim)
-    assert match != None
+    assert match is not None
 
     return (
         int(match.group(1)),

@@ -20,13 +20,9 @@ class Unit(object):
         return self.hit_points > 0
 
     @staticmethod
-    def compare(first, second):
-        """Compare two units when choosing who to attack."""
-        value = cmp(first.hit_points, second.hit_points)
-        if value != 0:
-            return value
-
-        return cmp(first.position, second.position)
+    def get_sort_key(unit):
+        """Gets the sort key for a given unit."""
+        return (unit.hit_points, unit.position)
 
 class Battle(object):
     """Represents the current state of the battle."""
@@ -43,7 +39,7 @@ class Battle(object):
                 elif col == 'E':
                     self.units.append(Unit(col, (row_index, col_index), elf_power))
                     row[col_index] = '.'
-                elif col != '#' and col != '.':
+                elif col not in ('#', '.'):
                     raise Exception('Unexpected tile type')
 
     def __str__(self):
@@ -91,7 +87,7 @@ class Battle(object):
             return False
 
         # Try to attack first, if we succeed that's all we'll do.
-        if not self._try_attack(unit, targets):
+        if not Battle._try_attack(unit, targets):
             # Find the closest destination
             target_positions = [target.position for target in targets]
             closest_target, _ = self._find_closest_target(unit.position, target_positions)
@@ -101,7 +97,7 @@ class Battle(object):
                 unit.position = closest_step
 
                 # Try to attack again after moving.
-                self._try_attack(unit, targets)
+                Battle._try_attack(unit, targets)
 
         return True
 
@@ -127,21 +123,11 @@ class Battle(object):
                 closest.append(position)
 
             if position == start or self._is_open_cavern(position):
-                for neighbor in self._get_neighbors(position):
+                for neighbor in Battle._get_neighbors(position):
                     if neighbor not in seen:
                         to_visit.append((neighbor, distance + 1))
 
         return min(closest) if closest else None, shortest_distance
-
-    def _try_attack(self, unit, targets):
-        in_range = [target for target in targets
-                    if Battle._is_adjacent(unit.position, target.position)]
-        if in_range:
-            in_range.sort(Unit.compare)
-            in_range[0].hit_points -= unit.attack_power
-            return True
-
-        return False
 
     def _is_open_cavern(self, position):
         board_cell = self.board[position[0]][position[1]]
@@ -154,21 +140,33 @@ class Battle(object):
 
         return True
 
-    def _get_neighbors(self, position):
+    def _get_open_neighbors(self, position):
+        return [neighbor for neighbor in Battle._get_neighbors(position)
+                if self._is_open_cavern(neighbor)]
+
+    def _get_targets(self, unit):
+        return [potential_target for potential_target in self.units
+                if potential_target.unit_type != unit.unit_type and potential_target.is_alive()]
+
+    @staticmethod
+    def _try_attack(unit, targets):
+        in_range = [target for target in targets
+                    if Battle._is_adjacent(unit.position, target.position)]
+        if in_range:
+            in_range.sort(key=Unit.get_sort_key)
+            in_range[0].hit_points -= unit.attack_power
+            return True
+
+        return False
+
+    @staticmethod
+    def _get_neighbors(position):
         return [
             (position[0] - 1, position[1]),
             (position[0], position[1] - 1),
             (position[0], position[1] + 1),
             (position[0] + 1, position[1]),
         ]
-
-    def _get_open_neighbors(self, position):
-        return [neighbor for neighbor in self._get_neighbors(position)
-                if self._is_open_cavern(neighbor)]
-
-    def _get_targets(self, unit):
-        return [potential_target for potential_target in self.units
-                if potential_target.unit_type != unit.unit_type and potential_target.is_alive()]
 
     @staticmethod
     def _manhattan_distance(first, second):

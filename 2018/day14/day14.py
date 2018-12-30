@@ -34,13 +34,13 @@ class RecipeGenerator(object):
     def skip(self, count):
         """Skip the specified number of recipes."""
         for _ in xrange(count):
-            self.next()
+            next(self)
 
     def take(self, count):
         """Take the specified number of recipes."""
         result = []
         for _ in xrange(count):
-            result.append(self.next())
+            result.append(next(self))
 
         return result
 
@@ -79,9 +79,9 @@ def run_part2(recipe_count):
     generator = RecipeGenerator()
     matcher = DigitsMatcher(recipe_count)
 
-    result = matcher.match(generator.next())
+    result = matcher.match(next(generator))
     while not result:
-        result = matcher.match(generator.next())
+        result = matcher.match(next(generator))
 
     return result
 

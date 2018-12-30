@@ -9,7 +9,8 @@ from collections import defaultdict
 
 _INSTRUCTION_REGEX = re.compile(r'^Step ([A-Z]) must be finished before step ([A-Z]) can begin.$')
 
-class _Graph(object):
+class Graph(object):
+    """Represents a graph of nodes."""
     def __init__(self):
         self.nodes = set()
         self.dependency_map = defaultdict(set)
@@ -49,7 +50,8 @@ class _Graph(object):
         """Get the set of nodes that haven't completed"""
         return self.nodes - done
 
-class _Factory(object):
+class Factory(object):
+    """Represents a factory with time and worker constraints."""
     def __init__(self, worker_count, base_time):
         self.current_time = 0
         self.worker_available_time = [0] * worker_count
@@ -63,7 +65,7 @@ class _Factory(object):
             # Figure out what's currently done
             done = set(
                 key
-                for [key, value] in node_available_time.iteritems()
+                for key, value in node_available_time.iteritems()
                 if value <= self.current_time
             )
 
@@ -72,8 +74,8 @@ class _Factory(object):
                 available_work = graph.get_next_ready_node(done, running)
                 available_worker = self._get_available_worker()
 
-                if available_work and available_worker >= 0:
-                    construction_time = _Factory._get_execution_time(available_work, self.base_time)
+                if available_work and available_worker is not None and available_worker >= 0:
+                    construction_time = Factory._get_execution_time(available_work, self.base_time)
                     self._assign_work(available_worker, construction_time)
                     node_available_time[available_work] = self.current_time + construction_time
                 else:
@@ -109,7 +111,7 @@ def run_part1(file_content):
     """Implmentation for Part 1."""
     pairs = [_parse_instruction(line) for line in file_content]
 
-    graph = _Graph()
+    graph = Graph()
     for pair in pairs:
         graph.connect_nodes(pair[0], pair[1])
 
@@ -119,11 +121,11 @@ def run_part2(file_content, worker_count, base_time):
     """Implmentation for Part 2."""
     pairs = [_parse_instruction(line) for line in file_content]
 
-    graph = _Graph()
+    graph = Graph()
     for pair in pairs:
         graph.connect_nodes(pair[0], pair[1])
 
-    factory = _Factory(worker_count, base_time)
+    factory = Factory(worker_count, base_time)
     return factory.construct(graph)
 
 if __name__ == "__main__":

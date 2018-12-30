@@ -8,7 +8,7 @@ import re
 from collections import defaultdict
 from itertools import repeat
 from operator import itemgetter
-from sys import maxint
+from sys import maxsize
 
 _FIELD_REGEX = re.compile(r'^([a-z]+): (\d+)(?:,(\d+))?$')
 
@@ -39,7 +39,7 @@ class CaveSystem(object):
     def calculate_shortest_time(self):
         """Calculate the shortest time to reach the target position."""
         to_visit = set()
-        shortest_times = defaultdict(repeat(maxint).next)
+        shortest_times = defaultdict(repeat(maxsize).next)
 
         to_visit.add(((0, 0), 1, 0))
 
@@ -55,8 +55,8 @@ class CaveSystem(object):
             if current_position == self.target:
                 if current_item == 1:
                     return current_time
-                else:
-                    return current_time + 7
+
+                return current_time + 7
 
             current_x, current_y = current_position
             target_x, target_y = self.target
@@ -69,7 +69,7 @@ class CaveSystem(object):
 
             shortest_times[st_key] = current_time
 
-            for neighbor in self._get_neighbors(current_position):
+            for neighbor in CaveSystem._get_neighbors(current_position):
                 next_time = current_time + 1
                 next_item = current_item
 
@@ -85,13 +85,15 @@ class CaveSystem(object):
         region_type = self._get_region_type(position)
         if region_type == 0:
             # Torch or climbing gear
-            return item == 1 or item == 2
-        elif region_type == 1:
+            return item in (1, 2)
+
+        if region_type == 1:
             # Nothing or climbing gear
-            return item == 0 or item == 2
-        elif region_type == 2:
+            return item in (0, 2)
+
+        if region_type == 2:
             # Nothing or torch
-            return item == 0 or item == 1
+            return item in (0, 1)
 
         raise Exception('Invalid region type')
 
@@ -102,14 +104,6 @@ class CaveSystem(object):
                 return item
 
         raise Exception('Invalid combination of types')
-
-    def _get_neighbors(self, position):
-        for neighbor in CaveSystem._NEIGHBORS:
-            current_position = (position[0] + neighbor[0], position[1] + neighbor[1])
-            if current_position[0] < 0 or current_position[1] < 0:
-                continue
-
-            yield current_position
 
     def _get_region_type(self, position):
         return self._get_erosion_level(position) % 3
@@ -154,6 +148,15 @@ class CaveSystem(object):
 
     def _calculate_erosion_level(self, geologic_index):
         return (geologic_index + self.depth) % 20183
+
+    @staticmethod
+    def _get_neighbors(position):
+        for neighbor in CaveSystem._NEIGHBORS:
+            current_position = (position[0] + neighbor[0], position[1] + neighbor[1])
+            if current_position[0] < 0 or current_position[1] < 0:
+                continue
+
+            yield current_position
 
 def _parse_fields(lines):
     fields = {}

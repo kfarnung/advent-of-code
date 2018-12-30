@@ -14,14 +14,14 @@ _RULE_REGEX = re.compile(r'^([#.]+) => ([#.])$')
 def _parse_input(file_content):
     rules = []
     list_iter = iter(file_content)
-    match = _INITIAL_STATE_REGEX.match(list_iter.next())
+    match = _INITIAL_STATE_REGEX.match(next(list_iter))
     if not match:
         raise Exception('Invalid initial state')
 
     initial_state = match.group(1)
 
     # Skip blank line
-    list_iter.next()
+    next(list_iter)
 
     for rule in list_iter:
         match = _RULE_REGEX.match(rule)
@@ -40,7 +40,7 @@ def _initialize_greenhouse(initial_state):
     return greenhouse
 
 def _matches_rule(greenhouse, rule, pot_index):
-    offset = len(rule) / 2
+    offset = len(rule) // 2
     for index in xrange(-offset, offset + 1):
         if greenhouse[pot_index + index] != rule[index + offset]:
             return False

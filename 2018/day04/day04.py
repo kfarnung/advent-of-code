@@ -10,7 +10,7 @@ from collections import defaultdict
 _INSTRUCTION_REGEX = re.compile(
     r"^\[(\d{4}-\d{2}-\d{2} \d{2}:(\d{2}))] (Guard #(\d+) begins shift|.+)$")
 
-class _GuardAction(object):
+class GuardAction(object):
     """Represents a single action by a single guard"""
     def __init__(self, instruction):
         match = _INSTRUCTION_REGEX.match(instruction)
@@ -24,7 +24,7 @@ class _GuardAction(object):
     def __lt__(self, other):
         return self.time < other.time
 
-class _Guard(object):
+class Guard(object):
     """Represents the aggregate actions of a single guard"""
     def __init__(self, guard_id):
         self.guard_id = guard_id
@@ -48,7 +48,7 @@ class _Guard(object):
     def get_sleepiest_count(self):
         """Gets the frequency of the sleepiest minute for the guard"""
         sleepiest_minute = self.get_sleepiest_minute()
-        if sleepiest_minute != None:
+        if sleepiest_minute is not None:
             return self.sleep_minutes[sleepiest_minute]
 
         return 0
@@ -58,12 +58,12 @@ def _parse_input(inputs):
     guard = None
     sleep_minute = None
 
-    for action in sorted([_GuardAction(action) for action in inputs]):
-        if action.guard_id != None:
+    for action in sorted(GuardAction(action) for action in inputs):
+        if action.guard_id is not None:
             if action.guard_id in guard_map:
                 guard = guard_map[action.guard_id]
             else:
-                guard = _Guard(action.guard_id)
+                guard = Guard(action.guard_id)
                 guard_map[action.guard_id] = guard
         elif 'sleep' in action.event:
             assert sleep_minute is None

@@ -36,7 +36,7 @@ class Device(object):
 
     def get_opcodes(self):
         """Gets the available opcodes."""
-        return self.opcodes.keys()
+        return self.opcodes.iterkeys()
 
     def execute(self, name, input_a, input_b, output_c):
         """Executes the given instruction."""

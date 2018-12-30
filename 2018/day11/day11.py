@@ -10,7 +10,7 @@ def get_power_level(serial_number, coord_x, coord_y):
     power_level = rack_id * coord_y
     power_level += serial_number
     power_level *= rack_id
-    power_level = (power_level / 100) % 10
+    power_level = (power_level // 100) % 10
     power_level -= 5
     return power_level
 
