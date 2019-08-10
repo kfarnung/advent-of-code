@@ -7,10 +7,12 @@
     "minimist": "^1.2.0"
   },
   "devDependencies": {
-    "mocha": "^4.1.0",
-    "semistandard": "^11.0.0"
+    "mocha": "^6.2.0",
+    "semistandard": "^13.0.1"
   },
   "scripts": {
+    "lint": "semistandard",
+    "lint-fix": "semistandard --fix",
     "test": "semistandard && mocha"
   },
   "repository": {
