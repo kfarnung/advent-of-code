@@ -1,23 +1,15 @@
 pub fn part1(lines: &Vec<&str>) -> i32 {
-    let mut total: i32 = 0;
-
-    for line in lines {
-        let mass = line.parse::<i32>().unwrap();
-        total += get_fuel_requirements(mass);
-    }
-
-    return total;
+    lines.iter()
+        .map(|l| l.parse::<i32>().unwrap())
+        .map(|m| get_fuel_requirements(m))
+        .sum()
 }
 
 pub fn part2(lines: &Vec<&str>) -> i32 {
-    let mut total: i32 = 0;
-
-    for line in lines {
-        let mass = line.parse::<i32>().unwrap();
-        total += get_total_fuel_requirements(mass);
-    }
-
-    return total;
+    lines.iter()
+        .map(|l| l.parse::<i32>().unwrap())
+        .map(|m| get_total_fuel_requirements(m))
+        .sum()
 }
 
 pub fn get_fuel_requirements(mass: i32) -> i32 {
