@@ -23,12 +23,12 @@ fn run_program(initial_memory: &Vec<usize>, noun: Option<usize>, verb: Option<us
     match noun {
         Some(x) => memory[1] = x,
         None => (),
-    }
+    };
 
     match verb {
         Some(x) => memory[2] = x,
         None => (),
-    }
+    };
 
     loop {
         match memory[ip] {
