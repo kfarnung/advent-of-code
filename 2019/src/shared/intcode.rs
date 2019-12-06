@@ -1,31 +1,40 @@
-pub fn run_program(
-    initial_memory: &Vec<usize>,
-    noun: Option<usize>,
-    verb: Option<usize>,
-) -> Vec<usize> {
-    let mut memory = initial_memory.clone();
-    let mut ip = 0;
+pub struct IntcodeComputer {
+    memory: Vec<usize>,
+}
 
-    match noun {
-        Some(x) => memory[1] = x,
-        None => (),
-    };
-
-    match verb {
-        Some(x) => memory[2] = x,
-        None => (),
-    };
-
-    loop {
-        match memory[ip] {
-            1 => ip = do_add(&mut memory, ip),
-            2 => ip = do_multiply(&mut memory, ip),
-            99 => break,
-            _ => panic!("Unexpected opcode!"),
+impl IntcodeComputer {
+    pub fn new(initial_memory: &Vec<usize>) -> Self {
+        return IntcodeComputer {
+            memory: initial_memory.clone(),
         };
     }
 
-    return memory;
+    pub fn run(&mut self, noun: Option<usize>, verb: Option<usize>) {
+        let mut ip = 0;
+    
+        match noun {
+            Some(x) => self.memory[1] = x,
+            None => (),
+        };
+    
+        match verb {
+            Some(x) => self.memory[2] = x,
+            None => (),
+        };
+    
+        loop {
+            match self.memory[ip] {
+                1 => ip = do_add(&mut self.memory, ip),
+                2 => ip = do_multiply(&mut self.memory, ip),
+                99 => break,
+                _ => panic!("Unexpected opcode!"),
+            };
+        }
+    }
+
+    pub fn get_value(&self, address: usize) -> usize {
+        return self.memory[address];
+    }
 }
 
 fn do_add(memory: &mut Vec<usize>, ip: usize) -> usize {
@@ -51,7 +60,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_run_program() {
+    fn test_run() {
         let cases = vec![
             (
                 vec![1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50],
@@ -67,7 +76,9 @@ mod tests {
         ];
 
         for case in cases {
-            assert_eq!(run_program(&case.0, None, None), case.1);
+            let mut computer = IntcodeComputer::new(&case.0);
+            computer.run(None, None);
+            assert_eq!(computer.memory, case.1);
         }
     }
 }
