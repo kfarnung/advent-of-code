@@ -10,8 +10,7 @@ fn main() {
         process::exit(1);
     }
 
-    let contents = fs::read_to_string(&args[1])
-        .expect("Something went wrong");
+    let contents = fs::read_to_string(&args[1]).expect("Something went wrong");
 
     let lines: Vec<&str> = contents.lines().collect();
     println!("Part 1: {}", day03::part1(&lines));

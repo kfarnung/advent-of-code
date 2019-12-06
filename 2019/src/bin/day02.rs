@@ -10,8 +10,7 @@ fn main() {
         process::exit(1);
     }
 
-    let contents = fs::read_to_string(&args[1])
-        .expect("Something went wrong");
+    let contents = fs::read_to_string(&args[1]).expect("Something went wrong");
 
     let initial_memory = contents
         .trim()

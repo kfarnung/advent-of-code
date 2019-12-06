@@ -12,11 +12,15 @@ pub fn part2(initial_memory: &Vec<usize>) -> usize {
             }
         }
     }
-    
+
     panic!("We didn't find it!");
 }
 
-fn run_program(initial_memory: &Vec<usize>, noun: Option<usize>, verb: Option<usize>) -> Vec<usize> {
+fn run_program(
+    initial_memory: &Vec<usize>,
+    noun: Option<usize>,
+    verb: Option<usize>,
+) -> Vec<usize> {
     let mut memory = initial_memory.clone();
     let mut ip = 0;
 
@@ -36,7 +40,7 @@ fn run_program(initial_memory: &Vec<usize>, noun: Option<usize>, verb: Option<us
             2 => ip = do_multiply(&mut memory, ip),
             99 => break,
             _ => panic!("Unexpected opcode!"),
-        }
+        };
     }
 
     return memory;

@@ -1,12 +1,14 @@
 pub fn part1(lines: &Vec<&str>) -> i32 {
-    lines.iter()
+    lines
+        .iter()
         .map(|l| l.parse::<i32>().unwrap())
         .map(|m| get_fuel_requirements(m))
         .sum()
 }
 
 pub fn part2(lines: &Vec<&str>) -> i32 {
-    lines.iter()
+    lines
+        .iter()
         .map(|l| l.parse::<i32>().unwrap())
         .map(|m| get_total_fuel_requirements(m))
         .sum()
