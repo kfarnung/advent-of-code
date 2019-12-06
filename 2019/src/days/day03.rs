@@ -1,4 +1,4 @@
-use crate::point::Point2D;
+use crate::shared::point::Point2D;
 use std::collections::HashMap;
 
 #[derive(Debug, PartialEq)]

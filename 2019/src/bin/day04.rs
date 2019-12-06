@@ -1,4 +1,4 @@
-use aoc2019::day04;
+use aoc2019::days::day04;
 use std::env;
 use std::fs;
 use std::process;
