@@ -1,3 +1,13 @@
+use std::collections::VecDeque;
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum IntcodeProcessState {
+    Initialized,
+    Running,
+    Waiting,
+    Halted,
+}
+
 #[derive(Debug, PartialEq)]
 struct IntcodeInstruction {
     opcode: i32,
@@ -36,20 +46,18 @@ impl IntcodeInstruction {
     }
 }
 
-pub struct IntcodeComputer {
-    initial: Vec<i32>,
+pub struct IntcodeProcess {
+    ip: usize,
     memory: Vec<i32>,
-    inputs: Vec<i32>,
-    outputs: Vec<i32>,
+    state: IntcodeProcessState,
 }
 
-impl IntcodeComputer {
-    pub fn new(initial: &Vec<i32>) -> Self {
-        return IntcodeComputer {
-            initial: initial.clone(),
-            memory: initial.clone(),
-            inputs: Vec::new(),
-            outputs: Vec::new(),
+impl IntcodeProcess {
+    pub fn new(initial_memory: &Vec<i32>) -> Self {
+        return IntcodeProcess {
+            ip: 0,
+            memory: initial_memory.clone(),
+            state: IntcodeProcessState::Initialized,
         };
     }
 
@@ -63,36 +71,36 @@ impl IntcodeComputer {
         return Self::new(&initial_memory);
     }
 
-    pub fn run(&mut self) {
-        let mut ip = 0;
-
+    pub fn run(
+        &mut self,
+        inputs: &mut VecDeque<i32>,
+        outputs: &mut VecDeque<i32>,
+    ) -> IntcodeProcessState {
         loop {
-            let instruction = IntcodeInstruction::parse(self.memory[ip]);
-            match instruction.opcode {
-                1 => ip = self.do_add(ip, &instruction),
-                2 => ip = self.do_multiply(ip, &instruction),
-                3 => ip = self.do_input(ip, &instruction),
-                4 => ip = self.do_output(ip, &instruction),
-                5 => ip = self.do_jump_if_true(ip, &instruction),
-                6 => ip = self.do_jump_if_false(ip, &instruction),
-                7 => ip = self.do_less_than(ip, &instruction),
-                8 => ip = self.do_equals(ip, &instruction),
-                99 => break,
-                _ => panic!("Unexpected opcode!"),
-            };
+            self.run_step(inputs, outputs);
+
+            if self.state != IntcodeProcessState::Running {
+                break;
+            }
         }
+
+        return self.state;
     }
 
-    pub fn reset(&mut self) {
-        self.memory = self.initial.clone();
-    }
-
-    pub fn set_inputs(&mut self, values: &Vec<i32>) {
-        self.inputs = values.clone();
-    }
-
-    pub fn get_outputs(&mut self) -> &Vec<i32> {
-        return &self.outputs;
+    fn run_step(&mut self, inputs: &mut VecDeque<i32>, outputs: &mut VecDeque<i32>) {
+        let instruction = IntcodeInstruction::parse(self.memory[self.ip]);
+        self.state = match instruction.opcode {
+            1 => self.do_add(&instruction),
+            2 => self.do_multiply(&instruction),
+            3 => self.do_input(&instruction, inputs),
+            4 => self.do_output(&instruction, outputs),
+            5 => self.do_jump_if_true(&instruction),
+            6 => self.do_jump_if_false(&instruction),
+            7 => self.do_less_than(&instruction),
+            8 => self.do_equals(&instruction),
+            99 => IntcodeProcessState::Halted,
+            _ => panic!("Unexpected opcode!"),
+        };
     }
 
     pub fn get_memory(&self, address: usize) -> i32 {
@@ -103,8 +111,8 @@ impl IntcodeComputer {
         self.memory[address] = value;
     }
 
-    fn load_parameter(&self, ip: usize, instruction: &IntcodeInstruction, index: usize) -> i32 {
-        let param = self.memory[ip + 1 + index];
+    fn load_parameter(&self, instruction: &IntcodeInstruction, index: usize) -> i32 {
+        let param = self.memory[self.ip + 1 + index];
         match instruction.get_mode(index) {
             0 => self.memory[param as usize],
             1 => param,
@@ -112,82 +120,103 @@ impl IntcodeComputer {
         }
     }
 
-    fn store_parameter(
-        &mut self,
-        ip: usize,
-        instruction: &IntcodeInstruction,
-        index: usize,
-        value: i32,
-    ) {
-        let param = self.memory[ip + 1 + index];
+    fn store_parameter(&mut self, instruction: &IntcodeInstruction, index: usize, value: i32) {
+        let param = self.memory[self.ip + 1 + index];
         match instruction.get_mode(index) {
             0 => self.memory[param as usize] = value,
             _ => panic!("Unexpected mode!"),
         }
     }
 
-    fn do_add(&mut self, ip: usize, instruction: &IntcodeInstruction) -> usize {
-        let a = self.load_parameter(ip, instruction, 0);
-        let b = self.load_parameter(ip, instruction, 1);
+    fn do_add(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
+        let a = self.load_parameter(instruction, 0);
+        let b = self.load_parameter(instruction, 1);
 
-        self.store_parameter(ip, instruction, 2, a + b);
-        return ip + 4;
+        self.store_parameter(instruction, 2, a + b);
+        self.ip += 4;
+
+        return IntcodeProcessState::Running;
     }
 
-    fn do_multiply(&mut self, ip: usize, instruction: &IntcodeInstruction) -> usize {
-        let a = self.load_parameter(ip, instruction, 0);
-        let b = self.load_parameter(ip, instruction, 1);
+    fn do_multiply(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
+        let a = self.load_parameter(instruction, 0);
+        let b = self.load_parameter(instruction, 1);
 
-        self.store_parameter(ip, instruction, 2, a * b);
-        return ip + 4;
+        self.store_parameter(instruction, 2, a * b);
+        self.ip += 4;
+
+        return IntcodeProcessState::Running;
     }
 
-    fn do_input(&mut self, ip: usize, instruction: &IntcodeInstruction) -> usize {
-        let value = self.inputs.remove(0);
-        self.store_parameter(ip, instruction, 0, value);
-        return ip + 2;
+    fn do_input(
+        &mut self,
+        instruction: &IntcodeInstruction,
+        inputs: &mut VecDeque<i32>,
+    ) -> IntcodeProcessState {
+        if let Some(value) = inputs.pop_front() {
+            self.store_parameter(instruction, 0, value);
+
+            self.ip += 2;
+            return IntcodeProcessState::Running;
+        } else {
+            return IntcodeProcessState::Waiting;
+        }
     }
 
-    fn do_output(&mut self, ip: usize, instruction: &IntcodeInstruction) -> usize {
-        let value = self.load_parameter(ip, instruction, 0);
-        self.outputs.push(value);
-        return ip + 2;
+    fn do_output(
+        &mut self,
+        instruction: &IntcodeInstruction,
+        outputs: &mut VecDeque<i32>,
+    ) -> IntcodeProcessState {
+        let value = self.load_parameter(instruction, 0);
+        outputs.push_back(value);
+        self.ip += 2;
+
+        return IntcodeProcessState::Running;
     }
 
-    fn do_jump_if_true(&mut self, ip: usize, instruction: &IntcodeInstruction) -> usize {
-        let a = self.load_parameter(ip, instruction, 0);
+    fn do_jump_if_true(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
+        let a = self.load_parameter(instruction, 0);
         if a != 0 {
-            return self.load_parameter(ip, instruction, 1) as usize;
+            self.ip = self.load_parameter(instruction, 1) as usize;
+        } else {
+            self.ip += 3;
         }
 
-        return ip + 3;
+        return IntcodeProcessState::Running;
     }
 
-    fn do_jump_if_false(&mut self, ip: usize, instruction: &IntcodeInstruction) -> usize {
-        let a = self.load_parameter(ip, instruction, 0);
+    fn do_jump_if_false(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
+        let a = self.load_parameter(instruction, 0);
         if a == 0 {
-            return self.load_parameter(ip, instruction, 1) as usize;
+            self.ip = self.load_parameter(instruction, 1) as usize;
+        } else {
+            self.ip += 3;
         }
 
-        return ip + 3;
+        return IntcodeProcessState::Running;
     }
 
-    fn do_less_than(&mut self, ip: usize, instruction: &IntcodeInstruction) -> usize {
-        let a = self.load_parameter(ip, instruction, 0);
-        let b = self.load_parameter(ip, instruction, 1);
+    fn do_less_than(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
+        let a = self.load_parameter(instruction, 0);
+        let b = self.load_parameter(instruction, 1);
 
         let value = if a < b { 1 } else { 0 };
-        self.store_parameter(ip, instruction, 2, value);
-        return ip + 4;
+        self.store_parameter(instruction, 2, value);
+        self.ip += 4;
+
+        return IntcodeProcessState::Running;
     }
 
-    fn do_equals(&mut self, ip: usize, instruction: &IntcodeInstruction) -> usize {
-        let a = self.load_parameter(ip, instruction, 0);
-        let b = self.load_parameter(ip, instruction, 1);
+    fn do_equals(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
+        let a = self.load_parameter(instruction, 0);
+        let b = self.load_parameter(instruction, 1);
 
         let value = if a == b { 1 } else { 0 };
-        self.store_parameter(ip, instruction, 2, value);
-        return ip + 4;
+        self.store_parameter(instruction, 2, value);
+        self.ip += 4;
+
+        return IntcodeProcessState::Running;
     }
 }
 
@@ -212,8 +241,10 @@ mod tests {
         ];
 
         for case in cases {
-            let mut computer = IntcodeComputer::new(&case.0);
-            computer.run();
+            let mut inputs = VecDeque::new();
+            let mut outputs = VecDeque::new();
+            let mut computer = IntcodeProcess::new(&case.0);
+            computer.run(&mut inputs, &mut outputs);
             assert_eq!(computer.memory, case.1);
         }
     }
