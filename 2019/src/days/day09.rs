@@ -5,5 +5,5 @@ pub fn part1(initial_memory: &str) -> i64 {
 }
 
 pub fn part2(initial_memory: &str) -> i64 {
-    return IntcodeProcess::execute(initial_memory, 5);
+    return IntcodeProcess::execute(initial_memory, 2);
 }

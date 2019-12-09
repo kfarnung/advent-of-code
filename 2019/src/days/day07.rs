@@ -4,7 +4,7 @@ use permutohedron::heap_recursive;
 use std::cmp::max;
 use std::collections::VecDeque;
 
-pub fn part1(initial_memory: &str) -> i32 {
+pub fn part1(initial_memory: &str) -> i64 {
     let mut phase_settings = vec![0, 1, 2, 3, 4];
     let mut max_value = 0;
     heap_recursive(&mut phase_settings, |setting| {
@@ -14,7 +14,7 @@ pub fn part1(initial_memory: &str) -> i32 {
     return max_value;
 }
 
-pub fn part2(initial_memory: &str) -> i32 {
+pub fn part2(initial_memory: &str) -> i64 {
     let mut phase_settings = vec![5, 6, 7, 8, 9];
     let mut max_value = 0;
     heap_recursive(&mut phase_settings, |setting| {
@@ -24,7 +24,7 @@ pub fn part2(initial_memory: &str) -> i32 {
     return max_value;
 }
 
-fn do_part1(initial_memory: &str, phase_settings: &[i32]) -> i32 {
+fn do_part1(initial_memory: &str, phase_settings: &[i64]) -> i64 {
     let mut last_output = 0;
 
     for setting in phase_settings {
@@ -41,7 +41,7 @@ fn do_part1(initial_memory: &str, phase_settings: &[i32]) -> i32 {
     return last_output;
 }
 
-fn do_part2(initial_memory: &str, phase_settings: &[i32]) -> i32 {
+fn do_part2(initial_memory: &str, phase_settings: &[i64]) -> i64 {
     let mut output_a = VecDeque::new();
     let mut output_b = VecDeque::new();
     let mut output_c = VecDeque::new();

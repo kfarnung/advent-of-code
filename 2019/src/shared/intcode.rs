@@ -10,19 +10,19 @@ pub enum IntcodeProcessState {
 
 #[derive(Debug, PartialEq)]
 struct IntcodeInstruction {
-    opcode: i32,
-    modes: Vec<i32>,
+    opcode: i64,
+    modes: Vec<i64>,
 }
 
 impl IntcodeInstruction {
-    fn new(opcode: i32) -> Self {
+    fn new(opcode: i64) -> Self {
         return IntcodeInstruction {
             opcode: opcode,
             modes: Vec::new(),
         };
     }
 
-    pub fn parse(instruction: i32) -> Self {
+    pub fn parse(instruction: i64) -> Self {
         let mut current = instruction;
         let mut parsed = IntcodeInstruction::new(current % 100);
 
@@ -37,7 +37,7 @@ impl IntcodeInstruction {
         return parsed;
     }
 
-    fn get_mode(&self, index: usize) -> i32 {
+    fn get_mode(&self, index: usize) -> i64 {
         let mode = self.modes.get(index);
         match mode {
             Some(x) => x.clone(),
@@ -48,15 +48,17 @@ impl IntcodeInstruction {
 
 pub struct IntcodeProcess {
     ip: usize,
-    memory: Vec<i32>,
+    memory: Vec<i64>,
+    relative_base: i64,
     state: IntcodeProcessState,
 }
 
 impl IntcodeProcess {
-    pub fn new(initial_memory: &Vec<i32>) -> Self {
+    pub fn new(initial_memory: &Vec<i64>) -> Self {
         return IntcodeProcess {
             ip: 0,
             memory: initial_memory.clone(),
+            relative_base: 0,
             state: IntcodeProcessState::Initialized,
         };
     }
@@ -65,16 +67,27 @@ impl IntcodeProcess {
         let initial_memory = initial_memory
             .trim()
             .split(',')
-            .map(|i| i.parse::<i32>().unwrap())
+            .map(|i| i.parse::<i64>().unwrap())
             .collect();
 
         return Self::new(&initial_memory);
     }
 
+    pub fn execute(initial_memory: &str, input: i64) -> i64 {
+        let mut computer = IntcodeProcess::new_from_string(initial_memory);
+        let mut inputs = VecDeque::new();
+        let mut outputs = VecDeque::new();
+    
+        inputs.push_back(input);
+        computer.run(&mut inputs, &mut outputs);
+    
+        return outputs.pop_back().unwrap();
+    }
+
     pub fn run(
         &mut self,
-        inputs: &mut VecDeque<i32>,
-        outputs: &mut VecDeque<i32>,
+        inputs: &mut VecDeque<i64>,
+        outputs: &mut VecDeque<i64>,
     ) -> IntcodeProcessState {
         loop {
             self.run_step(inputs, outputs);
@@ -87,8 +100,8 @@ impl IntcodeProcess {
         return self.state;
     }
 
-    fn run_step(&mut self, inputs: &mut VecDeque<i32>, outputs: &mut VecDeque<i32>) {
-        let instruction = IntcodeInstruction::parse(self.memory[self.ip]);
+    fn run_step(&mut self, inputs: &mut VecDeque<i64>, outputs: &mut VecDeque<i64>) {
+        let instruction = IntcodeInstruction::parse(self.get_memory(self.ip));
         self.state = match instruction.opcode {
             1 => self.do_add(&instruction),
             2 => self.do_multiply(&instruction),
@@ -98,32 +111,43 @@ impl IntcodeProcess {
             6 => self.do_jump_if_false(&instruction),
             7 => self.do_less_than(&instruction),
             8 => self.do_equals(&instruction),
+            9 => self.do_adjust_relative_base(&instruction),
             99 => IntcodeProcessState::Halted,
             _ => panic!("Unexpected opcode!"),
         };
     }
 
-    pub fn get_memory(&self, address: usize) -> i32 {
-        return self.memory[address];
+    pub fn get_memory(&self, address: usize) -> i64 {
+        if address < self.memory.len() {
+            return self.memory[address];
+        } else {
+            return 0;
+        }
     }
 
-    pub fn set_value(&mut self, address: usize, value: i32) {
+    pub fn set_value(&mut self, address: usize, value: i64) {
+        if address >= self.memory.len() {
+            self.memory.resize_with(address + 1, Default::default);
+        }
+
         self.memory[address] = value;
     }
 
-    fn load_parameter(&self, instruction: &IntcodeInstruction, index: usize) -> i32 {
-        let param = self.memory[self.ip + 1 + index];
+    fn load_parameter(&self, instruction: &IntcodeInstruction, index: usize) -> i64 {
+        let param = self.get_memory(self.ip + 1 + index);
         match instruction.get_mode(index) {
-            0 => self.memory[param as usize],
+            0 => self.get_memory(param as usize),
             1 => param,
+            2 => self.get_memory((self.relative_base + param) as usize),
             _ => panic!("Unexpected mode!"),
         }
     }
 
-    fn store_parameter(&mut self, instruction: &IntcodeInstruction, index: usize, value: i32) {
-        let param = self.memory[self.ip + 1 + index];
+    fn store_parameter(&mut self, instruction: &IntcodeInstruction, index: usize, value: i64) {
+        let param = self.get_memory(self.ip + 1 + index);
         match instruction.get_mode(index) {
-            0 => self.memory[param as usize] = value,
+            0 => self.set_value(param as usize, value),
+            2 => self.set_value((self.relative_base + param) as usize, value),
             _ => panic!("Unexpected mode!"),
         }
     }
@@ -151,7 +175,7 @@ impl IntcodeProcess {
     fn do_input(
         &mut self,
         instruction: &IntcodeInstruction,
-        inputs: &mut VecDeque<i32>,
+        inputs: &mut VecDeque<i64>,
     ) -> IntcodeProcessState {
         if let Some(value) = inputs.pop_front() {
             self.store_parameter(instruction, 0, value);
@@ -166,7 +190,7 @@ impl IntcodeProcess {
     fn do_output(
         &mut self,
         instruction: &IntcodeInstruction,
-        outputs: &mut VecDeque<i32>,
+        outputs: &mut VecDeque<i64>,
     ) -> IntcodeProcessState {
         let value = self.load_parameter(instruction, 0);
         outputs.push_back(value);
@@ -218,6 +242,13 @@ impl IntcodeProcess {
 
         return IntcodeProcessState::Running;
     }
+
+    fn do_adjust_relative_base(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
+        self.relative_base += self.load_parameter(instruction, 0);
+        self.ip += 2;
+
+        return IntcodeProcessState::Running;
+    }
 }
 
 #[cfg(test)]
@@ -246,6 +277,33 @@ mod tests {
             let mut computer = IntcodeProcess::new(&case.0);
             computer.run(&mut inputs, &mut outputs);
             assert_eq!(computer.memory, case.1);
+        }
+    }
+
+    #[test]
+    fn test_output() {
+        let cases = vec![
+            (
+                vec![
+                    109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99,
+                ],
+                vec![
+                    109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99,
+                ],
+            ),
+            (
+                vec![1102, 34915192, 34915192, 7, 4, 7, 99, 0],
+                vec![1219070632396864],
+            ),
+            (vec![104, 1125899906842624, 99], vec![1125899906842624]),
+        ];
+
+        for case in cases {
+            let mut inputs = VecDeque::new();
+            let mut outputs = VecDeque::new();
+            let mut computer = IntcodeProcess::new(&case.0);
+            computer.run(&mut inputs, &mut outputs);
+            assert_eq!(outputs, case.1);
         }
     }
 

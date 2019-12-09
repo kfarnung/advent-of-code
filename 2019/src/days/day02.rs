@@ -1,7 +1,7 @@
 use crate::shared::intcode::IntcodeProcess;
 use std::collections::VecDeque;
 
-pub fn part1(initial_memory: &str) -> i32 {
+pub fn part1(initial_memory: &str) -> i64 {
     let mut inputs = VecDeque::new();
     let mut outputs = VecDeque::new();
     let mut computer = IntcodeProcess::new_from_string(initial_memory);
@@ -12,7 +12,7 @@ pub fn part1(initial_memory: &str) -> i32 {
     return computer.get_memory(0);
 }
 
-pub fn part2(initial_memory: &str) -> i32 {
+pub fn part2(initial_memory: &str) -> i64 {
     for noun in 0..99 {
         for verb in 0..99 {
             let mut inputs = VecDeque::new();
