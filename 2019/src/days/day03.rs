@@ -14,11 +14,11 @@ pub fn part1(lines: &Vec<&str>) -> i32 {
     let intersections = find_intersections(wire_a, wire_b);
     let min_distance = intersections
         .iter()
-        .min_by_key(|x| x.0.manhattan_distance(Point2D { x: 0, y: 0 }))
+        .min_by_key(|x| x.0.manhattan_distance(&Point2D::new(0, 0)))
         .unwrap()
         .0;
 
-    return min_distance.manhattan_distance(Point2D { x: 0, y: 0 });
+    return min_distance.manhattan_distance(&Point2D::new(0, 0));
 }
 
 pub fn part2(lines: &Vec<&str>) -> i32 {
@@ -49,7 +49,7 @@ fn find_intersections(
 
 fn follow_path(line: &str) -> HashMap<Point2D, i32> {
     let mut visited: HashMap<Point2D, i32> = HashMap::new();
-    let mut current = Point2D { x: 0, y: 0 };
+    let mut current = Point2D::new(0, 0);
     let mut total_distance = 0;
 
     for step in get_steps(line) {
@@ -80,10 +80,10 @@ fn get_step(step: &str) -> PathStep {
 
 fn get_delta(direction: &str) -> Point2D {
     match direction {
-        "U" => Point2D { x: 0, y: 1 },
-        "D" => Point2D { x: 0, y: -1 },
-        "L" => Point2D { x: -1, y: 0 },
-        "R" => Point2D { x: 1, y: 0 },
+        "U" => Point2D::new(0, 1),
+        "D" => Point2D::new(0, -1),
+        "L" => Point2D::new(-1, 0),
+        "R" => Point2D::new(1, 0),
         _ => panic!("Unexpected direction!"),
     }
 }
