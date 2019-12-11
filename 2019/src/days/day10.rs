@@ -33,8 +33,6 @@ pub fn part2(map: &str) -> i32 {
             }
         }
     }
-
-    panic!("Didn't find a valid point!");
 }
 
 fn get_sorted_angles(hits_map: &HashMap<Fraction, Vec<Point2D>>) -> Vec<Fraction> {
