@@ -1,4 +1,5 @@
 use std::f32::consts::PI;
+use num::Signed;
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct Fraction {
@@ -33,17 +34,21 @@ impl Fraction {
     }
 }
 
-fn gcd(first: i32, second: i32) -> i32 {
+fn gcd<T>(first: T, second: T) -> T where T: Signed + PartialOrd + Copy {
     let mut a = first.abs();
     let mut b = second.abs();
 
-    while a > 0 {
+    while a.is_positive() {
         let remainder = b % a;
         b = a;
         a = remainder;
     }
 
     return b;
+}
+
+pub fn lcm<T>(first: T, second: T) -> T where T: Signed + PartialOrd + Copy {
+    return (first * second) / gcd(first, second);
 }
 
 #[cfg(test)]
@@ -55,6 +60,15 @@ mod tests {
         assert_eq!(gcd(2, 4), 2);
         assert_eq!(gcd(2, -4), 2);
         assert_eq!(gcd(-2, -4), 2);
+        assert_eq!(gcd(2i64, 4i64), 2i64);
+        assert_eq!(gcd(2i64, -4i64), 2i64);
+        assert_eq!(gcd(-2i64, -4i64), 2i64);
+    }
+
+    #[test]
+    fn test_lcm64() {
+        assert_eq!(lcm(3, 8), 24);
+        assert_eq!(lcm(3i64, 8i64), 24i64);
     }
 
     #[test]
