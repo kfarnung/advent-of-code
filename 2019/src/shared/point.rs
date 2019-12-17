@@ -1,27 +1,37 @@
 use crate::shared::num::Fraction;
+use num::{NumCast, Signed};
 use std::ops::AddAssign;
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
-pub struct Point2D {
-    pub x: i32,
-    pub y: i32,
+pub struct Point2D<T>
+where
+    T: Signed + PartialOrd + Copy + NumCast,
+{
+    pub x: T,
+    pub y: T,
 }
 
-impl Point2D {
-    pub fn new(x: i32, y: i32) -> Self {
+impl<T> Point2D<T>
+where
+    T: Signed + PartialOrd + Copy + NumCast,
+{
+    pub fn new(x: T, y: T) -> Self {
         return Self { x: x, y: y };
     }
 
-    pub fn manhattan_distance(&self, other: &Self) -> i32 {
+    pub fn manhattan_distance(&self, other: &Self) -> T {
         return (self.x - other.x).abs() + (self.y - other.y).abs();
     }
 
-    pub fn slope(&self, other: &Self) -> Fraction {
+    pub fn slope(&self, other: &Self) -> Fraction<T> {
         return Fraction::new(other.y - self.y, other.x - self.x).reduce();
     }
 }
 
-impl AddAssign for Point2D {
+impl<T> AddAssign for Point2D<T>
+where
+    T: Signed + PartialOrd + Copy + NumCast,
+{
     fn add_assign(&mut self, other: Self) {
         *self = Self {
             x: self.x + other.x,

@@ -1,8 +1,6 @@
-use crate::shared::intcode::IntcodeProcess;
-use crate::shared::intcode::IntcodeProcessState;
+use crate::shared::intcode::{IntcodeProcess, IntcodeProcessState};
 use crate::shared::point::Point2D;
-use std::collections::HashMap;
-use std::collections::VecDeque;
+use std::collections::{HashMap, VecDeque};
 
 pub fn part1(initial_memory: &str) -> usize {
     return paint(initial_memory, 0).len();
@@ -39,7 +37,7 @@ pub fn part2(initial_memory: &str) -> String {
     return lines.join("\n");
 }
 
-fn paint(initial_memory: &str, starting_color: i64) -> HashMap<Point2D, i64> {
+fn paint(initial_memory: &str, starting_color: i64) -> HashMap<Point2D<i32>, i64> {
     let mut direction = 0;
     let mut position = Point2D::new(0, 0);
     let mut grid = HashMap::new();
@@ -83,7 +81,7 @@ fn turn(current: usize, new: i64) -> usize {
     }
 }
 
-fn get_delta(direction: usize) -> Point2D {
+fn get_delta(direction: usize) -> Point2D<i32> {
     match direction {
         0 => Point2D::new(0, -1),
         1 => Point2D::new(1, 0),

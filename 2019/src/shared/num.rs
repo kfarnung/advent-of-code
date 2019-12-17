@@ -1,14 +1,20 @@
+use num::{NumCast, Signed};
 use std::f32::consts::PI;
-use num::Signed;
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
-pub struct Fraction {
-    pub numerator: i32,
-    pub denomenator: i32,
+pub struct Fraction<T>
+where
+    T: Signed + PartialOrd + Copy + NumCast,
+{
+    pub numerator: T,
+    pub denomenator: T,
 }
 
-impl Fraction {
-    pub fn new(numerator: i32, denomenator: i32) -> Self {
+impl<T> Fraction<T>
+where
+    T: Signed + PartialOrd + Copy + NumCast,
+{
+    pub fn new(numerator: T, denomenator: T) -> Self {
         return Self {
             numerator: numerator,
             denomenator: denomenator,
@@ -30,11 +36,16 @@ impl Fraction {
     }
 
     fn angle(&self) -> f32 {
-        return (self.numerator as f32).atan2(self.denomenator as f32);
+        let numerator: f32 = num::cast(self.numerator).unwrap();
+        let denomenator: f32 = num::cast(self.denomenator).unwrap();
+        return numerator.atan2(denomenator);
     }
 }
 
-fn gcd<T>(first: T, second: T) -> T where T: Signed + PartialOrd + Copy {
+fn gcd<T>(first: T, second: T) -> T
+where
+    T: Signed + PartialOrd + Copy,
+{
     let mut a = first.abs();
     let mut b = second.abs();
 
@@ -47,7 +58,10 @@ fn gcd<T>(first: T, second: T) -> T where T: Signed + PartialOrd + Copy {
     return b;
 }
 
-pub fn lcm<T>(first: T, second: T) -> T where T: Signed + PartialOrd + Copy {
+pub fn lcm<T>(first: T, second: T) -> T
+where
+    T: Signed + PartialOrd + Copy,
+{
     return (first * second) / gcd(first, second);
 }
 

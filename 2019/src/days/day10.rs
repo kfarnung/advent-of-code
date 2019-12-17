@@ -1,8 +1,7 @@
 use crate::shared::num::Fraction;
 use crate::shared::point::Point2D;
 use ordered_float::OrderedFloat;
-use std::collections::HashMap;
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 pub fn part1(map: &str) -> usize {
     let asteroids = parse_map(map);
@@ -35,12 +34,12 @@ pub fn part2(map: &str) -> i32 {
     }
 }
 
-fn get_sorted_angles(hits_map: &HashMap<Fraction, Vec<Point2D>>) -> Vec<Fraction> {
-    let keys: Vec<&Fraction> = hits_map.keys().collect();
+fn get_sorted_angles(hits_map: &HashMap<Fraction<i32>, Vec<Point2D<i32>>>) -> Vec<Fraction<i32>> {
+    let keys: Vec<&Fraction<i32>> = hits_map.keys().collect();
     return keys.iter().cloned().cloned().collect();
 }
 
-fn parse_map(map: &str) -> HashSet<Point2D> {
+fn parse_map(map: &str) -> HashSet<Point2D<i32>> {
     let mut asteroids = HashSet::new();
 
     for (y, line) in map.lines().enumerate() {
@@ -54,7 +53,7 @@ fn parse_map(map: &str) -> HashSet<Point2D> {
     return asteroids;
 }
 
-fn find_location(asteroids: &HashSet<Point2D>) -> (Point2D, usize) {
+fn find_location(asteroids: &HashSet<Point2D<i32>>) -> (Point2D<i32>, usize) {
     let mut positions = Vec::new();
 
     for point in asteroids {
@@ -65,8 +64,11 @@ fn find_location(asteroids: &HashSet<Point2D>) -> (Point2D, usize) {
     return positions.iter().max_by_key(|x| x.1).unwrap().clone();
 }
 
-fn find_hits(asteroids: &HashSet<Point2D>, point: &Point2D) -> HashMap<Fraction, Vec<Point2D>> {
-    let mut hits_map: HashMap<Fraction, Vec<Point2D>> = HashMap::new();
+fn find_hits(
+    asteroids: &HashSet<Point2D<i32>>,
+    point: &Point2D<i32>,
+) -> HashMap<Fraction<i32>, Vec<Point2D<i32>>> {
+    let mut hits_map: HashMap<Fraction<i32>, Vec<Point2D<i32>>> = HashMap::new();
 
     for other in asteroids {
         if point == other {

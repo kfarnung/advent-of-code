@@ -32,10 +32,10 @@ pub fn part2(lines: &Vec<&str>) -> i32 {
 }
 
 fn find_intersections(
-    wire_a: HashMap<Point2D, i32>,
-    wire_b: HashMap<Point2D, i32>,
-) -> HashMap<Point2D, i32> {
-    let mut intersections: HashMap<Point2D, i32> = HashMap::new();
+    wire_a: HashMap<Point2D<i32>, i32>,
+    wire_b: HashMap<Point2D<i32>, i32>,
+) -> HashMap<Point2D<i32>, i32> {
+    let mut intersections: HashMap<Point2D<i32>, i32> = HashMap::new();
 
     for point_a in wire_a {
         match wire_b.get(&point_a.0) {
@@ -47,8 +47,8 @@ fn find_intersections(
     return intersections;
 }
 
-fn follow_path(line: &str) -> HashMap<Point2D, i32> {
-    let mut visited: HashMap<Point2D, i32> = HashMap::new();
+fn follow_path(line: &str) -> HashMap<Point2D<i32>, i32> {
+    let mut visited: HashMap<Point2D<i32>, i32> = HashMap::new();
     let mut current = Point2D::new(0, 0);
     let mut total_distance = 0;
 
@@ -78,7 +78,7 @@ fn get_step(step: &str) -> PathStep {
     };
 }
 
-fn get_delta(direction: &str) -> Point2D {
+fn get_delta(direction: &str) -> Point2D<i32> {
     match direction {
         "U" => Point2D::new(0, 1),
         "D" => Point2D::new(0, -1),

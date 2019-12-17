@@ -77,10 +77,10 @@ impl IntcodeProcess {
         let mut computer = IntcodeProcess::new_from_string(initial_memory);
         let mut inputs = VecDeque::new();
         let mut outputs = VecDeque::new();
-    
+
         inputs.push_back(input);
         computer.run(&mut inputs, &mut outputs);
-    
+
         return outputs.pop_back().unwrap();
     }
 
@@ -125,7 +125,7 @@ impl IntcodeProcess {
         }
     }
 
-    pub fn set_value(&mut self, address: usize, value: i64) {
+    pub fn set_memory(&mut self, address: usize, value: i64) {
         if address >= self.memory.len() {
             self.memory.resize_with(address + 1, Default::default);
         }
@@ -146,8 +146,8 @@ impl IntcodeProcess {
     fn store_parameter(&mut self, instruction: &IntcodeInstruction, index: usize, value: i64) {
         let param = self.get_memory(self.ip + 1 + index);
         match instruction.get_mode(index) {
-            0 => self.set_value(param as usize, value),
-            2 => self.set_value((self.relative_base + param) as usize, value),
+            0 => self.set_memory(param as usize, value),
+            2 => self.set_memory((self.relative_base + param) as usize, value),
             _ => panic!("Unexpected mode!"),
         }
     }
