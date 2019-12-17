@@ -1,4 +1,4 @@
-use aoc2019::days::day11;
+use aoc2019::days::day11::{part1, part2};
 use std::env;
 use std::fs;
 use std::process;
@@ -11,6 +11,6 @@ fn main() {
     }
 
     let contents = fs::read_to_string(&args[1]).expect("Something went wrong");
-    println!("Part 1: {}", day11::part1(&contents));
-    println!("Part 2:\n{}", day11::part2(&contents));
+    println!("Part 1: {}", part1(&contents));
+    println!("Part 2:\n{}", part2(&contents));
 }
