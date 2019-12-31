@@ -7,7 +7,9 @@ struct PathStep {
     distance: i32,
 }
 
-pub fn part1(lines: &Vec<&str>) -> i32 {
+pub fn part1(contents: &str) -> i32 {
+    let lines: Vec<&str> = contents.lines().collect();
+    
     let wire_a = follow_path(lines[0]);
     let wire_b = follow_path(lines[1]);
 
@@ -21,7 +23,9 @@ pub fn part1(lines: &Vec<&str>) -> i32 {
     return min_distance.manhattan_distance(&Point2D::new(0, 0));
 }
 
-pub fn part2(lines: &Vec<&str>) -> i32 {
+pub fn part2(contents: &str) -> i32 {
+    let lines: Vec<&str> = contents.lines().collect();
+    
     let wire_a = follow_path(lines[0]);
     let wire_b = follow_path(lines[1]);
 
@@ -137,7 +141,7 @@ mod tests {
         ];
 
         for case in cases {
-            assert_eq!(part1(&case.0), case.1);
+            assert_eq!(part1(&case.0.join("\n")), case.1);
         }
     }
 
@@ -161,7 +165,7 @@ mod tests {
         ];
 
         for case in cases {
-            assert_eq!(part2(&case.0), case.1);
+            assert_eq!(part2(&case.0.join("\n")), case.1);
         }
     }
 }

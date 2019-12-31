@@ -11,8 +11,6 @@ fn main() {
     }
 
     let contents = fs::read_to_string(&args[1]).expect("Something went wrong");
-
-    let lines: Vec<&str> = contents.lines().collect();
-    println!("Part 1: {}", part1(&lines));
-    println!("Part 2: {}", part2(&lines));
+    println!("Part 1: {}", part1(&contents));
+    println!("Part 2: {}", part2(&contents));
 }

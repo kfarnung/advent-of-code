@@ -38,7 +38,6 @@ pub fn part2(connections: &str) -> i32 {
     queue.push_back(("YOU", 0));
 
     while let Some((name, distance)) = queue.pop_front() {
-        println!("{}: {}", name, distance);
         visited.insert(name.to_string());
 
         if let Some(parent) = tree.get_parent(name) {
