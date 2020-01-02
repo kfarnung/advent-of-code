@@ -1,8 +1,9 @@
 use crate::shared::num::Fraction;
 use num::{NumCast, Signed};
+use std::ops::Add;
 use std::ops::AddAssign;
 
-#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct Point2D<T>
 where
     T: Signed + PartialOrd + Copy + NumCast,
@@ -37,6 +38,17 @@ where
             x: self.x + other.x,
             y: self.y + other.y,
         };
+    }
+}
+
+impl<T> Add for Point2D<T>
+where
+    T: Signed + PartialOrd + Copy + NumCast,
+{
+    type Output = Self;
+
+    fn add(self, other: Self) -> Self {
+        return Self::new(self.x + other.x, self.y + other.y);
     }
 }
 
