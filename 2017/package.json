@@ -4,7 +4,7 @@
   "description": "http://adventofcode.com/2017",
   "main": "index.js",
   "dependencies": {
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.2"
   },
   "devDependencies": {
     "mocha": "^6.2.0",
