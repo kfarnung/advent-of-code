@@ -14,7 +14,7 @@
     "ajv": "^6.10.2",
     "cheerio": "^1.0.0-rc.3",
     "request": "^2.88.0",
-    "turndown": "^5.0.3",
+    "turndown": "^6.0.0",
     "turndown-plugin-gfm": "^1.0.2",
     "yargs": "^15.0.2"
   },
