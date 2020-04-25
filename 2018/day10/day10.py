@@ -8,10 +8,13 @@ from __future__ import print_function
 
 import re
 
-_ENTRY_REGEX = re.compile(r'^position=< *(-?\d+), *(-?\d+)> velocity=< *(-?\d+), *(-?\d+)>$')
+_ENTRY_REGEX = re.compile(
+    r'^position=< *(-?\d+), *(-?\d+)> velocity=< *(-?\d+), *(-?\d+)>$')
+
 
 class Point2D:
     """Represents a point in 2D space."""
+
     def __init__(self, coord_x, coord_y):
         self.coord_x = coord_x
         self.coord_y = coord_y
@@ -35,8 +38,10 @@ class Point2D:
         self.coord_x -= other.coord_x
         self.coord_y -= other.coord_y
 
+
 class LightPoint:
     """Represents a moving point of light in the sky."""
+
     def __init__(self, position, velocity):
         self.current_position = position
         self.velocity = velocity
@@ -49,8 +54,10 @@ class LightPoint:
         """Apply the velocity to step forward in time."""
         self.current_position.add(self.velocity)
 
+
 class LightPointSystem:
     """Represents a system of light points in the sky."""
+
     def __init__(self, points):
         self.points = list(points)
 
@@ -103,6 +110,7 @@ class LightPointSystem:
 
         return Point2D(min_x, min_y), Point2D(max_x, max_y)
 
+
 def _parse_entry(input_str):
     """Parse the entry that contains the starting point and velocity."""
     match = _ENTRY_REGEX.match(input_str)
@@ -114,9 +122,11 @@ def _parse_entry(input_str):
         Point2D(int(match.group(3)), int(match.group(4))),
     )
 
+
 def find_message(file_content):
     """Implmentation for Part 1."""
-    point_system = LightPointSystem(_parse_entry(entry) for entry in file_content)
+    point_system = LightPointSystem(_parse_entry(entry)
+                                    for entry in file_content)
     total_area = point_system.get_area()
     seconds = 0
 
@@ -133,6 +143,7 @@ def find_message(file_content):
         total_area = new_area
 
     return point_system.plot_points(), seconds
+
 
 if __name__ == "__main__":
     import sys

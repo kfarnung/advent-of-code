@@ -28,6 +28,7 @@ _TEST_DATA_2 = [
     'pos=<10,10,10>, r=5',
 ]
 
+
 def test_closest_within_rect():
     """Tests for closest point."""
     rect = Rect3D(Point3D(3, 4, 5), Point3D(7, 9, 14))
@@ -43,6 +44,7 @@ def test_closest_within_rect():
     # Test contained cases
     assert rect.closest_within_rect(Point3D(5, 6, 8)) == Point3D(5, 6, 8)
 
+
 def test_part1():
     """Tests for Part 1."""
     assert run_part1(_TEST_DATA) == 7
@@ -50,6 +52,7 @@ def test_part1():
     with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
         file_content = input_file.readlines()
         assert run_part1(file_content) == 780
+
 
 def test_part2():
     """Tests for Part 2."""

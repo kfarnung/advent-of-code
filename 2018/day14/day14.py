@@ -6,8 +6,10 @@ https://adventofcode.com/2018/day/14
 
 from __future__ import print_function
 
+
 class RecipeGenerator:
     """Generator for the recipe combinations."""
+
     def __init__(self):
         self.recipes = [3, 7]
         self.index_1 = 0
@@ -46,8 +48,10 @@ class RecipeGenerator:
 
         return result
 
+
 class DigitsMatcher:
     """Look in the incoming digits for a match."""
+
     def __init__(self, digits):
         self.digits = [int(digit) for digit in str(digits)]
         self.digits_next = 0
@@ -70,11 +74,13 @@ class DigitsMatcher:
         self.current_index += 1
         return None
 
+
 def run_part1(recipe_count):
     """Implmentation for Part 1."""
     generator = RecipeGenerator()
     generator.skip(recipe_count)
     return ''.join(str(recipe) for recipe in generator.take(10))
+
 
 def run_part2(recipe_count):
     """Implmentation for Part 2."""
@@ -86,6 +92,7 @@ def run_part2(recipe_count):
         result = matcher.match(next(generator))
 
     return result
+
 
 if __name__ == "__main__":
     import sys

@@ -14,8 +14,10 @@ from operator import itemgetter
 
 _SPAN_REGEX = re.compile(r'^([xy])=(\d+), [xy]=(\d+)..(\d+)$')
 
+
 class Grid:
     """Represents a grid of water, clay, and sand."""
+
     def __init__(self, clay_positions):
         self.ground = defaultdict(repeat('.').__next__)
         for clay in clay_positions:
@@ -106,6 +108,7 @@ class Grid:
 
         return True
 
+
 def _parse_clay(file_content):
     clay = []
     for line in file_content:
@@ -120,17 +123,20 @@ def _parse_clay(file_content):
 
     return clay
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     grid = Grid(_parse_clay(file_content))
     grid.fill()
     return grid.get_water_count()
 
+
 def run_part2(file_content):
     """Implmentation for Part 2."""
     grid = Grid(_parse_clay(file_content))
     grid.fill()
     return grid.get_settled_count()
+
 
 if __name__ == "__main__":
     import sys

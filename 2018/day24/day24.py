@@ -17,8 +17,10 @@ _GROUP_REGEX = re.compile(
 )
 _MODIFIER_REGEX = re.compile(r'([a-z]+) to ([a-z, ]+)')
 
+
 class Group(object):
     """Represents a single group of attackers."""
+
     def __init__(self, team_name, unit_count, hit_points, attack_damage, attack_type, initiative):
         self.team_name = team_name
         self._unit_count = unit_count
@@ -109,7 +111,8 @@ class Group(object):
 
     def take_damage(self, attacker):
         """Apply damage to the group."""
-        self._units_remaining -= (attacker.effective_damage(self) // self._hit_points)
+        self._units_remaining -= (attacker.effective_damage(self) //
+                                  self._hit_points)
 
     def weak_to_attack(self, attack_type):
         """Determines whether the group is weak to the specified attack."""
@@ -135,8 +138,10 @@ class Group(object):
 
         return group
 
+
 class Battle(object):
     """Represents a battle between the groups."""
+
     def __init__(self, groups):
         self._groups = groups
         self._teams = defaultdict(list)
@@ -156,7 +161,8 @@ class Battle(object):
 
         while self.winner() is None:
             targets_list = []
-            possible_groups = [group for group in self._groups if group.has_units()]
+            possible_groups = [
+                group for group in self._groups if group.has_units()]
             possible_targets = set(possible_groups)
 
             possible_groups.sort(key=Group.get_targeting_key)
@@ -217,6 +223,7 @@ class Battle(object):
 
         return False
 
+
 def _parse_team(group_list, lines):
     """Parse the team from the provided lines of text."""
     team_match = _TEAM_REGEX.match(next(lines))
@@ -231,6 +238,7 @@ def _parse_team(group_list, lines):
             break
 
         group_list.append(Group.parse(team_name, group_line))
+
 
 def _load_groups(file_content):
     line_iterator = iter(file_content)
@@ -249,6 +257,7 @@ def _load_groups(file_content):
 
     return groups
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     groups = _load_groups(file_content)
@@ -256,6 +265,7 @@ def run_part1(file_content):
     battle.fight()
 
     return battle.remaining_units()
+
 
 def run_part2(file_content):
     """Implmentation for Part 2."""
@@ -274,6 +284,7 @@ def run_part2(file_content):
         boost += 1
 
     return None
+
 
 if __name__ == "__main__":
     import sys

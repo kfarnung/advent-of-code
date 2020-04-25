@@ -14,6 +14,7 @@ from itertools import count, repeat
 _INITIAL_STATE_REGEX = re.compile(r'^initial state: ([#.]+)$')
 _RULE_REGEX = re.compile(r'^([#.]+) => ([#.])$')
 
+
 def _parse_input(file_content):
     rules = []
     list_iter = iter(file_content)
@@ -35,12 +36,14 @@ def _parse_input(file_content):
 
     return initial_state, rules
 
+
 def _initialize_greenhouse(initial_state):
     greenhouse = defaultdict(repeat('.').__next__)
     for index, state in enumerate(initial_state):
         greenhouse[index] = state
 
     return greenhouse
+
 
 def _matches_rule(greenhouse, rule, pot_index):
     offset = len(rule) // 2
@@ -50,12 +53,14 @@ def _matches_rule(greenhouse, rule, pot_index):
 
     return True
 
+
 def _get_replacement(greenhouse, rules, pot_index):
     for rule in rules:
         if _matches_rule(greenhouse, rule[0], pot_index):
             return rule[1]
 
     return '.'
+
 
 def _next_generation(greenhouse, rules):
     min_index = min(greenhouse) - 2
@@ -67,6 +72,7 @@ def _next_generation(greenhouse, rules):
 
     return next_gen
 
+
 def _sum_plant_locations(greenhouse):
     return reduce(
         lambda prev, item: prev + item[0] if item[1] == '#' else prev,
@@ -74,12 +80,14 @@ def _sum_plant_locations(greenhouse):
         0
     )
 
+
 def _get_key(greenhouse):
     min_index = min(greenhouse)
     max_index = max(greenhouse)
 
     # Manually iterate since normal iteration doesn't seem quite right.
-    pattern = deque(greenhouse[index] for index in range(min_index, max_index + 1))
+    pattern = deque(greenhouse[index]
+                    for index in range(min_index, max_index + 1))
 
     # Strip off empty pots
     while pattern[0] == '.':
@@ -90,6 +98,7 @@ def _get_key(greenhouse):
 
     return ''.join(pattern)
 
+
 def _predict_plant_generations(greenhouse, rules, generation_count):
     seen_patterns = {}
     seen_patterns[_get_key(greenhouse)] = _sum_plant_locations(greenhouse)
@@ -99,7 +108,8 @@ def _predict_plant_generations(greenhouse, rules, generation_count):
         key = _get_key(greenhouse)
 
         if key not in seen_patterns:
-            seen_patterns[_get_key(greenhouse)] = _sum_plant_locations(greenhouse)
+            seen_patterns[_get_key(greenhouse)] = _sum_plant_locations(
+                greenhouse)
         else:
             # We've seen this one before, assume we've hit a steady state and extrapolate
             prev_score = seen_patterns[_get_key(greenhouse)]
@@ -109,6 +119,7 @@ def _predict_plant_generations(greenhouse, rules, generation_count):
 
     return _sum_plant_locations(greenhouse)
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     initial_state, rules = _parse_input(file_content)
@@ -116,12 +127,14 @@ def run_part1(file_content):
 
     return _predict_plant_generations(greenhouse, rules, 20)
 
+
 def run_part2(file_content):
     """Implmentation for Part 2."""
     initial_state, rules = _parse_input(file_content)
     greenhouse = _initialize_greenhouse(initial_state)
 
     return _predict_plant_generations(greenhouse, rules, 50000000000)
+
 
 if __name__ == "__main__":
     import sys

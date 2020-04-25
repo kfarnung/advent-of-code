@@ -8,12 +8,14 @@ from __future__ import print_function
 
 from functools import reduce
 
+
 def calculate_frequency(inputs):
     """Calculates the frequency for a given set of inputs."""
     return reduce(
         lambda prev, current: prev + int(current),
         inputs,
         0)
+
 
 def calculate_frequency_two_match(inputs):
     """Calculates the frequency for a given set of inputs."""
@@ -29,6 +31,7 @@ def calculate_frequency_two_match(inputs):
                 return frequency
 
             seen.add(frequency)
+
 
 if __name__ == "__main__":
     import sys

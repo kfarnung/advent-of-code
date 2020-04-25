@@ -12,8 +12,10 @@ from collections import defaultdict
 _INSTRUCTION_REGEX = re.compile(
     r"^\[(\d{4}-\d{2}-\d{2} \d{2}:(\d{2}))] (Guard #(\d+) begins shift|.+)$")
 
+
 class GuardAction:
     """Represents a single action by a single guard"""
+
     def __init__(self, instruction):
         match = _INSTRUCTION_REGEX.match(instruction)
         assert match is not None
@@ -26,8 +28,10 @@ class GuardAction:
     def __lt__(self, other):
         return self.time < other.time
 
+
 class Guard:
     """Represents the aggregate actions of a single guard"""
+
     def __init__(self, guard_id):
         self.guard_id = guard_id
         self.sleep_minutes = defaultdict(int)
@@ -55,6 +59,7 @@ class Guard:
 
         return 0
 
+
 def _parse_input(inputs):
     guard_map = {}
     guard = None
@@ -78,6 +83,7 @@ def _parse_input(inputs):
 
     return guard_map
 
+
 def run_part1(inputs):
     """Implmentation for Part 1."""
     sleepiest_guard = max(
@@ -87,6 +93,7 @@ def run_part1(inputs):
 
     return sleepiest_guard.guard_id * sleepiest_guard.get_sleepiest_minute()
 
+
 def run_part2(inputs):
     """Implmentation for Part 2."""
     sleepiest_guard = max(
@@ -95,6 +102,7 @@ def run_part2(inputs):
     )
 
     return sleepiest_guard.guard_id * sleepiest_guard.get_sleepiest_minute()
+
 
 if __name__ == "__main__":
     import sys

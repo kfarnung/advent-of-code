@@ -9,8 +9,10 @@ from __future__ import print_function
 from collections import defaultdict, deque
 from operator import attrgetter
 
+
 class Unit:
     """Represents a single unit in the battle."""
+
     def __init__(self, unit_type, position, attack_power):
         self.unit_type = unit_type
         self.position = position
@@ -26,12 +28,15 @@ class Unit:
         """Gets the sort key for a given unit."""
         return (unit.hit_points, unit.position)
 
+
 class Battle:
     """Represents the current state of the battle."""
+
     def __init__(self, initial_state, elf_power=3):
         self.rounds_completed = 0
         self.units = []
-        self.board = [[col for col in row if col != '\n'] for row in initial_state]
+        self.board = [[col for col in row if col != '\n']
+                      for row in initial_state]
 
         for row_index, row in enumerate(self.board):
             for col_index, col in enumerate(row):
@@ -39,7 +44,8 @@ class Battle:
                     self.units.append(Unit(col, (row_index, col_index), 3))
                     row[col_index] = '.'
                 elif col == 'E':
-                    self.units.append(Unit(col, (row_index, col_index), elf_power))
+                    self.units.append(
+                        Unit(col, (row_index, col_index), elf_power))
                     row[col_index] = '.'
                 elif col not in ('#', '.'):
                     raise Exception('Unexpected tile type')
@@ -92,7 +98,8 @@ class Battle:
         if not Battle._try_attack(unit, targets):
             # Find the closest destination
             target_positions = [target.position for target in targets]
-            closest_target, _ = self._find_closest_target(unit.position, target_positions)
+            closest_target, _ = self._find_closest_target(
+                unit.position, target_positions)
             if closest_target:
                 closest_step, _ = self._find_closest_target(
                     closest_target, self._get_open_neighbors(unit.position))
@@ -179,11 +186,13 @@ class Battle:
     def _is_adjacent(first, second):
         return Battle._manhattan_distance(first, second) == 1
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     battle = Battle(file_content)
     hit_points = sum(unit.hit_points for unit in battle.fight())
     return hit_points * battle.rounds_completed
+
 
 def run_part2(file_content):
     """Implmentation for Part 2."""
@@ -199,6 +208,7 @@ def run_part2(file_content):
         elf_power += 1
 
     return None
+
 
 if __name__ == "__main__":
     import sys

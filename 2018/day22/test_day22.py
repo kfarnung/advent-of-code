@@ -13,6 +13,7 @@ _TEST_DATA = [
     'target: 10,10',
 ]
 
+
 def test_part1():
     """Tests for Part 1."""
     assert run_part1(_TEST_DATA) == 114
@@ -20,6 +21,7 @@ def test_part1():
     with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
         file_content = input_file.readlines()
         assert run_part1(file_content) == 10115
+
 
 def test_part2():
     """Tests for Part 2."""

@@ -9,10 +9,13 @@ from __future__ import print_function
 import re
 from collections import defaultdict
 
-_INSTRUCTION_REGEX = re.compile(r'^Step ([A-Z]) must be finished before step ([A-Z]) can begin.$')
+_INSTRUCTION_REGEX = re.compile(
+    r'^Step ([A-Z]) must be finished before step ([A-Z]) can begin.$')
+
 
 class Graph:
     """Represents a graph of nodes."""
+
     def __init__(self):
         self.nodes = set()
         self.dependency_map = defaultdict(set)
@@ -52,8 +55,10 @@ class Graph:
         """Get the set of nodes that haven't completed"""
         return self.nodes - done
 
+
 class Factory:
     """Represents a factory with time and worker constraints."""
+
     def __init__(self, worker_count, base_time):
         self.current_time = 0
         self.worker_available_time = [0] * worker_count
@@ -77,9 +82,11 @@ class Factory:
                 available_worker = self._get_available_worker()
 
                 if available_work and available_worker is not None and available_worker >= 0:
-                    construction_time = Factory._get_execution_time(available_work, self.base_time)
+                    construction_time = Factory._get_execution_time(
+                        available_work, self.base_time)
                     self._assign_work(available_worker, construction_time)
-                    node_available_time[available_work] = self.current_time + construction_time
+                    node_available_time[available_work] = self.current_time + \
+                        construction_time
                 else:
                     break
 
@@ -102,12 +109,14 @@ class Factory:
     def _get_execution_time(node, base_time=0):
         return ord(node) - ord('A') + 1 + base_time
 
+
 def _parse_instruction(line):
     match = _INSTRUCTION_REGEX.match(line)
     if not match:
         raise Exception('Failed to parse input')
 
     return (match.group(1), match.group(2))
+
 
 def run_part1(file_content):
     """Implmentation for Part 1."""
@@ -119,6 +128,7 @@ def run_part1(file_content):
 
     return ''.join(graph.get_node_order())
 
+
 def run_part2(file_content, worker_count, base_time):
     """Implmentation for Part 2."""
     pairs = [_parse_instruction(line) for line in file_content]
@@ -129,6 +139,7 @@ def run_part2(file_content, worker_count, base_time):
 
     factory = Factory(worker_count, base_time)
     return factory.construct(graph)
+
 
 if __name__ == "__main__":
     import sys

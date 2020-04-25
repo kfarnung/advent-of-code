@@ -6,11 +6,14 @@ https://adventofcode.com/2018/day/8
 
 from __future__ import print_function
 
+
 class TreeNode:
     """Represents a single node in the tree."""
+
     def __init__(self):
         self.children = []
         self.metadata = []
+
 
 def _build_tree(inputs):
     child_count = next(inputs)
@@ -25,6 +28,7 @@ def _build_tree(inputs):
 
     return node
 
+
 def _sum_metadata(node):
     metadata_sum = 0
 
@@ -33,6 +37,7 @@ def _sum_metadata(node):
 
     metadata_sum += sum(node.metadata)
     return metadata_sum
+
 
 def _node_value(node):
     value = 0
@@ -47,17 +52,20 @@ def _node_value(node):
 
     return value
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     numbers = (int(number) for number in file_content.split())
     root = _build_tree(numbers)
     return _sum_metadata(root)
 
+
 def run_part2(file_content):
     """Implmentation for Part 2."""
     numbers = (int(number) for number in file_content.split())
     root = _build_tree(numbers)
     return _node_value(root)
+
 
 if __name__ == "__main__":
     import sys

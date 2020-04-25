@@ -8,8 +8,10 @@ from __future__ import print_function
 
 from string import ascii_lowercase
 
+
 def _does_react(unit1, unit2):
     return abs(ord(unit1) - ord(unit2)) == 32
+
 
 def _reduce_polymer(polymer):
     characters = list(polymer)
@@ -22,13 +24,16 @@ def _reduce_polymer(polymer):
 
     return characters
 
+
 def _remove_unit_type(polymer, unit_type):
     unit_type = unit_type.lower()
     return [x for x in polymer if x.lower() != unit_type]
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     return len(_reduce_polymer(file_content))
+
 
 def run_part2(file_content):
     """Implmentation for Part 2."""
@@ -40,6 +45,7 @@ def run_part2(file_content):
         size = min(size, len(reduced))
 
     return size
+
 
 if __name__ == "__main__":
     import sys

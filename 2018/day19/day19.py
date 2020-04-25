@@ -11,8 +11,10 @@ import re
 _IP_REGEX = re.compile(r'^#ip (\d)$')
 _INSTRUCTION_REGEX = re.compile(r'^([a-z]+) (\d+) (\d+) (\d+)$')
 
+
 class Device:
     """Represents the current state of the device."""
+
     def __init__(self, num_registers):
         self.registers = [0] * num_registers
         self.opcodes = {
@@ -40,7 +42,8 @@ class Device:
         while 0 <= instruction_pointer < len(instructions):
             self.registers[reg_ip] = instruction_pointer
             instruction = instructions[instruction_pointer]
-            self._execute(instruction[0], instruction[1], instruction[2], instruction[3])
+            self._execute(instruction[0], instruction[1],
+                          instruction[2], instruction[3])
             instruction_pointer = self.registers[reg_ip] + 1
 
     def _execute(self, name, input_a, input_b, output_c):
@@ -95,6 +98,7 @@ class Device:
     def _instruction_eqrr(self, reg_a, reg_b, reg_c):
         self.registers[reg_c] = 1 if self.registers[reg_a] == self.registers[reg_b] else 0
 
+
 def _parse_program(file_content):
     reg_ip = None
     instructions = []
@@ -112,6 +116,7 @@ def _parse_program(file_content):
 
     return reg_ip, instructions
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     reg_ip, instructions = _parse_program(file_content)
@@ -120,10 +125,12 @@ def run_part1(file_content):
 
     return device.registers[0]
 
+
 def run_part2(_):
     """Implmentation for Part 2."""
     # Reverse-engineered the input, it simply does:
     return sum(val for val in range(1, 10551340 + 1) if 10551340 % val == 0)
+
 
 if __name__ == "__main__":
     import sys

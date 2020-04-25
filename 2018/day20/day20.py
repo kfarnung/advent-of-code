@@ -11,8 +11,10 @@ from itertools import repeat
 from operator import itemgetter
 from sys import maxsize
 
+
 class TreeNode:
     """Represents a single node in the Regex tree."""
+
     def __init__(self, direction):
         self.direction = direction
         self.children = []
@@ -22,8 +24,10 @@ class TreeNode:
         self.children.append(node)
         return node
 
+
 class Regex:
     """Represents an input 'regex' string."""
+
     def __init__(self, input_str):
         root_stack = []
         path_stack = []
@@ -85,7 +89,8 @@ class Regex:
             current_node = child
             while current_node:
                 if current_node.direction == '(':
-                    grouping_result, grouping_end = Regex._stringify_grouping(current_node)
+                    grouping_result, grouping_end = Regex._stringify_grouping(
+                        current_node)
                     result += grouping_result
 
                     assert len(grouping_end.children) == 1
@@ -103,6 +108,7 @@ class Regex:
 
         result[-1] = ')'
         return result, end_node
+
 
 class FacilityMap:
     """Represents a map of the facility as specified by a Regex."""
@@ -128,7 +134,8 @@ class FacilityMap:
             line = []
             for col in range(min_y, max_y + 1):
                 position = (row, col)
-                line.append(self.grid[position] if position in self.grid else '#')
+                line.append(self.grid[position]
+                            if position in self.grid else '#')
             result.append(''.join(line))
 
         return '\n'.join(result)
@@ -155,16 +162,21 @@ class FacilityMap:
                     queue.append((current_position, current_distance, child))
                 else:
                     new_distance = current_distance + 1
-                    door_position = FacilityMap._add_direction(current_position, direction)
-                    self.grid[door_position] = FacilityMap._get_door_type(child.direction)
-                    next_position = FacilityMap._add_direction(door_position, direction)
+                    door_position = FacilityMap._add_direction(
+                        current_position, direction)
+                    self.grid[door_position] = FacilityMap._get_door_type(
+                        child.direction)
+                    next_position = FacilityMap._add_direction(
+                        door_position, direction)
                     self.grid[next_position] = '.'
-                    distance_map[next_position] = min(distance_map[next_position], new_distance)
+                    distance_map[next_position] = min(
+                        distance_map[next_position], new_distance)
                     queue.append((next_position, new_distance, child))
 
         return (
             max(distance_map.values()),
-            sum(1 for _ in (distance for distance in distance_map.values() if distance >= 1000))
+            sum(1 for _ in (
+                distance for distance in distance_map.values() if distance >= 1000))
         )
 
     @staticmethod
@@ -204,6 +216,8 @@ class FacilityMap:
             current_distance += 1
 
         return (current_position, current_distance, next_node)
+
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     regex = Regex(file_content)
@@ -211,12 +225,14 @@ def run_part1(file_content):
     distance, _ = facility.follow_path(regex.root)
     return distance
 
+
 def run_part2(file_content):
     """Implmentation for Part 2."""
     regex = Regex(file_content)
     facility = FacilityMap()
     _, count = facility.follow_path(regex.root)
     return count
+
 
 if __name__ == "__main__":
     import sys

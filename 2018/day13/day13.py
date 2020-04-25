@@ -16,8 +16,10 @@ _CART_DIRECTIONS = [
     '^', '>', 'v', '<',
 ]
 
+
 class Cart:
     """Represents a cart on the track."""
+
     def __init__(self, row_index, cell_index, direction):
         self.row_index = row_index
         self.cell_index = cell_index
@@ -74,11 +76,14 @@ class Cart:
 
     def _get_next_turn(self):
         turn = _TURN_ORDER[self.intersection_count]
-        self.intersection_count = (self.intersection_count + 1) % len(_TURN_ORDER)
+        self.intersection_count = (
+            self.intersection_count + 1) % len(_TURN_ORDER)
         return turn
+
 
 class CartTrack:
     """Represents the current state of the cart track."""
+
     def __init__(self, content):
         self.grid = [[cell for cell in row] for row in content]
         self.carts = []
@@ -98,7 +103,8 @@ class CartTrack:
         while True:
             for cart in sorted(self.carts, key=Cart.get_position):
                 cart.move_once()
-                cart.update_direction(self.grid[cart.row_index][cart.cell_index])
+                cart.update_direction(
+                    self.grid[cart.row_index][cart.cell_index])
 
                 if self._mark_collisions():
                     return cart.cell_index, cart.row_index
@@ -111,7 +117,8 @@ class CartTrack:
                     continue
 
                 cart.move_once()
-                cart.update_direction(self.grid[cart.row_index][cart.cell_index])
+                cart.update_direction(
+                    self.grid[cart.row_index][cart.cell_index])
                 self._mark_collisions()
 
             self.carts = [cart for cart in self.carts if not cart.did_collide]
@@ -145,15 +152,18 @@ class CartTrack:
 
         return None
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     track = CartTrack(file_content)
     return track.find_first_crash()
 
+
 def run_part2(file_content):
     """Implmentation for Part 2."""
     track = CartTrack(file_content)
     return track.find_last_cart()
+
 
 if __name__ == "__main__":
     import sys

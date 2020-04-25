@@ -11,6 +11,7 @@ from functools import reduce
 
 _MIN_INT = -sys.maxsize - 1
 
+
 class Point:
     """Represents a point in 2D space."""
     @staticmethod
@@ -29,6 +30,7 @@ class Point:
     def manhattan_distance(self, other):
         """Calculates the Manhattan distance between the two points"""
         return abs(other.coord_x - self.coord_x) + abs(other.coord_y - self.coord_y)
+
 
 class Rect:
     """Represents a rectangle in 2D space."""
@@ -70,12 +72,15 @@ class Rect:
                 point.coord_y == self.upper_left.coord_y or
                 point.coord_y == self.lower_right.coord_y)
 
+
 def _distance_to_all(points, point_to_check):
     return reduce(
-        lambda prev, current: prev + current.manhattan_distance(point_to_check),
+        lambda prev, current: prev +
+        current.manhattan_distance(point_to_check),
         points,
         0
     )
+
 
 def _find_closest_point(points, point_to_check):
     distance_map = {}
@@ -89,15 +94,18 @@ def _find_closest_point(points, point_to_check):
 
     return distance_map[min(distance_map)]
 
+
 def _map_closest_points(points, boundary):
     area_map = {}
 
     for coord_x in boundary.get_range_x():
         for coord_y in boundary.get_range_y():
             point_to_check = Point(coord_x, coord_y)
-            area_map[point_to_check] = _find_closest_point(points, point_to_check)
+            area_map[point_to_check] = _find_closest_point(
+                points, point_to_check)
 
     return area_map
+
 
 def _calculate_point_area(area_map, boundary, point):
     total_area = 0
@@ -112,12 +120,14 @@ def _calculate_point_area(area_map, boundary, point):
 
     return total_area
 
+
 def _calculate_max_area(points):
     points = list(points)
     boundary = Rect.bounding_box(points)
     area_map = _map_closest_points(points, boundary)
 
     return max(_calculate_point_area(area_map, boundary, point) for point in points)
+
 
 def _find_points_within_distance(points, distance):
     points = list(points)
@@ -132,15 +142,18 @@ def _find_points_within_distance(points, distance):
 
     return area_set
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     return _calculate_max_area(Point.from_string(input_str) for input_str in file_content)
+
 
 def run_part2(file_content, distance):
     """Implmentation for Part 2."""
     return len(_find_points_within_distance(
         (Point.from_string(input_str) for input_str in file_content),
         distance))
+
 
 if __name__ == "__main__":
     def run(input_path):

@@ -9,10 +9,13 @@ from __future__ import print_function
 import re
 from collections import defaultdict
 
-_INSTRUCTION_REGEX = re.compile(r'^(\d+) players; last marble is worth (\d+) points$')
+_INSTRUCTION_REGEX = re.compile(
+    r'^(\d+) players; last marble is worth (\d+) points$')
+
 
 class DoublyLinkedNode:
     """Represents a doubly-linked list node."""
+
     def __init__(self, score):
         self.score = score
         self.prev_node = None
@@ -51,12 +54,14 @@ class DoublyLinkedNode:
         self.next_node.prev_node = self.prev_node
         return self.next_node
 
+
 def _parse_instruction(instruction):
     match = _INSTRUCTION_REGEX.match(instruction)
     if not match:
         raise Exception('Invalid instruction')
 
     return (int(match.group(1)), int(match.group(2)))
+
 
 def _play_the_game(player_count, last_move_score):
     players = defaultdict(int)
@@ -73,21 +78,25 @@ def _play_the_game(player_count, last_move_score):
             current_node = current_node.remove()
         else:
             current_node = current_node.walk(1)
-            current_node = current_node.insert_after(DoublyLinkedNode(current_score))
+            current_node = current_node.insert_after(
+                DoublyLinkedNode(current_score))
 
         current_player = (current_player + 1) % player_count
 
     return max(players.values())
+
 
 def run_part1(file_content):
     """Implmentation for Part 1."""
     (player_count, last_move_score) = _parse_instruction(file_content)
     return _play_the_game(player_count, last_move_score)
 
+
 def run_part2(file_content):
     """Implmentation for Part 2."""
     (player_count, last_move_score) = _parse_instruction(file_content)
     return _play_the_game(player_count, last_move_score * 100)
+
 
 if __name__ == "__main__":
     import sys

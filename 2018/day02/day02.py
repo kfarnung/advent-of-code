@@ -9,9 +9,11 @@ from __future__ import print_function
 from collections import Counter, defaultdict
 from functools import reduce
 
+
 def _count_duplicate_letters(string):
     """Returns the counts of duplicate letters in a string."""
     return set(Counter(string).values())
+
 
 def _remove_differences(str1, str2):
     """Returns a new string which contains only the matching characters of the input strings."""
@@ -23,6 +25,7 @@ def _remove_differences(str1, str2):
         ''
     )
 
+
 def calculate_checksum(inputs):
     """Calculates the checksum for a given set of inputs."""
     duplicate_counts = defaultdict(int)
@@ -31,6 +34,7 @@ def calculate_checksum(inputs):
             duplicate_counts[count] += 1
 
     return duplicate_counts[2] * duplicate_counts[3]
+
 
 def find_correct_id(inputs):
     """Finds the pair of IDs which differ by only one character."""
@@ -41,6 +45,7 @@ def find_correct_id(inputs):
                 return matching.strip()
 
     return None
+
 
 if __name__ == "__main__":
     import sys

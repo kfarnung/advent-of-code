@@ -28,6 +28,7 @@ _TEST_DATA = [
     '[1518-11-03 00:24] falls asleep',
 ]
 
+
 def test_part1():
     """Tests for Part 1."""
     assert run_part1(_TEST_DATA) == 240
@@ -35,6 +36,7 @@ def test_part1():
     with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
         file_content = input_file.readlines()
         assert run_part1(file_content) == 73646
+
 
 def test_part2():
     """Tests for Part 2."""

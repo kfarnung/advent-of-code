@@ -8,8 +8,10 @@ from __future__ import print_function
 
 from collections import deque
 
+
 class Point4D(object):
     """Represents a point in 4D space."""
+
     def __init__(self, w, x, y, z):
         self.coord_w = w
         self.coord_x = x
@@ -33,8 +35,10 @@ class Point4D(object):
             abs(other.coord_z - self.coord_z)
         )
 
+
 class FixedPointInSpacetime(object):
     """Represents a fixed point in spacetime as defined by the puzzle."""
+
     def __init__(self, coord):
         self.coord = coord
         self.connections = set()
@@ -62,13 +66,16 @@ class FixedPointInSpacetime(object):
         point = Point4D(coord_w, coord_x, coord_y, coord_z)
         return FixedPointInSpacetime(point)
 
+
 def _parse_lines(file_content):
     return [FixedPointInSpacetime.parse(line) for line in file_content]
+
 
 def _cluster_points(points):
     for point in points:
         for other in points:
             point.try_connect(other)
+
 
 def _count_constellations(points):
     count = 0
@@ -92,11 +99,13 @@ def _count_constellations(points):
 
     return count
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     points = _parse_lines(file_content)
     _cluster_points(points)
     return _count_constellations(points)
+
 
 if __name__ == "__main__":
     import sys

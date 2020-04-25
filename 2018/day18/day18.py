@@ -9,8 +9,10 @@ from __future__ import print_function
 from collections import Counter
 from operator import itemgetter
 
+
 class LumberArea:
     """Represents an area for lumber collection."""
+
     def __init__(self, file_content):
         self.area = {}
         for row_index, row in enumerate(file_content):
@@ -72,13 +74,15 @@ class LumberArea:
         ]
 
         for direction in search_directions:
-            cell_position = (position[0] + direction[0], position[1] + direction[1])
+            cell_position = (position[0] + direction[0],
+                             position[1] + direction[1])
             if cell_position in self.area:
                 cell = self.area[cell_position]
                 if cell == neighbor_type:
                     at_least -= 1
 
         return at_least <= 0
+
 
 def run_part1(file_content):
     """Implmentation for Part 1."""
@@ -89,6 +93,7 @@ def run_part1(file_content):
 
     counts = area.get_counts()
     return counts['|'] * counts['#']
+
 
 def run_part2(file_content):
     """Implmentation for Part 2."""
@@ -116,6 +121,7 @@ def run_part2(file_content):
     index = (1000000000 - 1 - cycle_index) % len(cycle_patterns)
     counts = Counter(cycle_patterns[index])
     return counts['|'] * counts['#']
+
 
 if __name__ == "__main__":
     import sys

@@ -6,6 +6,7 @@ https://adventofcode.com/2018/day/11
 
 from __future__ import print_function
 
+
 def get_power_level(serial_number, coord_x, coord_y):
     """Gets the power level for a given coordinate."""
     rack_id = coord_x + 10
@@ -16,6 +17,7 @@ def get_power_level(serial_number, coord_x, coord_y):
     power_level -= 5
     return power_level
 
+
 def _init_grid(size, serial_number):
     """Initialize the grid with the sums from 0,0."""
     grid = []
@@ -23,7 +25,8 @@ def _init_grid(size, serial_number):
     for coord_x in range(size):
         col = []
         for coord_y in range(size):
-            current_power = get_power_level(serial_number, coord_x + 1, coord_y + 1)
+            current_power = get_power_level(
+                serial_number, coord_x + 1, coord_y + 1)
 
             if coord_x > 0:
                 current_power += grid[coord_x - 1][coord_y]
@@ -39,6 +42,7 @@ def _init_grid(size, serial_number):
         grid.append(col)
 
     return grid
+
 
 def _find_max_power(grid, size):
     """Find the maximum power in the grid for a given size."""
@@ -65,10 +69,12 @@ def _find_max_power(grid, size):
 
     return max_power, max_coords
 
+
 def run_part1(serial_number):
     """Implmentation for Part 1."""
     grid = _init_grid(300, serial_number)
     return _find_max_power(grid, 3)[1]
+
 
 def run_part2(serial_number):
     """Implmentation for Part 2."""
@@ -85,6 +91,7 @@ def run_part2(serial_number):
             max_size = size
 
     return max_coords, max_size
+
 
 if __name__ == "__main__":
     import sys

@@ -13,8 +13,10 @@ _BEFORE_REGEX = re.compile(r'^Before: \[(\d+), (\d+), (\d+), (\d+)\]$')
 _INSTRUCTION_REGEX = re.compile(r'^(\d+) (\d+) (\d+) (\d+)$')
 _AFTER_REGEX = re.compile(r'^After:  \[(\d+), (\d+), (\d+), (\d+)\]$')
 
+
 class Device:
     """Represents the current state of the device."""
+
     def __init__(self):
         self.registers = [0] * 4
         self.opcodes = {
@@ -92,6 +94,7 @@ class Device:
     def _instruction_eqrr(self, reg_a, reg_b, reg_c):
         self.registers[reg_c] = 1 if self.registers[reg_a] == self.registers[reg_b] else 0
 
+
 def _parse_samples(file_content):
     samples = []
     instructions = []
@@ -112,11 +115,13 @@ def _parse_samples(file_content):
 
         match = _AFTER_REGEX.match(line)
         if match:
-            samples.append((before_state, instruction, [int(group) for group in match.groups()]))
+            samples.append((before_state, instruction, [
+                           int(group) for group in match.groups()]))
             before_state = None
             instruction = None
 
     return samples, instructions
+
 
 def _get_instruction_map(samples):
     probabilities = defaultdict(set)
@@ -132,7 +137,8 @@ def _get_instruction_map(samples):
     instruction_map = {}
 
     while probabilities:
-        single_match = [(key, value) for key, value in probabilities.items() if len(value) == 1]
+        single_match = [(key, value)
+                        for key, value in probabilities.items() if len(value) == 1]
         for match in single_match:
             del probabilities[match[0]]
             item = [item for item in match[1]][0]
@@ -143,6 +149,7 @@ def _get_instruction_map(samples):
                     value.remove(item)
 
     return instruction_map
+
 
 def run_part1(file_content):
     """Implmentation for Part 1."""
@@ -162,6 +169,7 @@ def run_part1(file_content):
 
     return sample_count
 
+
 def run_part2(file_content):
     """Implmentation for Part 2."""
     samples, instructions = _parse_samples(file_content)
@@ -173,6 +181,7 @@ def run_part2(file_content):
         device.execute(name, instruction[1], instruction[2], instruction[3])
 
     return device.registers[0]
+
 
 if __name__ == "__main__":
     import sys

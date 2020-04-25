@@ -14,6 +14,7 @@ from sys import maxsize
 
 _FIELD_REGEX = re.compile(r'^([a-z]+): (\d+)(?:,(\d+))?$')
 
+
 class CaveSystem:
     """Represents a system of caves."""
     _NEIGHBORS = [
@@ -76,7 +77,8 @@ class CaveSystem:
                 next_item = current_item
 
                 if not self._is_item_valid(neighbor, next_item):
-                    next_item = self._get_intersecting_item(current_position, neighbor)
+                    next_item = self._get_intersecting_item(
+                        current_position, neighbor)
                     next_time += 7
 
                 to_visit.add((neighbor, next_item, next_time))
@@ -122,7 +124,8 @@ class CaveSystem:
 
             if ((current_x == 0 and current_y == 0) or
                     (current_x == target_x and current_y == target_y)):
-                self.erosion_levels[current_position] = self._calculate_erosion_level(0)
+                self.erosion_levels[current_position] = self._calculate_erosion_level(
+                    0)
             elif current_y == 0:
                 self.erosion_levels[current_position] = self._calculate_erosion_level(
                     current_x * 16807)
@@ -154,11 +157,13 @@ class CaveSystem:
     @staticmethod
     def _get_neighbors(position):
         for neighbor in CaveSystem._NEIGHBORS:
-            current_position = (position[0] + neighbor[0], position[1] + neighbor[1])
+            current_position = (
+                position[0] + neighbor[0], position[1] + neighbor[1])
             if current_position[0] < 0 or current_position[1] < 0:
                 continue
 
             yield current_position
+
 
 def _parse_fields(lines):
     fields = {}
@@ -167,9 +172,11 @@ def _parse_fields(lines):
         if match:
             value1 = int(match.group(2))
             value2 = match.group(3)
-            fields[match.group(1)] = (value1, int(value2)) if value2 else value1
+            fields[match.group(1)] = (
+                value1, int(value2)) if value2 else value1
 
     return fields
+
 
 def run_part1(file_content):
     """Implmentation for Part 1."""
@@ -177,11 +184,13 @@ def run_part1(file_content):
     cave = CaveSystem(fields['depth'], fields['target'])
     return cave.calculate_risk_level()
 
+
 def run_part2(file_content):
     """Implmentation for Part 2."""
     fields = _parse_fields(file_content)
     cave = CaveSystem(fields['depth'], fields['target'])
     return cave.calculate_shortest_time()
+
 
 if __name__ == "__main__":
     import sys
