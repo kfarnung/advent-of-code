@@ -7,7 +7,6 @@ https://adventofcode.com/2018/day/20
 from __future__ import print_function
 
 from collections import defaultdict, deque
-from itertools import repeat
 from operator import itemgetter
 from sys import maxsize
 
@@ -143,7 +142,7 @@ class FacilityMap:
     def follow_path(self, root_node):
         """Follows a path through the facility as specified by the starting node."""
         queue = deque()
-        distance_map = defaultdict(repeat(maxsize).__next__)
+        distance_map = defaultdict(lambda: maxsize)
         visitors = defaultdict(set)
         queue.append(((0, 0), 0, root_node))
         self.grid[(0, 0)] = 'X'

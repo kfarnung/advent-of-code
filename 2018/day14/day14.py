@@ -35,6 +35,9 @@ class RecipeGenerator:
         self.next_index += 1
         return recipe
 
+    def next(self):
+        return self.__next__()
+
     def skip(self, count):
         """Skip the specified number of recipes."""
         for _ in range(count):

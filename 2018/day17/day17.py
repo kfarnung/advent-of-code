@@ -9,7 +9,6 @@ from __future__ import print_function
 import re
 from collections import defaultdict
 from functools import reduce
-from itertools import repeat
 from operator import itemgetter
 
 _SPAN_REGEX = re.compile(r'^([xy])=(\d+), [xy]=(\d+)..(\d+)$')
@@ -19,7 +18,7 @@ class Grid:
     """Represents a grid of water, clay, and sand."""
 
     def __init__(self, clay_positions):
-        self.ground = defaultdict(repeat('.').__next__)
+        self.ground = defaultdict(lambda: '.')
         for clay in clay_positions:
             self.ground[clay] = '#'
 

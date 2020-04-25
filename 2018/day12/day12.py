@@ -9,7 +9,7 @@ from __future__ import print_function
 import re
 from collections import defaultdict, deque
 from functools import reduce
-from itertools import count, repeat
+from itertools import count
 
 _INITIAL_STATE_REGEX = re.compile(r'^initial state: ([#.]+)$')
 _RULE_REGEX = re.compile(r'^([#.]+) => ([#.])$')
@@ -38,7 +38,7 @@ def _parse_input(file_content):
 
 
 def _initialize_greenhouse(initial_state):
-    greenhouse = defaultdict(repeat('.').__next__)
+    greenhouse = defaultdict(lambda: '.')
     for index, state in enumerate(initial_state):
         greenhouse[index] = state
 
@@ -65,7 +65,7 @@ def _get_replacement(greenhouse, rules, pot_index):
 def _next_generation(greenhouse, rules):
     min_index = min(greenhouse) - 2
     max_index = max(greenhouse) + 2
-    next_gen = defaultdict(repeat('.').__next__)
+    next_gen = defaultdict(lambda: '.')
 
     for index in range(min_index, max_index + 1):
         next_gen[index] = _get_replacement(greenhouse, rules, index)

@@ -8,7 +8,6 @@ from __future__ import print_function
 
 import re
 from collections import defaultdict
-from itertools import repeat
 from operator import itemgetter
 from sys import maxsize
 
@@ -42,7 +41,7 @@ class CaveSystem:
     def calculate_shortest_time(self):
         """Calculate the shortest time to reach the target position."""
         to_visit = set()
-        shortest_times = defaultdict(repeat(maxsize).__next__)
+        shortest_times = defaultdict(lambda: maxsize)
 
         to_visit.add(((0, 0), 1, 0))
 
