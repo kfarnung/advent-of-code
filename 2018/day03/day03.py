@@ -4,6 +4,8 @@ Implementation for Advent of Code Day 3.
 https://adventofcode.com/2018/day/3
 """
 
+from __future__ import print_function
+
 import re
 from collections import defaultdict
 from functools import reduce

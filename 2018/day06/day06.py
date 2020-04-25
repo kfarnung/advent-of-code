@@ -4,6 +4,8 @@ Implementation for Advent of Code Day 6.
 https://adventofcode.com/2018/day/6
 """
 
+from __future__ import print_function
+
 import sys
 from functools import reduce
 

@@ -4,6 +4,8 @@ Implementation for Advent of Code Day 8.
 https://adventofcode.com/2018/day/8
 """
 
+from __future__ import print_function
+
 class TreeNode:
     """Represents a single node in the tree."""
     def __init__(self):

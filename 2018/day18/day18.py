@@ -4,6 +4,8 @@ Implementation for Advent of Code Day 18.
 https://adventofcode.com/2018/day/18
 """
 
+from __future__ import print_function
+
 from collections import Counter
 from operator import itemgetter
 

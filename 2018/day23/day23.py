@@ -4,6 +4,8 @@ Implementation for Advent of Code Day 23.
 https://adventofcode.com/2018/day/23
 """
 
+from __future__ import print_function
+
 import heapq
 import re
 from operator import attrgetter
@@ -235,11 +237,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(argv1, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

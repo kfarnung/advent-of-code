@@ -4,6 +4,8 @@ Implementation for Advent of Code Day 10.
 https://adventofcode.com/2018/day/10
 """
 
+from __future__ import print_function
+
 import re
 
 _ENTRY_REGEX = re.compile(r'^position=< *(-?\d+), *(-?\d+)> velocity=< *(-?\d+), *(-?\d+)>$')

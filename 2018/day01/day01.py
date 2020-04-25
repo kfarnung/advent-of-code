@@ -4,6 +4,8 @@ Implementation for Advent of Code Day 1.
 https://adventofcode.com/2018/day/1
 """
 
+from __future__ import print_function
+
 from functools import reduce
 
 def calculate_frequency(inputs):

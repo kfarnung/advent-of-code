@@ -4,6 +4,8 @@ Implementation for Advent of Code Day 5.
 https://adventofcode.com/2018/day/5
 """
 
+from __future__ import print_function
+
 from string import ascii_lowercase
 
 def _does_react(unit1, unit2):
