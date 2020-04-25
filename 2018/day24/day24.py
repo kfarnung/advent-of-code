@@ -8,6 +8,7 @@ from __future__ import print_function
 
 import re
 from collections import defaultdict
+from functools import reduce
 
 _TEAM_REGEX = re.compile(r'^([A-Za-z ]+):$')
 _GROUP_REGEX = re.compile(
@@ -196,7 +197,7 @@ class Battle(object):
     def winner(self):
         """Determine the winner of the battle."""
         teams_with_units = [
-            team for team in self._teams.itervalues() if Battle._team_has_units(team)
+            team for team in self._teams.values() if Battle._team_has_units(team)
         ]
 
         if len(teams_with_units) == 1:
