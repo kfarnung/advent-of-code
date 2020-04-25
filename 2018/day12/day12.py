@@ -103,7 +103,11 @@ def _predict_plant_generations(greenhouse, rules, generation_count):
     seen_patterns = {}
     seen_patterns[_get_key(greenhouse)] = _sum_plant_locations(greenhouse)
 
-    for index in iter(count().__next__, generation_count):
+    # Work around the maximum limits of `range` and the `next` vs. `__next__`
+    # differences by capturing the count iter and wrapping in a lambda.
+    count_iter = count()
+
+    for index in iter(lambda: next(count_iter), generation_count):
         greenhouse = _next_generation(greenhouse, rules)
         key = _get_key(greenhouse)
 
