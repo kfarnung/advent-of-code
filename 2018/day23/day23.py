@@ -4,14 +4,18 @@ Implementation for Advent of Code Day 23.
 https://adventofcode.com/2018/day/23
 """
 
+from __future__ import print_function
+
 import heapq
 import re
 from operator import attrgetter
 
 _POSITIONS_REGEX = re.compile(r'^pos=<(-?\d+),(-?\d+),(-?\d+)>, r=(\d+)$')
 
+
 class Point3D(object):
     """Represents a point in 3D space."""
+
     def __init__(self, coord_x, coord_y, coord_z):
         self.coord_x = coord_x
         self.coord_y = coord_y
@@ -24,12 +28,9 @@ class Point3D(object):
             self.coord_z == other.coord_z
         )
 
-    def __le__(self, other):
-        return (
-            self.coord_x <= other.coord_x and
-            self.coord_y <= other.coord_y and
-            self.coord_z <= other.coord_z
-        )
+    def __lt__(self, other):
+        origin = Point3D(0, 0, 0)
+        return self.manhattan_distance(origin) < other.manhattan_distance(origin)
 
     def manhattan_distance(self, other):
         """Calculates the distance between two points."""
@@ -63,8 +64,10 @@ class Point3D(object):
             min(max(self.coord_z, min_coord.coord_z), max_coord.coord_z)
         )
 
+
 class Rect3D(object):
     """Represents a rectangle in 3D space."""
+
     def __init__(self, negative_corner, positive_corner):
         self.negative_corner = negative_corner
         self.positive_corner = positive_corner
@@ -75,6 +78,15 @@ class Rect3D(object):
             self.positive_corner == other.positive_corner
         )
 
+    def __lt__(self, other):
+        if self.negative_corner < other.negative_corner:
+            return True
+
+        return (
+            self.negative_corner == other.negative_corner and
+            self.positive_corner < other.positive_corner
+        )
+
     def split(self):
         """Splits the rectangle into smaller pieces."""
         neg = self.negative_corner
@@ -83,10 +95,11 @@ class Rect3D(object):
         step_y = (pos.coord_y - neg.coord_y) // 2
         step_z = (pos.coord_z - neg.coord_z) // 2
 
-        for coord_x in xrange(neg.coord_x, pos.coord_x + 1, step_x + 1):
-            for coord_y in xrange(neg.coord_y, pos.coord_y + 1, step_y + 1):
-                for coord_z in xrange(neg.coord_z, pos.coord_z + 1, step_z + 1):
-                    max_corner = Point3D(coord_x + step_x, coord_y + step_y, coord_z + step_z)
+        for coord_x in range(neg.coord_x, pos.coord_x + 1, step_x + 1):
+            for coord_y in range(neg.coord_y, pos.coord_y + 1, step_y + 1):
+                for coord_z in range(neg.coord_z, pos.coord_z + 1, step_z + 1):
+                    max_corner = Point3D(
+                        coord_x + step_x, coord_y + step_y, coord_z + step_z)
                     yield Rect3D(
                         Point3D(coord_x, coord_y, coord_z),
                         max_corner.min_coords(pos)
@@ -126,11 +139,22 @@ class Rect3D(object):
 
         return Rect3D(negative_corner, positive_corner)
 
+
 class NanoBot(object):
     """Represents a single nanobot."""
+
     def __init__(self, position, signal_radius):
         self.position = position
         self.signal_radius = signal_radius
+
+    def __lt__(self, other):
+        if self.position < other.position:
+            return True
+
+        return (
+            self.position == other.position and
+            self.signal_radius < other.signal_radius
+        )
 
     def bounding_box(self):
         """Gets the bounding box that contains the bot's range."""
@@ -176,6 +200,7 @@ class NanoBot(object):
 
         return NanoBot(position, int(match.group(4)))
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     bot_list = [NanoBot.from_string(line) for line in file_content if line]
@@ -183,6 +208,7 @@ def run_part1(file_content):
     within_range = [bot for bot in bot_list if largest_bot.within_range(bot)]
 
     return len(within_range)
+
 
 def run_part2(file_content):
     """Implmentation for Part 2."""
@@ -220,13 +246,15 @@ def run_part2(file_content):
                     priority_queue,
                     (
                         original_len - len(new_list),
-                        origin.manhattan_distance(split.closest_within_rect(origin)),
+                        origin.manhattan_distance(
+                            split.closest_within_rect(origin)),
                         new_list,
                         split
                     )
                 )
 
     return None
+
 
 if __name__ == "__main__":
     import sys
@@ -235,11 +263,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(argv1, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

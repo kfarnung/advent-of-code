@@ -4,30 +4,34 @@ Implementation for Advent of Code Day 17.
 https://adventofcode.com/2018/day/17
 """
 
+from __future__ import print_function
+
 import re
 from collections import defaultdict
-from itertools import repeat
+from functools import reduce
 from operator import itemgetter
 
 _SPAN_REGEX = re.compile(r'^([xy])=(\d+), [xy]=(\d+)..(\d+)$')
 
-class Grid(object):
+
+class Grid:
     """Represents a grid of water, clay, and sand."""
+
     def __init__(self, clay_positions):
-        self.ground = defaultdict(repeat('.').next)
+        self.ground = defaultdict(lambda: '.')
         for clay in clay_positions:
             self.ground[clay] = '#'
 
-        self.min_y = min(self.ground.iterkeys(), key=itemgetter(1))[1]
-        self.max_y = max(self.ground.iterkeys(), key=itemgetter(1))[1]
+        self.min_y = min(self.ground.keys(), key=itemgetter(1))[1]
+        self.max_y = max(self.ground.keys(), key=itemgetter(1))[1]
 
     def __str__(self):
-        min_x = min(self.ground.iterkeys(), key=itemgetter(0))[0]
-        max_x = max(self.ground.iterkeys(), key=itemgetter(0))[0]
+        min_x = min(self.ground.keys(), key=itemgetter(0))[0]
+        max_x = max(self.ground.keys(), key=itemgetter(0))[0]
 
         return '\n'.join(''.join(self.ground[(coord_x, coord_y)]
-                                 for coord_x in xrange(min_x, max_x + 1))
-                         for coord_y in xrange(self.min_y, self.max_y + 1))
+                                 for coord_x in range(min_x, max_x + 1))
+                         for coord_y in range(self.min_y, self.max_y + 1))
 
     def fill(self):
         """Fill the grid with water."""
@@ -37,7 +41,7 @@ class Grid(object):
         """Get the total number of water tiles."""
         return reduce(
             lambda prev, current: prev + 1 if current in ('~', '|') else prev,
-            self.ground.itervalues(),
+            self.ground.values(),
             0
         )
 
@@ -45,7 +49,7 @@ class Grid(object):
         """Get the total number of settled water tiles."""
         return reduce(
             lambda prev, current: prev + 1 if current == '~' else prev,
-            self.ground.itervalues(),
+            self.ground.values(),
             0
         )
 
@@ -88,7 +92,7 @@ class Grid(object):
     def _mark_settled(self, left, right):
         assert left[1] == right[1]
 
-        for coord_x in xrange(left[0] + 1, right[0]):
+        for coord_x in range(left[0] + 1, right[0]):
             self.ground[(coord_x, left[1])] = '~'
 
     def _can_flow_horizontal(self, position):
@@ -103,6 +107,7 @@ class Grid(object):
 
         return True
 
+
 def _parse_clay(file_content):
     clay = []
     for line in file_content:
@@ -113,9 +118,10 @@ def _parse_clay(file_content):
         flipped = match.group(1) == 'y'
         first = int(match.group(2))
         clay += [(first, second) if not flipped else (second, first)
-                 for second in xrange(int(match.group(3)), int(match.group(4)) + 1)]
+                 for second in range(int(match.group(3)), int(match.group(4)) + 1)]
 
     return clay
+
 
 def run_part1(file_content):
     """Implmentation for Part 1."""
@@ -123,11 +129,13 @@ def run_part1(file_content):
     grid.fill()
     return grid.get_water_count()
 
+
 def run_part2(file_content):
     """Implmentation for Part 2."""
     grid = Grid(_parse_clay(file_content))
     grid.fill()
     return grid.get_settled_count()
+
 
 if __name__ == "__main__":
     import sys
@@ -136,11 +144,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(argv1, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     # It would be better to use a separate stack given the depth required.

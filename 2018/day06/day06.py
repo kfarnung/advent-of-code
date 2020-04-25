@@ -4,11 +4,15 @@ Implementation for Advent of Code Day 6.
 https://adventofcode.com/2018/day/6
 """
 
+from __future__ import print_function
+
 import sys
+from functools import reduce
 
 _MIN_INT = -sys.maxsize - 1
 
-class Point(object):
+
+class Point:
     """Represents a point in 2D space."""
     @staticmethod
     def from_string(input_str):
@@ -27,7 +31,8 @@ class Point(object):
         """Calculates the Manhattan distance between the two points"""
         return abs(other.coord_x - self.coord_x) + abs(other.coord_y - self.coord_y)
 
-class Rect(object):
+
+class Rect:
     """Represents a rectangle in 2D space."""
     @staticmethod
     def bounding_box(points):
@@ -54,11 +59,11 @@ class Rect(object):
 
     def get_range_x(self):
         """Gets the range of x-coordinates for the rectangle"""
-        return xrange(self.upper_left.coord_x, self.lower_right.coord_x + 1)
+        return range(self.upper_left.coord_x, self.lower_right.coord_x + 1)
 
     def get_range_y(self):
         """Gets the range of y-coordinates for the rectangle"""
-        return xrange(self.upper_left.coord_y, self.lower_right.coord_y + 1)
+        return range(self.upper_left.coord_y, self.lower_right.coord_y + 1)
 
     def point_on_boundary(self, point):
         """Checks if the point is on the boundary of the rectangle"""
@@ -67,12 +72,15 @@ class Rect(object):
                 point.coord_y == self.upper_left.coord_y or
                 point.coord_y == self.lower_right.coord_y)
 
+
 def _distance_to_all(points, point_to_check):
     return reduce(
-        lambda prev, current: prev + current.manhattan_distance(point_to_check),
+        lambda prev, current: prev +
+        current.manhattan_distance(point_to_check),
         points,
         0
     )
+
 
 def _find_closest_point(points, point_to_check):
     distance_map = {}
@@ -86,20 +94,23 @@ def _find_closest_point(points, point_to_check):
 
     return distance_map[min(distance_map)]
 
+
 def _map_closest_points(points, boundary):
     area_map = {}
 
     for coord_x in boundary.get_range_x():
         for coord_y in boundary.get_range_y():
             point_to_check = Point(coord_x, coord_y)
-            area_map[point_to_check] = _find_closest_point(points, point_to_check)
+            area_map[point_to_check] = _find_closest_point(
+                points, point_to_check)
 
     return area_map
+
 
 def _calculate_point_area(area_map, boundary, point):
     total_area = 0
 
-    for key, value in area_map.iteritems():
+    for key, value in area_map.items():
         if value == point:
             if boundary.point_on_boundary(key):
                 # Assume boundary points would have led to infinity
@@ -109,12 +120,14 @@ def _calculate_point_area(area_map, boundary, point):
 
     return total_area
 
+
 def _calculate_max_area(points):
     points = list(points)
     boundary = Rect.bounding_box(points)
     area_map = _map_closest_points(points, boundary)
 
     return max(_calculate_point_area(area_map, boundary, point) for point in points)
+
 
 def _find_points_within_distance(points, distance):
     points = list(points)
@@ -129,9 +142,11 @@ def _find_points_within_distance(points, distance):
 
     return area_set
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     return _calculate_max_area(Point.from_string(input_str) for input_str in file_content)
+
 
 def run_part2(file_content, distance):
     """Implmentation for Part 2."""
@@ -139,16 +154,17 @@ def run_part2(file_content, distance):
         (Point.from_string(input_str) for input_str in file_content),
         distance))
 
+
 if __name__ == "__main__":
     def run(input_path):
         """The main function."""
         with open(input_path, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content, 10000))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content, 10000)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

@@ -55,6 +55,7 @@ _TEST_DATA4 = [
     '-1,-2,0,-2',
 ]
 
+
 def test_part1():
     """Tests for Part 1."""
     assert run_part1(_TEST_DATA) == 2

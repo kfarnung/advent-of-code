@@ -4,15 +4,17 @@ Implementation for Advent of Code Day 22.
 https://adventofcode.com/2018/day/22
 """
 
+from __future__ import print_function
+
 import re
 from collections import defaultdict
-from itertools import repeat
 from operator import itemgetter
 from sys import maxsize
 
 _FIELD_REGEX = re.compile(r'^([a-z]+): (\d+)(?:,(\d+))?$')
 
-class CaveSystem(object):
+
+class CaveSystem:
     """Represents a system of caves."""
     _NEIGHBORS = [
         (0, -1),
@@ -30,8 +32,8 @@ class CaveSystem(object):
         """Calculate the total risk level of the cave area."""
         risk_level = 0
 
-        for row in xrange(self.target[1] + 1):
-            for col in xrange(self.target[0] + 1):
+        for row in range(self.target[1] + 1):
+            for col in range(self.target[0] + 1):
                 risk_level += self._get_region_type((col, row))
 
         return risk_level
@@ -39,7 +41,7 @@ class CaveSystem(object):
     def calculate_shortest_time(self):
         """Calculate the shortest time to reach the target position."""
         to_visit = set()
-        shortest_times = defaultdict(repeat(maxsize).next)
+        shortest_times = defaultdict(lambda: maxsize)
 
         to_visit.add(((0, 0), 1, 0))
 
@@ -74,7 +76,8 @@ class CaveSystem(object):
                 next_item = current_item
 
                 if not self._is_item_valid(neighbor, next_item):
-                    next_item = self._get_intersecting_item(current_position, neighbor)
+                    next_item = self._get_intersecting_item(
+                        current_position, neighbor)
                     next_time += 7
 
                 to_visit.add((neighbor, next_item, next_time))
@@ -98,7 +101,7 @@ class CaveSystem(object):
         raise Exception('Invalid region type')
 
     def _get_intersecting_item(self, current_position, next_position):
-        for item in xrange(3):
+        for item in range(3):
             if (self._is_item_valid(current_position, item) and
                     self._is_item_valid(next_position, item)):
                 return item
@@ -120,7 +123,8 @@ class CaveSystem(object):
 
             if ((current_x == 0 and current_y == 0) or
                     (current_x == target_x and current_y == target_y)):
-                self.erosion_levels[current_position] = self._calculate_erosion_level(0)
+                self.erosion_levels[current_position] = self._calculate_erosion_level(
+                    0)
             elif current_y == 0:
                 self.erosion_levels[current_position] = self._calculate_erosion_level(
                     current_x * 16807)
@@ -152,11 +156,13 @@ class CaveSystem(object):
     @staticmethod
     def _get_neighbors(position):
         for neighbor in CaveSystem._NEIGHBORS:
-            current_position = (position[0] + neighbor[0], position[1] + neighbor[1])
+            current_position = (
+                position[0] + neighbor[0], position[1] + neighbor[1])
             if current_position[0] < 0 or current_position[1] < 0:
                 continue
 
             yield current_position
+
 
 def _parse_fields(lines):
     fields = {}
@@ -165,9 +171,11 @@ def _parse_fields(lines):
         if match:
             value1 = int(match.group(2))
             value2 = match.group(3)
-            fields[match.group(1)] = (value1, int(value2)) if value2 else value1
+            fields[match.group(1)] = (
+                value1, int(value2)) if value2 else value1
 
     return fields
+
 
 def run_part1(file_content):
     """Implmentation for Part 1."""
@@ -175,11 +183,13 @@ def run_part1(file_content):
     cave = CaveSystem(fields['depth'], fields['target'])
     return cave.calculate_risk_level()
 
+
 def run_part2(file_content):
     """Implmentation for Part 2."""
     fields = _parse_fields(file_content)
     cave = CaveSystem(fields['depth'], fields['target'])
     return cave.calculate_shortest_time()
+
 
 if __name__ == "__main__":
     import sys
@@ -188,11 +198,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(argv1, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

@@ -9,6 +9,7 @@ from .day01 import calculate_frequency, calculate_frequency_two_match
 
 _CURRENT_FILE_DIR = path.dirname(__file__)
 
+
 def test_part1():
     """Tests for Part 1."""
     assert calculate_frequency(['+1', '-2', '+3', '+1']) == 3
@@ -19,6 +20,7 @@ def test_part1():
     with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
         file_content = input_file.readlines()
         assert calculate_frequency(file_content) == 477
+
 
 def test_part2():
     """Tests for Part 2."""

@@ -4,13 +4,17 @@ Implementation for Advent of Code Day 21.
 https://adventofcode.com/2018/day/21
 """
 
+from __future__ import print_function
+
 import re
 
 _IP_REGEX = re.compile(r'^#ip (\d)$')
 _INSTRUCTION_REGEX = re.compile(r'^([a-z]+) (\d+) (\d+) (\d+)$')
 
-class Device(object):
+
+class Device:
     """Represents the current state of the device."""
+
     def __init__(self, num_registers):
         self.registers = [0] * num_registers
 
@@ -22,7 +26,8 @@ class Device(object):
                 yield self.registers[register_index]
             self.registers[reg_ip] = instruction_pointer
             instruction = instructions[instruction_pointer]
-            self._execute(instruction[0], instruction[1], instruction[2], instruction[3])
+            self._execute(instruction[0], instruction[1],
+                          instruction[2], instruction[3])
             instruction_pointer = self.registers[reg_ip] + 1
 
     def _execute(self, name, in_a, in_b, out_c):
@@ -62,6 +67,7 @@ class Device(object):
         else:
             raise Exception('Invalid opcode')
 
+
 def _parse_program(file_content):
     reg_ip = None
     instructions = []
@@ -79,6 +85,7 @@ def _parse_program(file_content):
 
     return reg_ip, instructions
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     reg_ip, instructions = _parse_program(file_content)
@@ -88,6 +95,7 @@ def run_part1(file_content):
     reg_index = instructions[instr_index][1]
     for value in device.execute_program(reg_ip, instructions, instr_index, reg_index):
         return value
+
 
 def run_part2(file_content):
     """Implmentation for Part 2."""
@@ -107,6 +115,7 @@ def run_part2(file_content):
 
     return None
 
+
 if __name__ == "__main__":
     import sys
 
@@ -114,11 +123,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(argv1, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

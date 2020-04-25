@@ -4,6 +4,8 @@ Implementation for Advent of Code Day 16.
 https://adventofcode.com/2018/day/16
 """
 
+from __future__ import print_function
+
 import re
 from collections import defaultdict
 
@@ -11,8 +13,10 @@ _BEFORE_REGEX = re.compile(r'^Before: \[(\d+), (\d+), (\d+), (\d+)\]$')
 _INSTRUCTION_REGEX = re.compile(r'^(\d+) (\d+) (\d+) (\d+)$')
 _AFTER_REGEX = re.compile(r'^After:  \[(\d+), (\d+), (\d+), (\d+)\]$')
 
-class Device(object):
+
+class Device:
     """Represents the current state of the device."""
+
     def __init__(self):
         self.registers = [0] * 4
         self.opcodes = {
@@ -36,7 +40,7 @@ class Device(object):
 
     def get_opcodes(self):
         """Gets the available opcodes."""
-        return self.opcodes.iterkeys()
+        return self.opcodes.keys()
 
     def execute(self, name, input_a, input_b, output_c):
         """Executes the given instruction."""
@@ -90,6 +94,7 @@ class Device(object):
     def _instruction_eqrr(self, reg_a, reg_b, reg_c):
         self.registers[reg_c] = 1 if self.registers[reg_a] == self.registers[reg_b] else 0
 
+
 def _parse_samples(file_content):
     samples = []
     instructions = []
@@ -110,18 +115,20 @@ def _parse_samples(file_content):
 
         match = _AFTER_REGEX.match(line)
         if match:
-            samples.append((before_state, instruction, [int(group) for group in match.groups()]))
+            samples.append((before_state, instruction, [
+                           int(group) for group in match.groups()]))
             before_state = None
             instruction = None
 
     return samples, instructions
+
 
 def _get_instruction_map(samples):
     probabilities = defaultdict(set)
     device = Device()
 
     for sample in samples:
-        for name, func in device.opcodes.iteritems():
+        for name, func in device.opcodes.items():
             device.registers = list(sample[0])
             func(device, sample[1][1], sample[1][2], sample[1][3])
             if device.registers == sample[2]:
@@ -130,17 +137,19 @@ def _get_instruction_map(samples):
     instruction_map = {}
 
     while probabilities:
-        single_match = [(key, value) for key, value in probabilities.iteritems() if len(value) == 1]
+        single_match = [(key, value)
+                        for key, value in probabilities.items() if len(value) == 1]
         for match in single_match:
             del probabilities[match[0]]
             item = [item for item in match[1]][0]
             instruction_map[match[0]] = item
 
-            for value in probabilities.itervalues():
+            for value in probabilities.values():
                 if item in value:
                     value.remove(item)
 
     return instruction_map
+
 
 def run_part1(file_content):
     """Implmentation for Part 1."""
@@ -160,6 +169,7 @@ def run_part1(file_content):
 
     return sample_count
 
+
 def run_part2(file_content):
     """Implmentation for Part 2."""
     samples, instructions = _parse_samples(file_content)
@@ -172,6 +182,7 @@ def run_part2(file_content):
 
     return device.registers[0]
 
+
 if __name__ == "__main__":
     import sys
 
@@ -179,11 +190,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(argv1, 'r') as input_file:
             file_content = input_file.readlines()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

@@ -20,6 +20,7 @@ _TEST_DATA = [
     ("^E(N|SS)EEE(E|SSS)$", 9),
 ]
 
+
 def test_part1():
     """Tests for Part 1."""
     for test in _TEST_DATA:
@@ -29,11 +30,13 @@ def test_part1():
         file_content = input_file.read().strip()
         assert run_part1(file_content) == 4155
 
+
 def test_part2():
     """Tests for Part 2."""
     with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
         file_content = input_file.read().strip()
         assert run_part2(file_content) == 8434
+
 
 def test_regex():
     """Tests for the Regex class."""

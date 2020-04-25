@@ -4,13 +4,16 @@ Implementation for Advent of Code Day 20.
 https://adventofcode.com/2018/day/20
 """
 
+from __future__ import print_function
+
 from collections import defaultdict, deque
-from itertools import repeat
 from operator import itemgetter
 from sys import maxsize
 
-class TreeNode(object):
+
+class TreeNode:
     """Represents a single node in the Regex tree."""
+
     def __init__(self, direction):
         self.direction = direction
         self.children = []
@@ -20,8 +23,10 @@ class TreeNode(object):
         self.children.append(node)
         return node
 
-class Regex(object):
+
+class Regex:
     """Represents an input 'regex' string."""
+
     def __init__(self, input_str):
         root_stack = []
         path_stack = []
@@ -83,7 +88,8 @@ class Regex(object):
             current_node = child
             while current_node:
                 if current_node.direction == '(':
-                    grouping_result, grouping_end = Regex._stringify_grouping(current_node)
+                    grouping_result, grouping_end = Regex._stringify_grouping(
+                        current_node)
                     result += grouping_result
 
                     assert len(grouping_end.children) == 1
@@ -102,7 +108,8 @@ class Regex(object):
         result[-1] = ')'
         return result, end_node
 
-class FacilityMap(object):
+
+class FacilityMap:
     """Represents a map of the facility as specified by a Regex."""
     _directions = {
         'N': (-1, 0),
@@ -122,11 +129,12 @@ class FacilityMap(object):
 
         result = []
 
-        for row in xrange(min_x, max_x + 1):
+        for row in range(min_x, max_x + 1):
             line = []
-            for col in xrange(min_y, max_y + 1):
+            for col in range(min_y, max_y + 1):
                 position = (row, col)
-                line.append(self.grid[position] if position in self.grid else '#')
+                line.append(self.grid[position]
+                            if position in self.grid else '#')
             result.append(''.join(line))
 
         return '\n'.join(result)
@@ -134,7 +142,7 @@ class FacilityMap(object):
     def follow_path(self, root_node):
         """Follows a path through the facility as specified by the starting node."""
         queue = deque()
-        distance_map = defaultdict(repeat(maxsize).next)
+        distance_map = defaultdict(lambda: maxsize)
         visitors = defaultdict(set)
         queue.append(((0, 0), 0, root_node))
         self.grid[(0, 0)] = 'X'
@@ -153,16 +161,21 @@ class FacilityMap(object):
                     queue.append((current_position, current_distance, child))
                 else:
                     new_distance = current_distance + 1
-                    door_position = FacilityMap._add_direction(current_position, direction)
-                    self.grid[door_position] = FacilityMap._get_door_type(child.direction)
-                    next_position = FacilityMap._add_direction(door_position, direction)
+                    door_position = FacilityMap._add_direction(
+                        current_position, direction)
+                    self.grid[door_position] = FacilityMap._get_door_type(
+                        child.direction)
+                    next_position = FacilityMap._add_direction(
+                        door_position, direction)
                     self.grid[next_position] = '.'
-                    distance_map[next_position] = min(distance_map[next_position], new_distance)
+                    distance_map[next_position] = min(
+                        distance_map[next_position], new_distance)
                     queue.append((next_position, new_distance, child))
 
         return (
-            max(distance_map.itervalues()),
-            sum(1 for _ in (distance for distance in distance_map.itervalues() if distance >= 1000))
+            max(distance_map.values()),
+            sum(1 for _ in (
+                distance for distance in distance_map.values() if distance >= 1000))
         )
 
     @staticmethod
@@ -203,12 +216,14 @@ class FacilityMap(object):
 
         return (current_position, current_distance, next_node)
 
+
 def run_part1(file_content):
     """Implmentation for Part 1."""
     regex = Regex(file_content)
     facility = FacilityMap()
     distance, _ = facility.follow_path(regex.root)
     return distance
+
 
 def run_part2(file_content):
     """Implmentation for Part 2."""
@@ -217,6 +232,7 @@ def run_part2(file_content):
     _, count = facility.follow_path(regex.root)
     return count
 
+
 if __name__ == "__main__":
     import sys
 
@@ -224,11 +240,11 @@ if __name__ == "__main__":
         """The main function."""
         with open(argv1, 'r') as input_file:
             file_content = input_file.read().strip()
-            print "Part 1: {}".format(run_part1(file_content))
-            print "Part 2: {}".format(run_part2(file_content))
+            print("Part 1: {}".format(run_part1(file_content)))
+            print("Part 2: {}".format(run_part2(file_content)))
 
     if len(sys.argv) < 2:
-        print "Usage: python {} <input>".format(sys.argv[0])
+        print("Usage: python {} <input>".format(sys.argv[0]))
         sys.exit(1)
 
     run(sys.argv[1])

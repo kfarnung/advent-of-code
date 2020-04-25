@@ -19,6 +19,7 @@ _TEST_DATA = [
     'seti 9 0 5',
 ]
 
+
 def test_part1():
     """Tests for Part 1."""
     assert run_part1(_TEST_DATA) == 6
@@ -26,6 +27,7 @@ def test_part1():
     with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
         file_content = input_file.readlines()
         assert run_part1(file_content) == 2016
+
 
 def test_part2():
     """Tests for Part 2."""

@@ -9,6 +9,7 @@ from .day02 import calculate_checksum, find_correct_id
 
 _CURRENT_FILE_DIR = path.dirname(__file__)
 
+
 def test_part1():
     """Tests for Part 1."""
     assert calculate_checksum([
@@ -24,6 +25,7 @@ def test_part1():
     with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
         file_content = input_file.readlines()
         assert calculate_checksum(file_content) == 9633
+
 
 def test_part2():
     """Tests for Part 2."""

@@ -64,6 +64,7 @@ _INPUT_EXPECTED = (
     '######  ######   ####   #####    ### #   ### #   ####    ###  '
 )
 
+
 def test_find_message():
     """Tests for Part 1 """
     message, seconds = find_message(_TEST_DATA)
