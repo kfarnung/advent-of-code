@@ -2,13 +2,19 @@
 
 https://adventofcode.com/2018
 
+## Language
+
+This year I chose to implement in Python 2, but ported the code such that it
+works in either Python 2 or Python 3.
+
 ## Preparation
 
-These solutions were originally written in Python 2, but updated to support both Python 2 and Python 3. The tests are written to use `pytest`, which needs to be installed:
+1. Install your favorite version of [Python](https://www.python.org/).
+2. The tests are written to use `pytest`, which needs to be installed:
 
-```console
-python -m pip install pytest
-```
+   ```console
+   python -m pip install pytest
+   ```
 
 ## Running tests
 
