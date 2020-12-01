@@ -40,7 +40,7 @@ class UsageMap {
     const index = Math.floor(column / 8);
     const bit = 7 - column % 8;
 
-    let val = this._rows[row][index];
+    const val = this._rows[row][index];
 
     return ((val >> bit) & 1);
   }
@@ -55,7 +55,7 @@ class UsageMap {
     queue.push([row, column]);
 
     while (queue.length > 0) {
-      let [ currentRow, currentColumn ] = queue.shift();
+      const [currentRow, currentColumn] = queue.shift();
 
       if (!visited.has([currentRow, currentColumn].join(',')) &&
           this._getBitAt(currentRow, currentColumn) === 1) {

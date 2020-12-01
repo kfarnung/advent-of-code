@@ -15,7 +15,7 @@ class Day04 {
   }
 
   static isPassphraseValid (passphrase, checkAnagrams = false) {
-    let set = new Set();
+    const set = new Set();
     const words = passphrase.split(' ');
     for (let word of words) {
       if (checkAnagrams) {

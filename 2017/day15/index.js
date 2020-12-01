@@ -42,7 +42,7 @@ class Day15 {
 
   static run (input) {
     const fileContent = fs.readFileSync(input, 'utf8');
-    const [ startingValueA, startingValueB ] = this.parseInput(fileContent);
+    const [startingValueA, startingValueB] = this.parseInput(fileContent);
 
     return [
       this.countMatches(startingValueA, startingValueB, 40000000),

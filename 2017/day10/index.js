@@ -69,7 +69,7 @@ class Day10 {
   static calculateHash (str) {
     const hash = this.runHash(Array.from(this.parseDataAsAscii(str)), 64);
 
-    let hex = [];
+    const hex = [];
     let xor = 0;
     for (let i = 0; i < hash.length; i++) {
       if (i > 0 && i % 16 === 0) {
@@ -96,8 +96,8 @@ class Day10 {
 
   static getHashString (str) {
     const hash = this.calculateHash(str);
-    let hexStr = [];
-    for (let byte of hash) {
+    const hexStr = [];
+    for (const byte of hash) {
       hexStr.push(this.padLeft(byte.toString(16)));
     }
 

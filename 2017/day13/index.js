@@ -58,7 +58,9 @@ class Firewall {
   findSafeDelay () {
     let delay = -1;
 
-    while (this.isCaught(++delay)) {}
+    while (this.isCaught(++delay)) {
+      // Side-effects
+    }
 
     return delay;
   }

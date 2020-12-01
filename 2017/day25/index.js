@@ -70,7 +70,9 @@ class Blueprint {
   static parse (str) {
     const blueprint = new Blueprint(str);
     blueprint._parseHeader();
-    while (blueprint._parseState()) {}
+    while (blueprint._parseState()) {
+      // Side-effects
+    }
 
     return blueprint;
   }

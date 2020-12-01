@@ -17,7 +17,7 @@ class Board {
     const row = this._rows[0];
     for (let x = 0; x < row.length; x++) {
       if (row[x] === '|') {
-        return [ x, 0 ];
+        return [x, 0];
       }
     }
 
@@ -27,17 +27,17 @@ class Board {
   findNextDelta (x, y, deltaX, deltaY) {
     if (deltaX !== 0) {
       if (this.getValue(x, y - 1) !== ' ') {
-        return [ 0, -1 ];
+        return [0, -1];
       } else if (this.getValue(x, y + 1) !== ' ') {
-        return [ 0, 1 ];
+        return [0, 1];
       } else {
         throw new Error('Unexpected');
       }
     } else if (deltaY !== 0) {
       if (this.getValue(x - 1, y) !== ' ') {
-        return [ -1, 0 ];
+        return [-1, 0];
       } else if (this.getValue(x + 1, y) !== ' ') {
-        return [ 1, 0 ];
+        return [1, 0];
       } else {
         throw new Error('Unexpected');
       }
@@ -71,7 +71,7 @@ class Day19 {
     const letters = [];
     let numSteps = 0;
 
-    let [ x, y ] = board.findStart();
+    let [x, y] = board.findStart();
     let deltaX = 0;
     let deltaY = 1;
 
@@ -80,7 +80,7 @@ class Day19 {
       if (current >= 'A' && current <= 'Z') {
         letters.push(current);
       } else if (current === '+') {
-        [ deltaX, deltaY ] = board.findNextDelta(x, y, deltaX, deltaY);
+        [deltaX, deltaY] = board.findNextDelta(x, y, deltaX, deltaY);
       } else if (current === ' ') {
         break;
       } else if (current !== '|' && current !== '-') {

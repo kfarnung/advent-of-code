@@ -1,6 +1,6 @@
 class Day17 {
   static part1 (stepSize) {
-    const spinlock = [ 0 ];
+    const spinlock = [0];
     let currentPosition = 0;
     for (let i = 1; i < 2018; i++) {
       currentPosition = ((currentPosition + stepSize) % i) + 1;

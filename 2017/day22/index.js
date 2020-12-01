@@ -10,7 +10,7 @@ class InfiniteGrid {
   }
 
   getValue (x, y) {
-    let { grid, adjX, adjY } = this._translateCoodinates(x, y);
+    const { grid, adjX, adjY } = this._translateCoodinates(x, y);
 
     const row = grid[adjX];
     if (row !== undefined) {
@@ -24,7 +24,7 @@ class InfiniteGrid {
   }
 
   setValue (x, y, value) {
-    let { grid, adjX, adjY } = this._translateCoodinates(x, y);
+    const { grid, adjX, adjY } = this._translateCoodinates(x, y);
 
     let row = grid[adjX];
     if (row === undefined) {

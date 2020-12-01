@@ -9,7 +9,7 @@ class Day09 {
     let escapeNext = false;
     let processingGarbage = false;
 
-    for (let ch of str) {
+    for (const ch of str) {
       if (processingGarbage) {
         if (escapeNext) {
           escapeNext = false;

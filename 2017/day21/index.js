@@ -10,7 +10,7 @@ class Image {
   }
 
   static fromString (str) {
-    var arr = [];
+    const arr = [];
 
     for (const strRow of str.split('/')) {
       const row = [];

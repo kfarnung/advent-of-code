@@ -111,8 +111,9 @@ class ProgramGraph {
   }
 
   findRootNode () {
-    for (const node of this._map.values()) {
-      let rootNode = node;
+    const first = this._map.values().next();
+    if (!first.done) {
+      let rootNode = first.value;
       while (rootNode.parent !== null) {
         rootNode = rootNode.parent;
       }
