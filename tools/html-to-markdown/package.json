@@ -14,11 +14,11 @@
     "ajv": "^6.10.2",
     "cheerio": "^1.0.0-rc.3",
     "request": "^2.88.0",
-    "turndown": "^6.0.0",
+    "turndown": "^7.0.0",
     "turndown-plugin-gfm": "^1.0.2",
-    "yargs": "^15.0.2"
+    "yargs": "^16.1.1"
   },
   "devDependencies": {
-    "semistandard": "^14.2.0"
+    "semistandard": "^16.0.0"
   }
 }
