@@ -50,14 +50,23 @@ func productOfEntries(values []int64, count int) int64 {
 	return multSlice(vals)
 }
 
-func main() {
-	name := os.Args[1]
+func parseFile(name string) ([]int64, error) {
 	lines, err := lib.LoadFileLines(name)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	values, err := lib.StringSliceToInt64(lines)
+	if err != nil {
+		return nil, err
+	}
+
+	return values, nil
+}
+
+func main() {
+	name := os.Args[1]
+	values, err := parseFile(name)
 	if err != nil {
 		log.Fatal(err)
 	}
