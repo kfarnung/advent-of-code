@@ -49,7 +49,7 @@ This time, the mask has no effect, as the bits it overwrote were already the val
 
 To initialize your ferry's docking program, you need the sum of all values left in memory after the initialization program completes. (The entire 36-bit address space begins initialized to the value `0` at every address.) In the above example, only two values in memory are not zero - `101` (at address `7`) and `64` (at address `8`) - producing a sum of _`165`_.
 
-Execute the initialization program. _What is the sum of all values left in memory after it completes?_
+Execute the initialization program. _What is the sum of all values left in memory after it completes?_ (Do not truncate the sum to 36 bits.)
 
 ### Part Two
 
