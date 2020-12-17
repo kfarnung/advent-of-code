@@ -14,11 +14,13 @@ func NewPoint2D(x int, y int) Point2D {
 	}
 }
 
+// Add to the coordinates of the point
 func (p *Point2D) Add(x int, y int) {
 	p.X += x
 	p.Y += y
 }
 
+// Rotate90DegreesClockwise rotates the point 90 degrees clockwise about the origin
 func (p *Point2D) Rotate90DegreesClockwise(count int) {
 	for i := 0; i < count; i++ {
 		x := p.X
@@ -27,6 +29,7 @@ func (p *Point2D) Rotate90DegreesClockwise(count int) {
 	}
 }
 
+// Rotate90DegreesCounterClockwise rotates the point 90 degrees counter-clockwise about the origin
 func (p *Point2D) Rotate90DegreesCounterClockwise(count int) {
 	for i := 0; i < count; i++ {
 		x := p.X
@@ -35,6 +38,7 @@ func (p *Point2D) Rotate90DegreesCounterClockwise(count int) {
 	}
 }
 
+// ManhattanDistance calculates the manhattan distance between two points
 func (p Point2D) ManhattanDistance(other Point2D) int {
 	return AbsInt(other.X-p.X) + AbsInt(other.Y-p.Y)
 }
