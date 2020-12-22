@@ -24,8 +24,8 @@ func TestExample(t *testing.T) {
 		"10",
 	}
 
-	assert.Equal(t, int(306), part1(lines))
-	assert.Equal(t, int(291), part2(lines))
+	assert.Equal(t, int64(306), part1(lines))
+	assert.Equal(t, int64(291), part2(lines))
 }
 
 func TestInput(t *testing.T) {
@@ -33,6 +33,6 @@ func TestInput(t *testing.T) {
 	lines, err := lib.LoadFileLines(name)
 	assert.NoError(t, err)
 
-	assert.Equal(t, int(32824), part1(lines))
-	assert.Equal(t, int(36515), part2(lines))
+	assert.Equal(t, int64(32824), part1(lines))
+	assert.Equal(t, int64(36515), part2(lines))
 }

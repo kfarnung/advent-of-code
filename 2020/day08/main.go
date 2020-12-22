@@ -12,13 +12,13 @@ import (
 
 type instruction struct {
 	operation string
-	argument  int
+	argument  int32
 }
 
 type machine struct {
 	instructions       []instruction
-	instructionPointer int
-	accumulator        int
+	instructionPointer int32
+	accumulator        int32
 	visited            []bool
 }
 
@@ -57,13 +57,13 @@ func (m *machine) step() error {
 }
 
 func (m *machine) run() error {
-	for m.instructionPointer < len(m.instructions) && m.instructionPointer >= 0 {
+	for int(m.instructionPointer) < len(m.instructions) && m.instructionPointer >= 0 {
 		if err := m.step(); err != nil {
 			return err
 		}
 	}
 
-	if m.instructionPointer != len(m.instructions) {
+	if int(m.instructionPointer) != len(m.instructions) {
 		return errors.New("Instruction pointer out of bounds")
 	}
 
@@ -76,7 +76,7 @@ func parseInstruction(line string) (instruction, error) {
 		return instruction{}, errors.New("Unable to parse instruction")
 	}
 
-	argument, err := lib.ParseInt(parts[1])
+	argument, err := lib.ParseInt32(parts[1])
 	if err != nil {
 		return instruction{}, err
 	}
@@ -102,7 +102,7 @@ func parseInput(lines []string) ([]instruction, error) {
 	return instructions, nil
 }
 
-func part1(instructions []instruction) int {
+func part1(instructions []instruction) int32 {
 	machine := newMachine(instructions)
 
 	for {
@@ -114,7 +114,7 @@ func part1(instructions []instruction) int {
 	return machine.accumulator
 }
 
-func part2(instructions []instruction) int {
+func part2(instructions []instruction) int32 {
 	// Make a copy of the slice to avoid tainting the incoming slice.
 	modifiedInstructions := make([]instruction, len(instructions))
 	copy(modifiedInstructions, instructions)

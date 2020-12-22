@@ -32,12 +32,12 @@ func parseInput(lines []string) ([]int, error) {
 	nums := make([]int, len(lines))
 
 	for i, line := range lines {
-		num, err := lib.ParseInt(line)
+		num, err := lib.ParseInt32(line)
 		if err != nil {
 			return nil, err
 		}
 
-		nums[i] = num
+		nums[i] = int(num)
 	}
 
 	nums = append(nums, 0)

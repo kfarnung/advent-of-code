@@ -12,8 +12,8 @@ import (
 )
 
 type ticketRange struct {
-	lower int
-	upper int
+	lower int32
+	upper int32
 }
 
 type ticketRule struct {
@@ -21,7 +21,7 @@ type ticketRule struct {
 	ranges []ticketRange
 }
 
-func (t ticketRule) InRange(value int) bool {
+func (t ticketRule) InRange(value int32) bool {
 	for _, r := range t.ranges {
 		if value >= r.lower && value <= r.upper {
 			return true
@@ -36,7 +36,7 @@ func aggregateRules(rules []ticketRule) map[int]bool {
 	for _, rule := range rules {
 		for _, r := range rule.ranges {
 			for i := r.lower; i <= r.upper; i++ {
-				aggregatedRules[i] = true
+				aggregatedRules[int(i)] = true
 			}
 		}
 	}
@@ -44,14 +44,14 @@ func aggregateRules(rules []ticketRule) map[int]bool {
 	return aggregatedRules
 }
 
-func filterInvalid(rules []ticketRule, tickets [][]int) [][]int {
+func filterInvalid(rules []ticketRule, tickets [][]int32) [][]int32 {
 	aggregatedRules := aggregateRules(rules)
 
-	var validTickets [][]int
+	var validTickets [][]int32
 	for _, ticket := range tickets {
 		valid := true
 		for _, field := range ticket {
-			if !aggregatedRules[field] {
+			if !aggregatedRules[int(field)] {
 				valid = false
 				break
 			}
@@ -116,11 +116,11 @@ func parseRules(lines []string) ([]ticketRule, error) {
 
 		rule := ticketRule{name: match[1]}
 
-		lower, err := lib.ParseInt(match[2])
+		lower, err := lib.ParseInt32(match[2])
 		if err != nil {
 			return nil, err
 		}
-		upper, err := lib.ParseInt(match[3])
+		upper, err := lib.ParseInt32(match[3])
 		if err != nil {
 			return nil, err
 		}
@@ -129,11 +129,11 @@ func parseRules(lines []string) ([]ticketRule, error) {
 			upper: upper,
 		})
 
-		lower, err = lib.ParseInt(match[4])
+		lower, err = lib.ParseInt32(match[4])
 		if err != nil {
 			return nil, err
 		}
-		upper, err = lib.ParseInt(match[5])
+		upper, err = lib.ParseInt32(match[5])
 		if err != nil {
 			return nil, err
 		}
@@ -148,12 +148,12 @@ func parseRules(lines []string) ([]ticketRule, error) {
 	return nil, errors.New("Couldn't find the end of the rules")
 }
 
-func parseTicket(line string) ([]int, error) {
+func parseTicket(line string) ([]int32, error) {
 	numberStrings := strings.Split(line, ",")
-	return lib.StringSliceToInt(numberStrings)
+	return lib.StringSliceToInt32(numberStrings)
 }
 
-func parseYourTicket(lines []string) ([]int, error) {
+func parseYourTicket(lines []string) ([]int32, error) {
 	found := false
 	for _, line := range lines {
 		if line == "your ticket:" {
@@ -166,8 +166,8 @@ func parseYourTicket(lines []string) ([]int, error) {
 	return nil, errors.New("Unable to locate your ticket information")
 }
 
-func parseNearbyTickets(lines []string) ([][]int, error) {
-	var tickets [][]int
+func parseNearbyTickets(lines []string) ([][]int32, error) {
+	var tickets [][]int32
 	found := false
 	for _, line := range lines {
 		if line == "nearby tickets:" {
@@ -189,7 +189,7 @@ func parseNearbyTickets(lines []string) ([][]int, error) {
 	return tickets, nil
 }
 
-func parseInput(lines []string) ([]ticketRule, []int, [][]int, error) {
+func parseInput(lines []string) ([]ticketRule, []int32, [][]int32, error) {
 	rules, err := parseRules(lines)
 	if err != nil {
 		return nil, nil, nil, err
@@ -208,7 +208,7 @@ func parseInput(lines []string) ([]ticketRule, []int, [][]int, error) {
 	return rules, yourTicket, nearbyTickets, nil
 }
 
-func part1(lines []string) int {
+func part1(lines []string) int64 {
 	rules, _, nearbyTickets, err := parseInput(lines)
 	if err != nil {
 		log.Fatal(err)
@@ -216,11 +216,11 @@ func part1(lines []string) int {
 
 	aggregatedRules := aggregateRules(rules)
 
-	sumOfInvalid := 0
+	var sumOfInvalid int64
 	for _, ticket := range nearbyTickets {
 		for _, field := range ticket {
-			if !aggregatedRules[field] {
-				sumOfInvalid += field
+			if !aggregatedRules[int(field)] {
+				sumOfInvalid += int64(field)
 			}
 		}
 	}
@@ -228,7 +228,7 @@ func part1(lines []string) int {
 	return sumOfInvalid
 }
 
-func part2(lines []string) int {
+func part2(lines []string) int64 {
 	rules, yourTicket, nearbyTickets, err := parseInput(lines)
 	if err != nil {
 		log.Fatal(err)
@@ -236,7 +236,7 @@ func part2(lines []string) int {
 
 	validNearby := filterInvalid(rules, nearbyTickets)
 
-	ticketsToCheck := [][]int{yourTicket}
+	ticketsToCheck := [][]int32{yourTicket}
 	ticketsToCheck = append(ticketsToCheck, validNearby...)
 
 	possibleRules := make([][]ticketRule, len(yourTicket))
@@ -257,10 +257,10 @@ func part2(lines []string) int {
 	}
 
 	reducedRules := reduceRules(possibleRules)
-	total := 1
+	total := int64(1)
 	for i, rule := range reducedRules {
 		if strings.HasPrefix(rule.name, "departure") {
-			total *= yourTicket[i]
+			total *= int64(yourTicket[i])
 		}
 	}
 

@@ -23,8 +23,8 @@ func TestExample(t *testing.T) {
 	instructions, err := parseInput(lines)
 	assert.NoError(t, err)
 
-	assert.Equal(t, 5, part1(instructions))
-	assert.Equal(t, 8, part2(instructions))
+	assert.Equal(t, int32(5), part1(instructions))
+	assert.Equal(t, int32(8), part2(instructions))
 }
 
 func TestInput(t *testing.T) {
@@ -35,6 +35,6 @@ func TestInput(t *testing.T) {
 	instructions, err := parseInput(lines)
 	assert.NoError(t, err)
 
-	assert.Equal(t, 2034, part1(instructions))
-	assert.Equal(t, 672, part2(instructions))
+	assert.Equal(t, int32(2034), part1(instructions))
+	assert.Equal(t, int32(672), part2(instructions))
 }

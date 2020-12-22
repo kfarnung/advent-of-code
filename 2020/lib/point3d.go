@@ -4,13 +4,11 @@ import "fmt"
 
 // Point3D represents a point in 2D space
 type Point3D struct {
-	X int
-	Y int
-	Z int
+	X, Y, Z int64
 }
 
 // NewPoint3D intitializes a Point3D struct
-func NewPoint3D(x, y, z int) Point3D {
+func NewPoint3D(x, y, z int64) Point3D {
 	return Point3D{
 		X: x,
 		Y: y,

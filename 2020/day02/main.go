@@ -11,8 +11,8 @@ import (
 )
 
 type parsedLine struct {
-	min      int
-	max      int
+	min      int32
+	max      int32
 	char     rune
 	password string
 }
@@ -27,12 +27,12 @@ func parseLines(lines []string) ([]parsedLine, error) {
 			return nil, errors.New("Failed to parse line")
 		}
 
-		min, err := lib.ParseInt(parsedLine[1])
+		min, err := lib.ParseInt32(parsedLine[1])
 		if err != nil {
 			return nil, err
 		}
 
-		max, err := lib.ParseInt(parsedLine[2])
+		max, err := lib.ParseInt32(parsedLine[2])
 		if err != nil {
 			return nil, err
 		}
@@ -46,8 +46,8 @@ func parseLines(lines []string) ([]parsedLine, error) {
 	return parsedLines, nil
 }
 
-func countMatchingRunes(text string, char rune) int {
-	count := 0
+func countMatchingRunes(text string, char rune) int32 {
+	var count int32
 	for _, currentChar := range text {
 		if currentChar == char {
 			count++

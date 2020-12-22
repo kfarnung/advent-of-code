@@ -9,13 +9,12 @@ import (
 	"github.com/kfarnung/advent-of-code/2020/lib"
 )
 
-func playGame(numbers []int, numTurns int) int {
-	turn := 0
-	mostRecentNumber := 0
-	numberHistory := make(map[int][]int)
+func playGame(numbers []int32, numTurns int32) int32 {
+	var turn, mostRecentNumber int32
+	numberHistory := make(map[int32][]int32)
 	for i, num := range numbers {
 		mostRecentNumber = num
-		numberHistory[num] = append(numberHistory[num], i)
+		numberHistory[num] = append(numberHistory[num], int32(i))
 		turn++
 	}
 
@@ -33,10 +32,10 @@ func playGame(numbers []int, numTurns int) int {
 	return mostRecentNumber
 }
 
-func parseInput(lines []string) ([]int, error) {
-	var numbers []int
+func parseInput(lines []string) ([]int32, error) {
+	var numbers []int32
 	for _, num := range strings.Split(lines[0], ",") {
-		numValue, err := lib.ParseInt(num)
+		numValue, err := lib.ParseInt32(num)
 		if err != nil {
 			return nil, err
 		}
@@ -47,7 +46,7 @@ func parseInput(lines []string) ([]int, error) {
 	return numbers, nil
 }
 
-func part1(lines []string) int {
+func part1(lines []string) int32 {
 	numbers, err := parseInput(lines)
 	if err != nil {
 		log.Fatal(err)
@@ -56,7 +55,7 @@ func part1(lines []string) int {
 	return playGame(numbers, 2020)
 }
 
-func part2(lines []string) int {
+func part2(lines []string) int32 {
 	numbers, err := parseInput(lines)
 	if err != nil {
 		log.Fatal(err)

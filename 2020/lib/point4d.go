@@ -4,14 +4,11 @@ import "fmt"
 
 // Point4D represents a point in 2D space
 type Point4D struct {
-	W int
-	X int
-	Y int
-	Z int
+	W, X, Y, Z int64
 }
 
 // NewPoint4D intitializes a Point4D struct
-func NewPoint4D(w, x, y, z int) Point4D {
+func NewPoint4D(w, x, y, z int64) Point4D {
 	return Point4D{
 		W: w,
 		X: x,

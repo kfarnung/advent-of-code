@@ -11,7 +11,7 @@ import (
 
 type navigationInstruction struct {
 	action rune
-	value  int
+	value  int64
 }
 
 func parseInput(lines []string) ([]navigationInstruction, error) {
@@ -19,7 +19,7 @@ func parseInput(lines []string) ([]navigationInstruction, error) {
 
 	for i, line := range lines {
 		action, width := utf8.DecodeRuneInString(line)
-		value, err := lib.ParseInt(line[width:])
+		value, err := lib.ParseInt64(line[width:])
 		if err != nil {
 			return nil, err
 		}
@@ -33,7 +33,7 @@ func parseInput(lines []string) ([]navigationInstruction, error) {
 	return instructions, nil
 }
 
-func part1(lines []string) int {
+func part1(lines []string) int64 {
 	instructions, err := parseInput(lines)
 	if err != nil {
 		log.Fatal(err)
@@ -53,9 +53,9 @@ func part1(lines []string) int {
 		case 'W':
 			ship.Add(-instruction.value, 0)
 		case 'L':
-			slope.Rotate90DegreesCounterClockwise(instruction.value / 90)
+			slope.Rotate90DegreesCounterClockwise(int(instruction.value / 90))
 		case 'R':
-			slope.Rotate90DegreesClockwise(instruction.value / 90)
+			slope.Rotate90DegreesClockwise(int(instruction.value / 90))
 		case 'F':
 			ship.Add(slope.X*instruction.value, slope.Y*instruction.value)
 		}
@@ -64,7 +64,7 @@ func part1(lines []string) int {
 	return ship.ManhattanDistance(lib.Point2D{})
 }
 
-func part2(lines []string) int {
+func part2(lines []string) int64 {
 	instructions, err := parseInput(lines)
 	if err != nil {
 		log.Fatal(err)
@@ -84,9 +84,9 @@ func part2(lines []string) int {
 		case 'W':
 			waypoint.Add(-instruction.value, 0)
 		case 'L':
-			waypoint.Rotate90DegreesCounterClockwise(instruction.value / 90)
+			waypoint.Rotate90DegreesCounterClockwise(int(instruction.value / 90))
 		case 'R':
-			waypoint.Rotate90DegreesClockwise(instruction.value / 90)
+			waypoint.Rotate90DegreesClockwise(int(instruction.value / 90))
 		case 'F':
 			ship.Add(waypoint.X*instruction.value, waypoint.Y*instruction.value)
 		}

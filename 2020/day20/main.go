@@ -21,7 +21,7 @@ func loadPattern(pattern []string) map[lib.Point2D]rune {
 	for i, line := range pattern {
 		for j, char := range line {
 			if char != ' ' {
-				patternMap[lib.NewPoint2D(i, j)] = char
+				patternMap[lib.NewPoint2D(int64(i), int64(j))] = char
 			}
 		}
 	}
@@ -152,12 +152,12 @@ OUTERLOOP:
 		for j := 0; j < len(t); j++ {
 			found := true
 			for point, value := range pattern {
-				x := point.X + i
-				y := point.Y + j
+				x := point.X + int64(i)
+				y := point.Y + int64(j)
 
-				if x >= len(t) {
+				if x >= int64(len(t)) {
 					break OUTERLOOP
-				} else if y >= len(t[x]) {
+				} else if y >= int64(len(t[x])) {
 					break INNERLOOP
 				} else if t[x][y] != value {
 					found = false
@@ -206,12 +206,12 @@ func parseInput(lines []string) (map[int]tileGrid, error) {
 	currentID := -1
 	for _, line := range lines {
 		if match := headerRegex.FindStringSubmatch(line); match != nil {
-			tileID, err := lib.ParseInt(match[1])
+			tileID, err := lib.ParseInt32(match[1])
 			if err != nil {
 				return nil, err
 			}
 
-			currentID = tileID
+			currentID = int(tileID)
 		} else if len(line) > 0 {
 			var row []rune
 			for _, char := range line {

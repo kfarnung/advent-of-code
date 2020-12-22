@@ -84,7 +84,7 @@ func parseInput(lines []string) map[lib.Point3D]bool {
 	for i, line := range lines {
 		for j, char := range line {
 			if char == '#' {
-				point := lib.NewPoint3D(i, j, 0)
+				point := lib.NewPoint3D(int64(i), int64(j), 0)
 				grid[point] = true
 			}
 		}

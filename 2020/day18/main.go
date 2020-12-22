@@ -13,7 +13,7 @@ import (
 type expressionNumber int64
 
 func newExpressionNumber(str string) expressionNumber {
-	value, err := lib.ParseInt(str)
+	value, err := lib.ParseInt32(str)
 	if err != nil {
 		panic("Couldn't parse number")
 	}

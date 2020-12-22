@@ -12,16 +12,16 @@ import (
 )
 
 type bagInfo struct {
-	count int
+	count int32
 	color string
 }
 
-func countChildren(bags map[string][]bagInfo, memo map[string]int, color string) int {
+func countChildren(bags map[string][]bagInfo, memo map[string]int32, color string) int32 {
 	if val, ok := memo[color]; ok {
 		return val
 	}
 
-	count := 0
+	var count int32
 	children := bags[color]
 	for _, child := range children {
 		count += child.count + (child.count * countChildren(bags, memo, child.color))
@@ -38,9 +38,9 @@ func parseBag(line string) bagInfo {
 		panic("Failed to parse bag")
 	}
 
-	count := 0
+	var count int32
 	if len(match[1]) > 0 {
-		parsedCount, err := lib.ParseInt(match[1])
+		parsedCount, err := lib.ParseInt32(match[1])
 		if err != nil {
 			panic("Couldn't parse integer")
 		}
@@ -113,9 +113,9 @@ func part1(lines []string) int {
 	return len(visited) - 1
 }
 
-func part2(lines []string) int {
+func part2(lines []string) int32 {
 	bags := parseInput(lines)
-	memo := make(map[string]int)
+	memo := make(map[string]int32)
 	return countChildren(bags, memo, "shiny gold")
 }
 

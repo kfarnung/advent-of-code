@@ -1,7 +1,7 @@
 package lib
 
-// AbsInt calculates the absolute value of a given int
-func AbsInt(n int) int {
+// AbsInt64 calculates the absolute value of a given int
+func AbsInt64(n int64) int64 {
 	if n < 0 {
 		return -n
 	}

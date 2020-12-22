@@ -15,11 +15,11 @@ func StringSliceToInt64(input []string) ([]int64, error) {
 	return result, nil
 }
 
-// StringSliceToInt converts the slice of strings to a slice of int values.
-func StringSliceToInt(input []string) ([]int, error) {
-	result := make([]int, len(input))
+// StringSliceToInt32 converts the slice of strings to a slice of int values.
+func StringSliceToInt32(input []string) ([]int32, error) {
+	result := make([]int32, len(input))
 	for i, val := range input {
-		num, err := ParseInt(val)
+		num, err := ParseInt32(val)
 		if err != nil {
 			return nil, err
 		}

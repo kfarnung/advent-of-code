@@ -9,7 +9,7 @@ import (
 	"github.com/kfarnung/advent-of-code/2020/lib"
 )
 
-type spaceCardDeck []int
+type spaceCardDeck []int32
 
 func (s spaceCardDeck) clone(cardCount int) spaceCardDeck {
 	newDeck := make(spaceCardDeck, cardCount)
@@ -17,21 +17,21 @@ func (s spaceCardDeck) clone(cardCount int) spaceCardDeck {
 	return newDeck
 }
 
-func (s *spaceCardDeck) draw() int {
+func (s *spaceCardDeck) draw() int32 {
 	topCard := (*s)[0]
 	*s = (*s)[1:]
 
 	return topCard
 }
 
-func (s *spaceCardDeck) discard(card ...int) {
+func (s *spaceCardDeck) discard(card ...int32) {
 	*s = append(*s, card...)
 }
 
-func (s spaceCardDeck) score() int {
-	var total int
+func (s spaceCardDeck) score() int64 {
+	var total int64
 	for i, card := range s {
-		total += card * (len(s) - i)
+		total += int64(card) * int64(len(s)-i)
 	}
 
 	return total
@@ -67,9 +67,9 @@ func playGame(playerDeck1, playerDeck2 *spaceCardDeck, recursive bool) int {
 		playerCard2 := playerDeck2.draw()
 
 		winner := 0
-		if recursive && playerCard1 <= len(*playerDeck1) && playerCard2 <= len(*playerDeck2) {
-			playerDeckClone1 := playerDeck1.clone(playerCard1)
-			playerDeckClone2 := playerDeck2.clone(playerCard2)
+		if recursive && int(playerCard1) <= len(*playerDeck1) && int(playerCard2) <= len(*playerDeck2) {
+			playerDeckClone1 := playerDeck1.clone(int(playerCard1))
+			playerDeckClone2 := playerDeck2.clone(int(playerCard2))
 
 			winner = playGame(&playerDeckClone1, &playerDeckClone2, recursive)
 		} else if playerCard1 > playerCard2 {
@@ -109,7 +109,7 @@ func parseInput(lines []string) ([]spaceCardDeck, error) {
 				current = spaceCardDeck{}
 			}
 		} else if len(line) > 0 {
-			value, err := lib.ParseInt(line)
+			value, err := lib.ParseInt32(line)
 			if err != nil {
 				return nil, err
 			}
@@ -126,7 +126,7 @@ func parseInput(lines []string) ([]spaceCardDeck, error) {
 	return decks, nil
 }
 
-func run(lines []string, recursive bool) int {
+func run(lines []string, recursive bool) int64 {
 	spaceCardDecks, err := parseInput(lines)
 	if err != nil {
 		log.Fatal(err)
@@ -146,11 +146,11 @@ func run(lines []string, recursive bool) int {
 	}
 }
 
-func part1(lines []string) int {
+func part1(lines []string) int64 {
 	return run(lines, false)
 }
 
-func part2(lines []string) int {
+func part2(lines []string) int64 {
 	return run(lines, true)
 }
 

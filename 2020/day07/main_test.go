@@ -21,7 +21,7 @@ func TestExamples(t *testing.T) {
 	}
 
 	assert.Equal(t, 4, part1(lines))
-	assert.Equal(t, 32, part2(lines))
+	assert.Equal(t, int32(32), part2(lines))
 
 	lines = []string{
 		"shiny gold bags contain 2 dark red bags.",
@@ -33,7 +33,7 @@ func TestExamples(t *testing.T) {
 		"dark violet bags contain no other bags.",
 	}
 
-	assert.Equal(t, 126, part2(lines))
+	assert.Equal(t, int32(126), part2(lines))
 }
 
 func TestInput(t *testing.T) {
@@ -42,5 +42,5 @@ func TestInput(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, 278, part1(lines))
-	assert.Equal(t, 45157, part2(lines))
+	assert.Equal(t, int32(45157), part2(lines))
 }

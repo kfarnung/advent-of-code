@@ -56,7 +56,7 @@ func (p *passport) parseLine(line string) error {
 }
 
 func (p passport) isValidBirthYear() bool {
-	year, err := lib.ParseInt(p.byr)
+	year, err := lib.ParseInt32(p.byr)
 	if err != nil {
 		return false
 	}
@@ -65,7 +65,7 @@ func (p passport) isValidBirthYear() bool {
 }
 
 func (p passport) isValidIssueYear() bool {
-	year, err := lib.ParseInt(p.iyr)
+	year, err := lib.ParseInt32(p.iyr)
 	if err != nil {
 		return false
 	}
@@ -74,7 +74,7 @@ func (p passport) isValidIssueYear() bool {
 }
 
 func (p passport) isValidExpirationYear() bool {
-	year, err := lib.ParseInt(p.eyr)
+	year, err := lib.ParseInt32(p.eyr)
 	if err != nil {
 		return false
 	}
@@ -89,7 +89,7 @@ func (p passport) isValidHeight() bool {
 		return false
 	}
 
-	height, err := lib.ParseInt(match[1])
+	height, err := lib.ParseInt32(match[1])
 	if err != nil {
 		return false
 	}
