@@ -1,5 +1,7 @@
 package lib
 
+import "fmt"
+
 // Point2D represents a point in 2D space
 type Point2D struct {
 	X, Y int64
@@ -40,4 +42,8 @@ func (p *Point2D) Rotate90DegreesCounterClockwise(count int) {
 // ManhattanDistance calculates the manhattan distance between two points
 func (p Point2D) ManhattanDistance(other Point2D) int64 {
 	return AbsInt64(other.X-p.X) + AbsInt64(other.Y-p.Y)
+}
+
+func (p Point2D) String() string {
+	return fmt.Sprintf("(%d, %d)", p.X, p.Y)
 }
