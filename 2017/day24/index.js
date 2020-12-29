@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class Component {
-  constructor (pinsA, pinsB) {
+  constructor(pinsA, pinsB) {
     this._pinsA = pinsA;
     this._pinsB = pinsB;
 
@@ -9,15 +9,15 @@ class Component {
     this._connectionsB = [];
   }
 
-  get pinsA () {
+  get pinsA() {
     return this._pinsA;
   }
 
-  get pinsB () {
+  get pinsB() {
     return this._pinsB;
   }
 
-  addConnection (component) {
+  addConnection(component) {
     if (component._pinsA === this._pinsA || component._pinsB === this._pinsA) {
       this._connectionsA.push(component);
     }
@@ -27,7 +27,7 @@ class Component {
     }
   }
 
-  getMaxStrength (incomingPin, visited) {
+  getMaxStrength(incomingPin, visited) {
     let max = Number.MIN_SAFE_INTEGER;
     const connections = this._getConnections(incomingPin);
     const outgoingPin = this._getOutgoingPin(incomingPin);
@@ -47,7 +47,7 @@ class Component {
     return this._pinsA + this._pinsB + max;
   }
 
-  getLongestStrength (incomingPin, visited) {
+  getLongestStrength(incomingPin, visited) {
     let maxStrength = Number.MIN_SAFE_INTEGER;
     let maxLength = Number.MIN_SAFE_INTEGER;
     const connections = this._getConnections(incomingPin);
@@ -73,10 +73,13 @@ class Component {
 
     visited.pop();
 
-    return { length: maxLength, strength: this._pinsA + this._pinsB + maxStrength };
+    return {
+      length: maxLength,
+      strength: this._pinsA + this._pinsB + maxStrength,
+    };
   }
 
-  _getConnections (incomingPin) {
+  _getConnections(incomingPin) {
     if (incomingPin === this._pinsA) {
       return this._connectionsB;
     } else if (incomingPin === this._pinsB) {
@@ -86,7 +89,7 @@ class Component {
     }
   }
 
-  _getOutgoingPin (incomingPin) {
+  _getOutgoingPin(incomingPin) {
     if (incomingPin === this._pinsA) {
       return this._pinsB;
     } else if (incomingPin === this._pinsB) {
@@ -98,16 +101,16 @@ class Component {
 }
 
 class ComponentGraph {
-  constructor () {
+  constructor() {
     this._map = new Map();
   }
 
-  addNode (component) {
+  addNode(component) {
     this._connectNodes(component.pinsA, component);
     this._connectNodes(component.pinsB, component);
   }
 
-  getMaxStrength () {
+  getMaxStrength() {
     let max = Number.MIN_SAFE_INTEGER;
     const roots = this._getFromMap(0);
     const visited = [];
@@ -119,7 +122,7 @@ class ComponentGraph {
     return max;
   }
 
-  getLongestStrength () {
+  getLongestStrength() {
     let maxLength = Number.MIN_SAFE_INTEGER;
     let maxStrength = Number.MIN_SAFE_INTEGER;
     const roots = this._getFromMap(0);
@@ -140,7 +143,7 @@ class ComponentGraph {
     return maxStrength;
   }
 
-  _connectNodes (numPins, component) {
+  _connectNodes(numPins, component) {
     const components = this._getFromMap(numPins);
     for (const c of components) {
       c.addConnection(component);
@@ -150,7 +153,7 @@ class ComponentGraph {
     this._addToMap(numPins, component);
   }
 
-  _getFromMap (numPins) {
+  _getFromMap(numPins) {
     const components = this._map.get(numPins);
     if (components !== undefined) {
       return components;
@@ -159,7 +162,7 @@ class ComponentGraph {
     return [];
   }
 
-  _addToMap (numPins, component) {
+  _addToMap(numPins, component) {
     let components = this._map.get(numPins);
     if (components === undefined) {
       components = [];
@@ -171,19 +174,22 @@ class ComponentGraph {
 }
 
 class Day24 {
-  static * parseComponents (str) {
+  static *parseComponents(str) {
     const regexp = /^([0-9]+)\/([0-9]+)$/gm;
     let result = null;
 
     do {
       result = regexp.exec(str);
       if (result !== null) {
-        yield new Component(Number.parseInt(result[1]), Number.parseInt(result[2]));
+        yield new Component(
+          Number.parseInt(result[1]),
+          Number.parseInt(result[2])
+        );
       }
     } while (result != null);
   }
 
-  static * run (input) {
+  static *run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const graph = new ComponentGraph();
 

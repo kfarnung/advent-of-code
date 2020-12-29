@@ -1,26 +1,26 @@
 const fs = require('fs');
 
 class BlueprintStateCondition {
-  constructor (currentValue, newValue, direction, nextState) {
+  constructor(currentValue, newValue, direction, nextState) {
     this._currentValue = currentValue;
     this._newValue = newValue;
     this._direction = direction;
     this._nextState = nextState;
   }
 
-  get currentValue () {
+  get currentValue() {
     return this._currentValue;
   }
 
-  get newValue () {
+  get newValue() {
     return this._newValue;
   }
 
-  get nextState () {
+  get nextState() {
     return this._nextState;
   }
 
-  getDelta () {
+  getDelta() {
     if (this._direction === 'left') {
       return -1;
     } else if (this._direction === 'right') {
@@ -32,26 +32,26 @@ class BlueprintStateCondition {
 }
 
 class BlueprintState {
-  constructor (name) {
+  constructor(name) {
     this._name = name;
     this._conditions = [];
   }
 
-  get name () {
+  get name() {
     return this._name;
   }
 
-  addCondition (condition) {
+  addCondition(condition) {
     this._conditions[condition.currentValue] = condition;
   }
 
-  getCondition (value) {
+  getCondition(value) {
     return this._conditions[value];
   }
 }
 
 class Blueprint {
-  constructor (str) {
+  constructor(str) {
     this._lines = str.split(/\r?\n/);
     this._lineIndex = 0;
     this._beginState = null;
@@ -59,15 +59,15 @@ class Blueprint {
     this._stateMap = new Map();
   }
 
-  get beginState () {
+  get beginState() {
     return this._beginState;
   }
 
-  get checksumInterval () {
+  get checksumInterval() {
     return this._checksumInterval;
   }
 
-  static parse (str) {
+  static parse(str) {
     const blueprint = new Blueprint(str);
     blueprint._parseHeader();
     while (blueprint._parseState()) {
@@ -77,15 +77,15 @@ class Blueprint {
     return blueprint;
   }
 
-  getState (name) {
+  getState(name) {
     return this._stateMap.get(name);
   }
 
-  _getNextLine () {
+  _getNextLine() {
     return this._lines[this._lineIndex++];
   }
 
-  _parseState () {
+  _parseState() {
     let result = null;
 
     const stateRegex = /In state ([A-Z]+):/;
@@ -107,7 +107,7 @@ class Blueprint {
     return true;
   }
 
-  _parseCondition (state) {
+  _parseCondition(state) {
     let result = null;
 
     const conditionRegex = / {2}If the current value is ([0-1]):/;
@@ -126,10 +126,12 @@ class Blueprint {
     result = nextStateRegex.exec(this._getNextLine());
     const nextState = result[1];
 
-    state.addCondition(new BlueprintStateCondition(currentValue, newValue, direction, nextState));
+    state.addCondition(
+      new BlueprintStateCondition(currentValue, newValue, direction, nextState)
+    );
   }
 
-  _parseHeader () {
+  _parseHeader() {
     let result = null;
 
     const beginRegex = /Begin in state ([A-Z])./;
@@ -147,11 +149,11 @@ class Blueprint {
 }
 
 class InfiniteTape {
-  constructor () {
+  constructor() {
     this._map = new Map();
   }
 
-  getValue (index) {
+  getValue(index) {
     const value = this._map.get(index);
     if (value !== undefined) {
       return value;
@@ -160,7 +162,7 @@ class InfiniteTape {
     return 0;
   }
 
-  setValue (index, value) {
+  setValue(index, value) {
     if (value !== 0) {
       this._map.set(index, value);
     } else {
@@ -168,13 +170,13 @@ class InfiniteTape {
     }
   }
 
-  countNonZero () {
+  countNonZero() {
     return this._map.size;
   }
 }
 
 class TuringMachine {
-  constructor (blueprint) {
+  constructor(blueprint) {
     this._blueprint = blueprint;
     this._tape = new InfiniteTape();
     this._position = 0;
@@ -182,7 +184,7 @@ class TuringMachine {
     this._tick = 0;
   }
 
-  run (numTicks = 1) {
+  run(numTicks = 1) {
     for (let i = 0; i < numTicks; i++) {
       const state = this._blueprint.getState(this._currentState);
       const value = this._tape.getValue(this._position);
@@ -194,13 +196,13 @@ class TuringMachine {
     }
   }
 
-  checksum () {
+  checksum() {
     return this._tape.countNonZero();
   }
 }
 
 class Day25 {
-  static * run (input) {
+  static *run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const parsed = Blueprint.parse(fileContent);
 

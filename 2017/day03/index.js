@@ -1,5 +1,7 @@
+const fs = require('fs');
+
 class Day03 {
-  static getSideLength (count) {
+  static getSideLength(count) {
     const length = Math.ceil(Math.sqrt(count));
     if (length % 2 === 0) {
       return length + 1;
@@ -8,7 +10,7 @@ class Day03 {
     return length;
   }
 
-  static findCoordinates (count) {
+  static findCoordinates(count) {
     const length = this.getSideLength(count);
     const halfLength = Math.floor(length / 2);
 
@@ -35,12 +37,12 @@ class Day03 {
     }
   }
 
-  static manhattanDistance (count) {
+  static manhattanDistance(count) {
     const { x, y } = this.findCoordinates(count);
     return Math.abs(x) + Math.abs(y);
   }
 
-  static findIndex (x, y) {
+  static findIndex(x, y) {
     let length = 0;
     let side = 0;
     let pos = 0;
@@ -71,7 +73,7 @@ class Day03 {
     return side * (length - 1) + pos + Math.pow(length - 2, 2) - 1;
   }
 
-  static getValidIndex (arr, index) {
+  static getValidIndex(arr, index) {
     if (index < arr.length) {
       return arr[index];
     }
@@ -79,7 +81,7 @@ class Day03 {
     return 0;
   }
 
-  static calculateAdjacentSum (arr, x, y) {
+  static calculateAdjacentSum(arr, x, y) {
     let sum = 0;
 
     sum += this.getValidIndex(arr, this.findIndex(x + 1, y));
@@ -95,7 +97,7 @@ class Day03 {
     return sum;
   }
 
-  static * generateSums () {
+  static *generateSums() {
     const arr = [];
     let side = 3;
     let x = 0;
@@ -103,7 +105,7 @@ class Day03 {
 
     arr.push(1);
 
-    for (;; side += 2) {
+    for (; ; side += 2) {
       x++;
       yield this.calculateAdjacentSum(arr, x, y);
 
@@ -129,7 +131,7 @@ class Day03 {
     }
   }
 
-  static searchSums (search) {
+  static searchSums(search) {
     for (const sum of this.generateSums()) {
       if (sum > search) {
         return sum;
@@ -137,13 +139,11 @@ class Day03 {
     }
   }
 
-  static run (input) {
-    const num = Number.parseInt(input);
+  static run(input) {
+    const fileContent = fs.readFileSync(input, 'utf8');
+    const num = Number.parseInt(fileContent.trim());
 
-    return [
-      this.manhattanDistance(num),
-      this.searchSums(num)
-    ];
+    return [this.manhattanDistance(num), this.searchSums(num)];
   }
 }
 

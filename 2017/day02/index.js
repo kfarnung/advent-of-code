@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class Day02 {
-  static * parseRows (str) {
+  static *parseRows(str) {
     let current = '';
     let row = [];
 
@@ -20,7 +20,7 @@ class Day02 {
     }
   }
 
-  static minMaxDiff (row) {
+  static minMaxDiff(row) {
     let min = Number.MAX_SAFE_INTEGER;
     let max = Number.MIN_SAFE_INTEGER;
     for (const num of row) {
@@ -31,7 +31,7 @@ class Day02 {
     return max - min;
   }
 
-  static evenlyDivisibleQuotient (row) {
+  static evenlyDivisibleQuotient(row) {
     for (const num1 of row) {
       for (const num2 of row) {
         if (num1 === num2) {
@@ -47,7 +47,7 @@ class Day02 {
     }
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
 
     let minMaxSum = 0;
@@ -57,10 +57,7 @@ class Day02 {
       evenlyDivisibleSum += this.evenlyDivisibleQuotient(row);
     }
 
-    return [
-      minMaxSum,
-      evenlyDivisibleSum
-    ];
+    return [minMaxSum, evenlyDivisibleSum];
   }
 }
 

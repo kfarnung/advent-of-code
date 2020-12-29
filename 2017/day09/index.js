@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class Day09 {
-  static parseAndScore (str) {
+  static parseAndScore(str) {
     let score = 0;
     let garbageCount = 0;
 
@@ -33,14 +33,11 @@ class Day09 {
     return { score, garbageCount };
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
 
     const { score, garbageCount } = this.parseAndScore(fileContent);
-    return [
-      score,
-      garbageCount
-    ];
+    return [score, garbageCount];
   }
 }
 

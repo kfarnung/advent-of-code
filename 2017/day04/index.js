@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class Day04 {
-  static * parseRows (str) {
+  static *parseRows(str) {
     let current = '';
 
     for (const ch of str) {
@@ -14,7 +14,7 @@ class Day04 {
     }
   }
 
-  static isPassphraseValid (passphrase, checkAnagrams = false) {
+  static isPassphraseValid(passphrase, checkAnagrams = false) {
     const set = new Set();
     const words = passphrase.split(' ');
     for (let word of words) {
@@ -32,7 +32,7 @@ class Day04 {
     return true;
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
 
     let validCount = 0;
@@ -47,10 +47,7 @@ class Day04 {
       }
     }
 
-    return [
-      validCount,
-      validAnagramCount
-    ];
+    return [validCount, validAnagramCount];
   }
 }
 
