@@ -1,17 +1,17 @@
 const fs = require('fs');
 
 class Condition {
-  constructor (registerName, comparison, value) {
+  constructor(registerName, comparison, value) {
     this._registerName = registerName;
     this._comparison = comparison;
     this._value = value;
   }
 
-  get registerName () {
+  get registerName() {
     return this._registerName;
   }
 
-  getComparisonFunction () {
+  getComparisonFunction() {
     switch (this._comparison) {
       case '<':
         return this._lessThan.bind(this);
@@ -35,48 +35,48 @@ class Condition {
     return null;
   }
 
-  _lessThan (val) {
+  _lessThan(val) {
     return val < this._value;
   }
 
-  _greaterThan (val) {
+  _greaterThan(val) {
     return val > this._value;
   }
 
-  _lessThanEqual (val) {
+  _lessThanEqual(val) {
     return !this._greaterThan(val);
   }
 
-  _greaterThanEqual (val) {
+  _greaterThanEqual(val) {
     return !this._lessThan(val);
   }
 
-  _strictEqual (val) {
+  _strictEqual(val) {
     return val === this._value;
   }
 
-  _notStrictEqual (val) {
+  _notStrictEqual(val) {
     return !this._strictEqual(val);
   }
 }
 
 class Instruction {
-  constructor (registerName, modifier, value, condition) {
+  constructor(registerName, modifier, value, condition) {
     this._registerName = registerName;
     this._modifier = modifier;
     this._value = value;
     this._condition = condition;
   }
 
-  get registerName () {
+  get registerName() {
     return this._registerName;
   }
 
-  get condition () {
+  get condition() {
     return this._condition;
   }
 
-  getModificationFunction () {
+  getModificationFunction() {
     switch (this._modifier) {
       case 'inc':
         return this._increment.bind(this);
@@ -88,22 +88,22 @@ class Instruction {
     return null;
   }
 
-  _increment (val) {
+  _increment(val) {
     return val + this._value;
   }
 
-  _decrement (val) {
+  _decrement(val) {
     return val - this._value;
   }
 }
 
 class Registers {
-  constructor () {
+  constructor() {
     this._map = new Map();
     this._maxValue = Number.MIN_SAFE_INTEGER;
   }
 
-  getLargestValue () {
+  getLargestValue() {
     if (this._map.size === 0) {
       return 0;
     }
@@ -117,7 +117,7 @@ class Registers {
     return max;
   }
 
-  getMaxValue () {
+  getMaxValue() {
     if (this._map.size === 0) {
       return 0;
     }
@@ -125,7 +125,7 @@ class Registers {
     return this._maxValue;
   }
 
-  getRegisterValue (name) {
+  getRegisterValue(name) {
     const value = this._map.get(name);
     if (value !== undefined) {
       return value;
@@ -134,26 +134,26 @@ class Registers {
     return 0;
   }
 
-  setRegisterValue (name, value) {
+  setRegisterValue(name, value) {
     this._maxValue = Math.max(this._maxValue, value);
     this._map.set(name, value);
   }
 }
 
 class Processor {
-  constructor () {
+  constructor() {
     this._registers = new Registers();
   }
 
-  getLargestRegisterValue () {
+  getLargestRegisterValue() {
     return this._registers.getLargestValue();
   }
 
-  getMaxRegisterValue () {
+  getMaxRegisterValue() {
     return this._registers.getMaxValue();
   }
 
-  processInstruction (instruction) {
+  processInstruction(instruction) {
     if (this.evaluateCondition(instruction.condition)) {
       const regName = instruction.registerName;
       const func = instruction.getModificationFunction();
@@ -163,7 +163,7 @@ class Processor {
     }
   }
 
-  evaluateCondition (condition) {
+  evaluateCondition(condition) {
     const regName = condition.registerName;
     const func = condition.getComparisonFunction();
 
@@ -172,7 +172,7 @@ class Processor {
 }
 
 class Day08 {
-  static * parseRows (str) {
+  static *parseRows(str) {
     let current = '';
     let row = [];
 
@@ -191,7 +191,7 @@ class Day08 {
     }
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const processor = new Processor();
 
@@ -200,14 +200,15 @@ class Day08 {
         row[0],
         row[1],
         Number.parseInt(row[2]),
-        new Condition(row[4], row[5], Number.parseInt(row[6])));
+        new Condition(row[4], row[5], Number.parseInt(row[6]))
+      );
 
       processor.processInstruction(instruction);
     }
 
     return [
       processor.getLargestRegisterValue(),
-      processor.getMaxRegisterValue()
+      processor.getMaxRegisterValue(),
     ];
   }
 }

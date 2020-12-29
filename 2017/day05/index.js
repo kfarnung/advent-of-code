@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class Day05 {
-  static * parseInt (str) {
+  static *parseInt(str) {
     let current = '';
 
     for (const ch of str) {
@@ -14,11 +14,11 @@ class Day05 {
     }
   }
 
-  static incrementModifier (arr, index) {
+  static incrementModifier(arr, index) {
     arr[index]++;
   }
 
-  static decrementThreeModifier (arr, index) {
+  static decrementThreeModifier(arr, index) {
     if (arr[index] >= 3) {
       arr[index]--;
     } else {
@@ -26,7 +26,7 @@ class Day05 {
     }
   }
 
-  static followSteps (arr, modifierFunc) {
+  static followSteps(arr, modifierFunc) {
     let index = 0;
     let numSteps = 0;
     while (index >= 0 && index < arr.length) {
@@ -39,14 +39,14 @@ class Day05 {
     return numSteps;
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const arr1 = Array.from(this.parseInt(fileContent));
     const arr2 = Array.from(arr1);
 
     return [
       this.followSteps(arr1, this.incrementModifier),
-      this.followSteps(arr2, this.decrementThreeModifier)
+      this.followSteps(arr2, this.decrementThreeModifier),
     ];
   }
 }

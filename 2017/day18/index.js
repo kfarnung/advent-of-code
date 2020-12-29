@@ -1,31 +1,31 @@
 const fs = require('fs');
 
 class Instruction {
-  constructor (operation, registerName, value) {
+  constructor(operation, registerName, value) {
     this._operation = operation;
     this._registerName = registerName;
     this._value = value;
   }
 
-  get operation () {
+  get operation() {
     return this._operation;
   }
 
-  get registerName () {
+  get registerName() {
     return this._registerName;
   }
 
-  get value () {
+  get value() {
     return this._value;
   }
 }
 
 class Registers {
-  constructor () {
+  constructor() {
     this._map = new Map();
   }
 
-  getValue (name) {
+  getValue(name) {
     const value = this._map.get(name);
     if (value !== undefined) {
       return value;
@@ -34,19 +34,19 @@ class Registers {
     return 0;
   }
 
-  setValue (name, value) {
+  setValue(name, value) {
     this._map.set(name, value);
   }
 }
 
 class ProcessBase {
-  constructor (instructions) {
+  constructor(instructions) {
     this._registers = new Registers();
     this._instructions = Array.from(instructions);
     this._instructionIndex = 0;
   }
 
-  _processInstruction (instruction) {
+  _processInstruction(instruction) {
     switch (instruction.operation) {
       case 'snd':
         this._snd(instruction.registerName);
@@ -78,30 +78,30 @@ class ProcessBase {
     }
   }
 
-  _set (registerName, value) {
+  _set(registerName, value) {
     this._registers.setValue(registerName, this._toNumValue(value));
     this._instructionIndex++;
   }
 
-  _add (registerName, value) {
+  _add(registerName, value) {
     const current = this._registers.getValue(registerName);
     this._registers.setValue(registerName, current + this._toNumValue(value));
     this._instructionIndex++;
   }
 
-  _mul (registerName, value) {
+  _mul(registerName, value) {
     const current = this._registers.getValue(registerName);
     this._registers.setValue(registerName, current * this._toNumValue(value));
     this._instructionIndex++;
   }
 
-  _mod (registerName, value) {
+  _mod(registerName, value) {
     const current = this._registers.getValue(registerName);
     this._registers.setValue(registerName, current % this._toNumValue(value));
     this._instructionIndex++;
   }
 
-  _jgz (registerName, value) {
+  _jgz(registerName, value) {
     let current = Number.parseInt(registerName);
     if (Number.isNaN(current)) {
       current = this._registers.getValue(registerName);
@@ -114,7 +114,7 @@ class ProcessBase {
     }
   }
 
-  _toNumValue (value) {
+  _toNumValue(value) {
     let numValue = Number.parseInt(value);
     if (Number.isNaN(numValue)) {
       numValue = this._registers.getValue(value);
@@ -125,13 +125,13 @@ class ProcessBase {
 }
 
 class Part1Process extends ProcessBase {
-  constructor (instructions) {
+  constructor(instructions) {
     super(instructions);
     this._lastFrequency = -1;
     this._returnValue = -1;
   }
 
-  execute () {
+  execute() {
     while (this._instructionIndex < this._instructions.length) {
       this._processInstruction(this._instructions[this._instructionIndex]);
     }
@@ -139,13 +139,13 @@ class Part1Process extends ProcessBase {
     return this._returnValue;
   }
 
-  _snd (registerName) {
+  _snd(registerName) {
     const value = this._registers.getValue(registerName);
     this._lastFrequency = value;
     this._instructionIndex++;
   }
 
-  _rcv (registerName) {
+  _rcv(registerName) {
     const current = this._registers.getValue(registerName);
     if (current !== 0) {
       this._exit(this._lastFrequency);
@@ -154,14 +154,14 @@ class Part1Process extends ProcessBase {
     this._instructionIndex++;
   }
 
-  _exit (result) {
+  _exit(result) {
     this._returnValue = result;
     this._instructionIndex = this._instructions.length;
   }
 }
 
 class Part2Process extends ProcessBase {
-  constructor (instructions, id) {
+  constructor(instructions, id) {
     super(instructions);
     this._messageQueue = [];
     this._isWaiting = false;
@@ -170,31 +170,31 @@ class Part2Process extends ProcessBase {
     this._registers.setValue('p', id);
   }
 
-  get isBlocked () {
+  get isBlocked() {
     return this._isWaiting && this._messageQueue.length === 0;
   }
 
-  runNext () {
+  runNext() {
     do {
       this._processInstruction(this._instructions[this._instructionIndex]);
     } while (!this._isWaiting);
   }
 
-  setSendHandler (func) {
+  setSendHandler(func) {
     this._sendHandler = func;
   }
 
-  onMessageReceived (msg) {
+  onMessageReceived(msg) {
     this._messageQueue.push(msg);
   }
 
-  _snd (registerName) {
+  _snd(registerName) {
     const value = this._registers.getValue(registerName);
     this._sendHandler(value);
     this._instructionIndex++;
   }
 
-  _rcv (registerName) {
+  _rcv(registerName) {
     if (this._messageQueue.length > 0) {
       this._isWaiting = false;
       this._registers.setValue(registerName, this._messageQueue.shift());
@@ -206,7 +206,7 @@ class Part2Process extends ProcessBase {
 }
 
 class Day18 {
-  static * parseInstructions (str) {
+  static *parseInstructions(str) {
     const regexp = /^([a-z]+) ([0-9a-z]+)(?: (-?[0-9]+|[a-z]+))?$/gm;
     let result = null;
 
@@ -218,12 +218,12 @@ class Day18 {
     } while (result != null);
   }
 
-  static runPart1 (instructions) {
+  static runPart1(instructions) {
     const incorrectProcess = new Part1Process(instructions);
     return incorrectProcess.execute();
   }
 
-  static runPart2 (instructions) {
+  static runPart2(instructions) {
     let sendCount = 0;
 
     const correctProcess0 = new Part2Process(instructions, 0);
@@ -245,14 +245,11 @@ class Day18 {
     return sendCount;
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const instructions = Array.from(this.parseInstructions(fileContent));
 
-    return [
-      this.runPart1(instructions),
-      this.runPart2(instructions)
-    ];
+    return [this.runPart1(instructions), this.runPart2(instructions)];
   }
 }
 

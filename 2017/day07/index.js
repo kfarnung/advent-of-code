@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class ProgramNode {
-  constructor (name) {
+  constructor(name) {
     this._name = name;
 
     this._weight = -1;
@@ -9,39 +9,39 @@ class ProgramNode {
     this._childNodes = [];
   }
 
-  get name () {
+  get name() {
     return this._name;
   }
 
-  get weight () {
+  get weight() {
     return this._weight;
   }
 
-  set weight (val) {
+  set weight(val) {
     this._weight = val;
   }
 
-  get parent () {
+  get parent() {
     return this._parent;
   }
 
-  set parent (node) {
+  set parent(node) {
     if (this._parent !== null) {
-      throw new Error('parent can\'t be set twice');
+      throw new Error("parent can't be set twice");
     }
 
     this._parent = node;
   }
 
-  get childNodes () {
+  get childNodes() {
     return this._childNodes;
   }
 
-  addChildNode (node) {
+  addChildNode(node) {
     this._childNodes.push(node);
   }
 
-  getTotalWeight () {
+  getTotalWeight() {
     let sum = 0;
 
     for (const child of this._childNodes) {
@@ -51,7 +51,7 @@ class ProgramNode {
     return sum + this._weight;
   }
 
-  getUnbalancedChild () {
+  getUnbalancedChild() {
     const map = new Map();
     for (const childNode of this._childNodes) {
       const totalWeight = childNode.getTotalWeight();
@@ -84,11 +84,11 @@ class ProgramNode {
 }
 
 class ProgramGraph {
-  constructor () {
+  constructor() {
     this._map = new Map();
   }
 
-  addRawData (rawData) {
+  addRawData(rawData) {
     const node = this.findOrCreateNode(rawData[0]);
     node.weight = rawData[1];
 
@@ -99,7 +99,7 @@ class ProgramGraph {
     }
   }
 
-  findOrCreateNode (name) {
+  findOrCreateNode(name) {
     let node = this._map.get(name);
 
     if (node === undefined) {
@@ -110,7 +110,7 @@ class ProgramGraph {
     return node;
   }
 
-  findRootNode () {
+  findRootNode() {
     const first = this._map.values().next();
     if (!first.done) {
       let rootNode = first.value;
@@ -122,12 +122,13 @@ class ProgramGraph {
     }
   }
 
-  getCorrectedWeight () {
+  getCorrectedWeight() {
     const unbalancedChild = this.findRootNode().getUnbalancedChild();
 
     for (const childNode of unbalancedChild.parent.childNodes) {
       if (childNode !== unbalancedChild) {
-        const diff = childNode.getTotalWeight() - unbalancedChild.getTotalWeight();
+        const diff =
+          childNode.getTotalWeight() - unbalancedChild.getTotalWeight();
         return unbalancedChild.weight + diff;
       }
     }
@@ -135,7 +136,7 @@ class ProgramGraph {
 }
 
 class Day07 {
-  static * parseRows (str) {
+  static *parseRows(str) {
     let current = '';
     let row = [];
 
@@ -160,7 +161,7 @@ class Day07 {
     }
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
 
     const graph = new ProgramGraph();
@@ -168,10 +169,7 @@ class Day07 {
       graph.addRawData(row);
     }
 
-    return [
-      graph.findRootNode().name,
-      graph.getCorrectedWeight()
-    ];
+    return [graph.findRootNode().name, graph.getCorrectedWeight()];
   }
 }
 

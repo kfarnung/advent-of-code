@@ -1,11 +1,11 @@
-const { performance } = require('perf_hooks');
+const {performance} = require('perf_hooks');
 
 if (process.argv.length < 3) {
   console.error('usage: node index.js <day> <input>');
   process.exit(-1);
 }
 
-async function run (module, input) {
+async function run(module, input) {
   const day = require(`./${module}`);
 
   const start = performance.now();

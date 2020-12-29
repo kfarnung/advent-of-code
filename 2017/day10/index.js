@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class Day10 {
-  static * parseData (str) {
+  static *parseData(str) {
     let current = '';
 
     for (const ch of str) {
@@ -14,7 +14,7 @@ class Day10 {
     }
   }
 
-  static * parseDataAsAscii (str) {
+  static *parseDataAsAscii(str) {
     for (const ch of str) {
       if (ch !== '\n') {
         yield ch.charCodeAt(0);
@@ -26,7 +26,7 @@ class Day10 {
     }
   }
 
-  static generateArray (start, length) {
+  static generateArray(start, length) {
     const arr = [];
     for (let i = start; i < length; i++) {
       arr.push(i);
@@ -35,7 +35,7 @@ class Day10 {
     return arr;
   }
 
-  static reverse (arr, start, length) {
+  static reverse(arr, start, length) {
     const range = Math.floor(length / 2);
     const arrLength = arr.length;
 
@@ -49,7 +49,7 @@ class Day10 {
     }
   }
 
-  static runHash (lengths, numRounds) {
+  static runHash(lengths, numRounds) {
     const arr = this.generateArray(0, 256);
     const arrLength = arr.length;
     let currentPosition = 0;
@@ -66,7 +66,7 @@ class Day10 {
     return arr;
   }
 
-  static calculateHash (str) {
+  static calculateHash(str) {
     const hash = this.runHash(Array.from(this.parseDataAsAscii(str)), 64);
 
     const hex = [];
@@ -84,7 +84,7 @@ class Day10 {
     return hex;
   }
 
-  static padLeft (str, width = 2, ch = '0') {
+  static padLeft(str, width = 2, ch = '0') {
     let retVal = '';
     for (let i = 0; i < width - str.length; i++) {
       retVal += ch;
@@ -94,7 +94,7 @@ class Day10 {
     return retVal;
   }
 
-  static getHashString (str) {
+  static getHashString(str) {
     const hash = this.calculateHash(str);
     const hexStr = [];
     for (const byte of hash) {
@@ -104,14 +104,11 @@ class Day10 {
     return hexStr.join('');
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const hash1 = this.runHash(Array.from(this.parseData(fileContent)), 1);
 
-    return [
-      hash1[0] * hash1[1],
-      this.getHashString(fileContent)
-    ];
+    return [hash1[0] * hash1[1], this.getHashString(fileContent)];
   }
 }
 

@@ -1,11 +1,11 @@
 const fs = require('fs');
 
 class Board {
-  constructor (input) {
+  constructor(input) {
     this._rows = Board._parseBoard(input);
   }
 
-  getValue (x, y) {
+  getValue(x, y) {
     if (y < this._rows.length && x < this._rows[y].length) {
       return this._rows[y][x];
     }
@@ -13,7 +13,7 @@ class Board {
     return ' ';
   }
 
-  findStart () {
+  findStart() {
     const row = this._rows[0];
     for (let x = 0; x < row.length; x++) {
       if (row[x] === '|') {
@@ -24,7 +24,7 @@ class Board {
     return null;
   }
 
-  findNextDelta (x, y, deltaX, deltaY) {
+  findNextDelta(x, y, deltaX, deltaY) {
     if (deltaX !== 0) {
       if (this.getValue(x, y - 1) !== ' ') {
         return [0, -1];
@@ -46,11 +46,17 @@ class Board {
     }
   }
 
-  static _parseBoard (str) {
+  static _parseBoard(str) {
     const rows = [];
     let row = [];
     for (const ch of str) {
-      if (ch === '-' || ch === '|' || ch === '+' || ch === ' ' || (ch >= 'A' && ch <= 'Z')) {
+      if (
+        ch === '-' ||
+        ch === '|' ||
+        ch === '+' ||
+        ch === ' ' ||
+        (ch >= 'A' && ch <= 'Z')
+      ) {
         row.push(ch);
       } else if (ch === '\n') {
         rows.push(row);
@@ -65,7 +71,7 @@ class Board {
 }
 
 class Day19 {
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const board = new Board(fileContent);
     const letters = [];
@@ -75,7 +81,7 @@ class Day19 {
     let deltaX = 0;
     let deltaY = 1;
 
-    while (true) {
+    for (;;) {
       const current = board.getValue(x, y);
       if (current >= 'A' && current <= 'Z') {
         letters.push(current);
@@ -92,10 +98,7 @@ class Day19 {
       numSteps++;
     }
 
-    return [
-      letters.join(''),
-      numSteps
-    ];
+    return [letters.join(''), numSteps];
   }
 }
 

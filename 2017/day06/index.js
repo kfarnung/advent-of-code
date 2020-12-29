@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class Day06 {
-  static * parseInt (str) {
+  static *parseInt(str) {
     let current = '';
 
     for (const ch of str) {
@@ -14,7 +14,7 @@ class Day06 {
     }
   }
 
-  static findMaxIndex (arr) {
+  static findMaxIndex(arr) {
     let max = 0;
     let index = 0;
 
@@ -28,11 +28,11 @@ class Day06 {
     return index;
   }
 
-  static findCycle (arr) {
+  static findCycle(arr) {
     const map = new Map();
     let cycleCount = 0;
 
-    while (true) {
+    for (;;) {
       const key = arr.join();
       if (map.has(key)) {
         return { cycleCount, cycleSize: cycleCount - map.get(key) };
@@ -53,14 +53,13 @@ class Day06 {
     }
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
 
-    const { cycleCount, cycleSize } = this.findCycle(Array.from(this.parseInt(fileContent)));
-    return [
-      cycleCount,
-      cycleSize
-    ];
+    const { cycleCount, cycleSize } = this.findCycle(
+      Array.from(this.parseInt(fileContent))
+    );
+    return [cycleCount, cycleSize];
   }
 }
 

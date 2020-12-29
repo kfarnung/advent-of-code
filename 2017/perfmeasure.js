@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { performance } = require('perf_hooks');
+const {performance} = require('perf_hooks');
 
 const argv = require('minimist')(process.argv.slice(2));
 let filter = null;
@@ -18,7 +18,7 @@ if (argv.n) {
 
 const csvFile = argv.csv;
 
-async function runPerfTests (filter = null, iterations = 1, csvFile = null) {
+async function runPerfTests(filter = null, iterations = 1, csvFile = null) {
   const content = fs.readFileSync(path.resolve(__dirname, './.vscode/launch.json'), 'utf8');
   const json = JSON.parse(content.replace(/^\s*\/\/ .+/mg, ''));
 

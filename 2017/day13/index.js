@@ -1,33 +1,33 @@
 const fs = require('fs');
 
 class FirewallLayer {
-  constructor (depth, range) {
+  constructor(depth, range) {
     this._depth = depth;
     this._range = range;
   }
 
-  get severity () {
+  get severity() {
     return this._depth * this._range;
   }
 
-  isAtTop (time) {
-    return (time % ((this._range - 1) * 2)) === 0;
+  isAtTop(time) {
+    return time % ((this._range - 1) * 2) === 0;
   }
 }
 
 class Firewall {
-  constructor () {
+  constructor() {
     this._layers = new Map();
     this._maxDepth = 0;
   }
 
-  addRawLayer (rawData) {
+  addRawLayer(rawData) {
     const depth = rawData[0];
     this._maxDepth = Math.max(this._maxDepth, depth);
     this._layers.set(depth, new FirewallLayer(depth, rawData[1]));
   }
 
-  getSeverity () {
+  getSeverity() {
     let severity = 0;
 
     for (let i = 0; i <= this._maxDepth; i++) {
@@ -42,7 +42,7 @@ class Firewall {
     return severity;
   }
 
-  isCaught (delay = 0) {
+  isCaught(delay = 0) {
     for (let i = 0; i <= this._maxDepth; i++) {
       const layer = this._layers.get(i);
       if (layer !== undefined) {
@@ -55,7 +55,7 @@ class Firewall {
     return false;
   }
 
-  findSafeDelay () {
+  findSafeDelay() {
     let delay = -1;
 
     while (this.isCaught(++delay)) {
@@ -67,7 +67,7 @@ class Firewall {
 }
 
 class Day13 {
-  static * parseRows (str) {
+  static *parseRows(str) {
     let current = '';
     let row = [];
 
@@ -88,7 +88,7 @@ class Day13 {
     }
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const firewall = new Firewall();
 
@@ -96,10 +96,7 @@ class Day13 {
       firewall.addRawLayer(row);
     }
 
-    return [
-      firewall.getSeverity(0),
-      firewall.findSafeDelay()
-    ];
+    return [firewall.getSeverity(0), firewall.findSafeDelay()];
   }
 }
 

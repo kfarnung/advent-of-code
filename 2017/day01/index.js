@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class Day01 {
-  static sumString (str, offset = 1) {
+  static sumString(str, offset = 1) {
     let sum = 0;
     const length = str.length;
 
@@ -14,17 +14,14 @@ class Day01 {
     return sum;
   }
 
-  static sumStringHalfway (str) {
+  static sumStringHalfway(str) {
     return this.sumString(str, Math.floor(str.length / 2));
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8').trim();
 
-    return [
-      this.sumString(fileContent),
-      this.sumStringHalfway(fileContent)
-    ];
+    return [this.sumString(fileContent), this.sumStringHalfway(fileContent)];
   }
 }
 

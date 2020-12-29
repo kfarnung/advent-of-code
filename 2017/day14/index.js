@@ -1,7 +1,8 @@
+const fs = require('fs');
 const Day10 = require('../day10');
 
 class UsageMap {
-  constructor (key) {
+  constructor(key) {
     this._rows = [];
 
     for (let i = 0; i < 128; i++) {
@@ -9,7 +10,7 @@ class UsageMap {
     }
   }
 
-  getBitCount () {
+  getBitCount() {
     let count = 0;
     for (let i = 0; i < 128; i++) {
       for (let j = 0; j < 128; j++) {
@@ -20,7 +21,7 @@ class UsageMap {
     return count;
   }
 
-  getGroupCount () {
+  getGroupCount() {
     let groupCount = 0;
     const visited = new Set();
     for (let i = 0; i < 128; i++) {
@@ -36,16 +37,16 @@ class UsageMap {
     return groupCount;
   }
 
-  _getBitAt (row, column) {
+  _getBitAt(row, column) {
     const index = Math.floor(column / 8);
-    const bit = 7 - column % 8;
+    const bit = 7 - (column % 8);
 
     const val = this._rows[row][index];
 
-    return ((val >> bit) & 1);
+    return (val >> bit) & 1;
   }
 
-  _findGroup (visited, row, column) {
+  _findGroup(visited, row, column) {
     const queue = [];
 
     if (this._getBitAt(row, column) === 0) {
@@ -57,8 +58,10 @@ class UsageMap {
     while (queue.length > 0) {
       const [currentRow, currentColumn] = queue.shift();
 
-      if (!visited.has([currentRow, currentColumn].join(',')) &&
-          this._getBitAt(currentRow, currentColumn) === 1) {
+      if (
+        !visited.has([currentRow, currentColumn].join(',')) &&
+        this._getBitAt(currentRow, currentColumn) === 1
+      ) {
         visited.add([currentRow, currentColumn].join(','));
 
         if (currentRow > 0) {
@@ -84,13 +87,11 @@ class UsageMap {
 }
 
 class Day14 {
-  static run (input) {
-    const usageMap = new UsageMap(input);
+  static run(input) {
+    const fileContent = fs.readFileSync(input, 'utf8');
+    const usageMap = new UsageMap(fileContent.trim());
 
-    return [
-      usageMap.getBitCount(),
-      usageMap.getGroupCount()
-    ];
+    return [usageMap.getBitCount(), usageMap.getGroupCount()];
   }
 }
 

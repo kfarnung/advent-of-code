@@ -1,30 +1,30 @@
 const fs = require('fs');
 
 class ProgramNode {
-  constructor (id) {
+  constructor(id) {
     this._id = id;
     this._neighbors = [];
   }
 
-  get id () {
+  get id() {
     return this._id;
   }
 
-  get neighbors () {
+  get neighbors() {
     return this._neighbors;
   }
 
-  addNeighbor (node) {
+  addNeighbor(node) {
     this._neighbors.push(node);
   }
 }
 
 class ProgramGraph {
-  constructor () {
+  constructor() {
     this._map = new Map();
   }
 
-  addRawData (rawData) {
+  addRawData(rawData) {
     const node = this.findOrCreateNode(rawData[0]);
 
     for (const childId of rawData.slice(1)) {
@@ -34,7 +34,7 @@ class ProgramGraph {
     }
   }
 
-  findOrCreateNode (id) {
+  findOrCreateNode(id) {
     let node = this._map.get(id);
 
     if (node === undefined) {
@@ -45,7 +45,7 @@ class ProgramGraph {
     return node;
   }
 
-  countNodesInGroup (id, visited = new Set()) {
+  countNodesInGroup(id, visited = new Set()) {
     const processingQueue = [];
     processingQueue.push(this.findOrCreateNode(id));
 
@@ -64,7 +64,7 @@ class ProgramGraph {
     return visited.size;
   }
 
-  countGroups () {
+  countGroups() {
     const visited = new Set();
     let groupCount = 0;
 
@@ -80,7 +80,7 @@ class ProgramGraph {
 }
 
 class Day12 {
-  static * parseRows (str) {
+  static *parseRows(str) {
     let current = '';
     let row = [];
 
@@ -101,7 +101,7 @@ class Day12 {
     }
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
 
     const graph = new ProgramGraph();
@@ -109,10 +109,7 @@ class Day12 {
       graph.addRawData(row);
     }
 
-    return [
-      graph.countNodesInGroup(0),
-      graph.countGroups()
-    ];
+    return [graph.countNodesInGroup(0), graph.countGroups()];
   }
 }
 

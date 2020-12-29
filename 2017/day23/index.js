@@ -1,31 +1,31 @@
 const fs = require('fs');
 
 class Instruction {
-  constructor (operation, registerName, value) {
+  constructor(operation, registerName, value) {
     this._operation = operation;
     this._registerName = registerName;
     this._value = value;
   }
 
-  get operation () {
+  get operation() {
     return this._operation;
   }
 
-  get registerName () {
+  get registerName() {
     return this._registerName;
   }
 
-  get value () {
+  get value() {
     return this._value;
   }
 }
 
 class Registers {
-  constructor () {
+  constructor() {
     this._map = new Map();
   }
 
-  getValue (name) {
+  getValue(name) {
     const value = this._map.get(name);
     if (value !== undefined) {
       return value;
@@ -34,20 +34,20 @@ class Registers {
     return 0;
   }
 
-  setValue (name, value) {
+  setValue(name, value) {
     this._map.set(name, value);
   }
 }
 
 class Process {
-  constructor (instructions) {
+  constructor(instructions) {
     this._registers = new Registers();
     this._instructions = Array.from(instructions);
     this._instructionIndex = 0;
     this._countMul = 0;
   }
 
-  execute () {
+  execute() {
     while (this._instructionIndex < this._instructions.length) {
       this._processInstruction(this._instructions[this._instructionIndex]);
     }
@@ -55,7 +55,7 @@ class Process {
     return this._countMul;
   }
 
-  _processInstruction (instruction) {
+  _processInstruction(instruction) {
     switch (instruction.operation) {
       case 'set':
         this._set(instruction.registerName, instruction.value);
@@ -78,25 +78,25 @@ class Process {
     }
   }
 
-  _set (registerName, value) {
+  _set(registerName, value) {
     this._registers.setValue(registerName, this._toNumValue(value));
     this._instructionIndex++;
   }
 
-  _sub (registerName, value) {
+  _sub(registerName, value) {
     const current = this._registers.getValue(registerName);
     this._registers.setValue(registerName, current - this._toNumValue(value));
     this._instructionIndex++;
   }
 
-  _mul (registerName, value) {
+  _mul(registerName, value) {
     this._countMul++;
     const current = this._registers.getValue(registerName);
     this._registers.setValue(registerName, current * this._toNumValue(value));
     this._instructionIndex++;
   }
 
-  _jnz (registerName, value) {
+  _jnz(registerName, value) {
     let current = Number.parseInt(registerName);
     if (Number.isNaN(current)) {
       current = this._registers.getValue(registerName);
@@ -109,7 +109,7 @@ class Process {
     }
   }
 
-  _toNumValue (value) {
+  _toNumValue(value) {
     let numValue = Number.parseInt(value);
     if (Number.isNaN(numValue)) {
       numValue = this._registers.getValue(value);
@@ -120,7 +120,7 @@ class Process {
 }
 
 class Day23 {
-  static * parseInstructions (str) {
+  static *parseInstructions(str) {
     const regexp = /^([a-z]+) ([0-9a-z]+)(?: (-?[0-9]+|[a-z]+))?$/gm;
     let result = null;
 
@@ -132,12 +132,12 @@ class Day23 {
     } while (result != null);
   }
 
-  static runPart1 (instructions) {
+  static runPart1(instructions) {
     const process = new Process(instructions);
     return process.execute();
   }
 
-  static runPart2 () {
+  static runPart2() {
     let b = 67 * 100 + 100000;
     const c = b + 17000;
     let g = 0;
@@ -187,14 +187,11 @@ class Day23 {
     return h;
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const instructions = Array.from(this.parseInstructions(fileContent));
 
-    return [
-      this.runPart1(instructions),
-      this.runPart2()
-    ];
+    return [this.runPart1(instructions), this.runPart2()];
   }
 }
 

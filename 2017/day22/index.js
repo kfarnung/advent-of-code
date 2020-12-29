@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class InfiniteGrid {
-  constructor (defaultValue = '.') {
+  constructor(defaultValue = '.') {
     this._defaultValue = defaultValue;
     this._ne = [];
     this._nw = [];
@@ -9,7 +9,7 @@ class InfiniteGrid {
     this._sw = [];
   }
 
-  getValue (x, y) {
+  getValue(x, y) {
     const { grid, adjX, adjY } = this._translateCoodinates(x, y);
 
     const row = grid[adjX];
@@ -23,7 +23,7 @@ class InfiniteGrid {
     return this._defaultValue;
   }
 
-  setValue (x, y, value) {
+  setValue(x, y, value) {
     const { grid, adjX, adjY } = this._translateCoodinates(x, y);
 
     let row = grid[adjX];
@@ -35,7 +35,7 @@ class InfiniteGrid {
     row[adjY] = value;
   }
 
-  _translateCoodinates (x, y) {
+  _translateCoodinates(x, y) {
     let grid = null;
     if (x >= 0) {
       if (y >= 0) {
@@ -59,44 +59,44 @@ class InfiniteGrid {
 }
 
 class Vector2d {
-  constructor (x, y) {
+  constructor(x, y) {
     this._x = x;
     this._y = y;
   }
 
-  get x () {
+  get x() {
     return this._x;
   }
 
-  get y () {
+  get y() {
     return this._y;
   }
 
-  add (other) {
+  add(other) {
     this._x += other._x;
     this._y += other._y;
   }
 
-  rotateLeft () {
+  rotateLeft() {
     const newX = this._y * -1;
     this._y = this._x;
     this._x = newX;
   }
 
-  rotateRight () {
+  rotateRight() {
     const newX = this._y;
     this._y = this._x * -1;
     this._x = newX;
   }
 
-  reverse () {
+  reverse() {
     this._x *= -1;
     this._y *= -1;
   }
 }
 
 class InfectionAgent {
-  constructor (grid, evolution = false) {
+  constructor(grid, evolution = false) {
     this._grid = grid;
     this._evolution = evolution;
     this._current = new Vector2d(0, 0);
@@ -104,11 +104,11 @@ class InfectionAgent {
     this._infectedCount = 0;
   }
 
-  get infectedCount () {
+  get infectedCount() {
     return this._infectedCount;
   }
 
-  burst () {
+  burst() {
     const currentValue = this._grid.getValue(this._current.x, this._current.y);
     if (currentValue === '.') {
       this._direction.rotateLeft();
@@ -142,7 +142,7 @@ class InfectionAgent {
 }
 
 class Day22 {
-  static * parseGrid (str) {
+  static *parseGrid(str) {
     const regexp = /^[.#]+$/gm;
     let result = null;
 
@@ -154,7 +154,7 @@ class Day22 {
     } while (result != null);
   }
 
-  static fillGrid (grid, data) {
+  static fillGrid(grid, data) {
     const deltaX = Math.floor(data[0].length / 2);
     const deltaY = Math.floor(data.length / 2);
 
@@ -165,7 +165,7 @@ class Day22 {
     }
   }
 
-  static runInfection (startingGrid, numBursts = 10000, evolution = false) {
+  static runInfection(startingGrid, numBursts = 10000, evolution = false) {
     const grid = new InfiniteGrid();
     this.fillGrid(grid, startingGrid);
     const agent = new InfectionAgent(grid, evolution);
@@ -177,13 +177,13 @@ class Day22 {
     return agent.infectedCount;
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const startingGrid = Array.from(this.parseGrid(fileContent));
 
     return [
       this.runInfection(startingGrid),
-      this.runInfection(startingGrid, 10000000, true)
+      this.runInfection(startingGrid, 10000000, true),
     ];
   }
 }

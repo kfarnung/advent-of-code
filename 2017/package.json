@@ -7,13 +7,14 @@
     "minimist": "^1.2.3"
   },
   "devDependencies": {
-    "mocha": "^8.2.1",
-    "semistandard": "^16.0.0"
+    "eslint": "^7.16.0",
+    "jest": "^26.6.3"
   },
   "scripts": {
-    "lint": "semistandard",
-    "lint-fix": "semistandard --fix",
-    "test": "semistandard && mocha"
+    "lint": "eslint .",
+    "lint-fix": "eslint --fix .",
+    "pretest": "npm run lint",
+    "test": "jest"
   },
   "repository": {
     "type": "git",

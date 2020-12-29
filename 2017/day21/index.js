@@ -1,15 +1,15 @@
 const fs = require('fs');
 
 class Image {
-  constructor (pixels = []) {
+  constructor(pixels = []) {
     this._pixels = pixels;
   }
 
-  get size () {
+  get size() {
     return this._pixels.length;
   }
 
-  static fromString (str) {
+  static fromString(str) {
     const arr = [];
 
     for (const strRow of str.split('/')) {
@@ -24,7 +24,7 @@ class Image {
     return new Image(arr);
   }
 
-  getPixel (row, column) {
+  getPixel(row, column) {
     if (row > this._pixels.length - 1) {
       throw new Error('Invalid row value');
     }
@@ -38,7 +38,7 @@ class Image {
     return pixelRow[column];
   }
 
-  setPixel (row, column, value) {
+  setPixel(row, column, value) {
     let pixelRow = this._pixels[row];
     if (pixelRow === undefined) {
       pixelRow = [];
@@ -48,7 +48,7 @@ class Image {
     pixelRow[column] = value;
   }
 
-  getSubImage (row, column, height, width) {
+  getSubImage(row, column, height, width) {
     const subImage = [];
     for (let i = row; i < row + height; i++) {
       subImage.push(this._pixels[i].slice(column, column + width));
@@ -57,7 +57,7 @@ class Image {
     return new Image(subImage);
   }
 
-  * getPermutations () {
+  *getPermutations() {
     for (let i = 0; i < 4; i++) {
       this.flipVertical();
       yield this.toString();
@@ -75,7 +75,7 @@ class Image {
     }
   }
 
-  flipHorizontal () {
+  flipHorizontal() {
     const size = this._pixels.length;
     for (let i = 0; i < size; i++) {
       for (let j = 0; j < Math.floor(size / 2); j++) {
@@ -84,7 +84,7 @@ class Image {
     }
   }
 
-  flipVertical () {
+  flipVertical() {
     const size = this._pixels.length;
     for (let i = 0; i < Math.floor(size / 2); i++) {
       for (let j = 0; j < size; j++) {
@@ -93,7 +93,7 @@ class Image {
     }
   }
 
-  rotateRight () {
+  rotateRight() {
     const size = this._pixels.length;
     for (let i = 0; i < Math.floor(size / 2); i++) {
       for (let j = i; j < size - i - 1; j++) {
@@ -104,7 +104,7 @@ class Image {
     }
   }
 
-  countPixels (ch = '#') {
+  countPixels(ch = '#') {
     let count = 0;
     for (const row of this._pixels) {
       for (const pixel of row) {
@@ -117,11 +117,11 @@ class Image {
     return count;
   }
 
-  toString () {
+  toString() {
     return this._pixels.map((value) => value.join('')).join('/');
   }
 
-  _swap (aRow, aColumn, bRow, bColumn) {
+  _swap(aRow, aColumn, bRow, bColumn) {
     const temp = this._pixels[aRow][aColumn];
     this._pixels[aRow][aColumn] = this._pixels[bRow][bColumn];
     this._pixels[bRow][bColumn] = temp;
@@ -129,28 +129,31 @@ class Image {
 }
 
 class EnhancementRule {
-  constructor (search, replacement) {
+  constructor(search, replacement) {
     this._search = Image.fromString(search);
     this._replacement = Image.fromString(replacement);
   }
 
-  get replacement () {
+  get replacement() {
     return this._replacement;
   }
 
-  getPermutations () {
+  getPermutations() {
     return Array.from(this._search.getPermutations());
   }
 }
 
 class EnhancementRunner {
-  constructor (rules) {
+  constructor(rules) {
     this._rules = new Map();
 
     for (const rule of rules) {
       const permutations = rule.getPermutations();
       for (const permutation of permutations) {
-        if (this._rules.has(permutation) && this._rules.get(permutation) !== rule) {
+        if (
+          this._rules.has(permutation) &&
+          this._rules.get(permutation) !== rule
+        ) {
           throw new Error('Duplicate pattern');
         }
 
@@ -159,7 +162,7 @@ class EnhancementRunner {
     }
   }
 
-  enhance (image) {
+  enhance(image) {
     const imageSize = image.size;
     const squareSize = EnhancementRunner._getSquareSize(imageSize);
     const numSquares = imageSize / squareSize;
@@ -174,7 +177,7 @@ class EnhancementRunner {
     return newImage;
   }
 
-  static _getSquareSize (imageSize) {
+  static _getSquareSize(imageSize) {
     if (imageSize % 2 === 0) {
       return 2;
     } else if (imageSize % 3 === 0) {
@@ -184,21 +187,32 @@ class EnhancementRunner {
     }
   }
 
-  _enhanceSegment (image, row, column, squareSize, newImage) {
-    const subImage = image.getSubImage(row * squareSize, column * squareSize, squareSize, squareSize).toString();
+  _enhanceSegment(image, row, column, squareSize, newImage) {
+    const subImage = image
+      .getSubImage(
+        row * squareSize,
+        column * squareSize,
+        squareSize,
+        squareSize
+      )
+      .toString();
     const replacement = this._rules.get(subImage).replacement;
     const newSquareSize = replacement.size;
 
     for (let i = 0; i < newSquareSize; i++) {
       for (let j = 0; j < newSquareSize; j++) {
-        newImage.setPixel(row * newSquareSize + i, column * newSquareSize + j, replacement.getPixel(i, j));
+        newImage.setPixel(
+          row * newSquareSize + i,
+          column * newSquareSize + j,
+          replacement.getPixel(i, j)
+        );
       }
     }
   }
 }
 
 class Day21 {
-  static * parseRules (str) {
+  static *parseRules(str) {
     const regexp = /^([.#/]+) => ([.#/]+)$/gm;
     let result = null;
 
@@ -210,7 +224,7 @@ class Day21 {
     } while (result != null);
   }
 
-  static * run (input) {
+  static *run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const rules = this.parseRules(fileContent);
     const runner = new EnhancementRunner(rules);

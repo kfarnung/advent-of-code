@@ -1,5 +1,7 @@
+const fs = require('fs');
+
 class Day17 {
-  static part1 (stepSize) {
+  static part1(stepSize) {
     const spinlock = [0];
     let currentPosition = 0;
     for (let i = 1; i < 2018; i++) {
@@ -10,7 +12,7 @@ class Day17 {
     return spinlock[currentPosition + 1];
   }
 
-  static part2 (stepSize) {
+  static part2(stepSize) {
     let currentPosition = 0;
     let afterZero = 0;
     for (let i = 1; i < 50000000; i++) {
@@ -23,13 +25,11 @@ class Day17 {
     return afterZero;
   }
 
-  static run (input) {
-    const stepSize = Number.parseInt(input);
+  static run(input) {
+    const fileContent = fs.readFileSync(input, 'utf8');
+    const stepSize = Number.parseInt(fileContent.trim());
 
-    return [
-      this.part1(stepSize),
-      this.part2(stepSize)
-    ];
+    return [this.part1(stepSize), this.part2(stepSize)];
   }
 }
 

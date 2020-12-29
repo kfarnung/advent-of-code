@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class Day11 {
-  static * parseData (str) {
+  static *parseData(str) {
     let current = '';
 
     for (const ch of str) {
@@ -14,18 +14,18 @@ class Day11 {
     }
   }
 
-  static getDistance (x, y) {
+  static getDistance(x, y) {
     const absX = Math.abs(x);
     const absY = Math.abs(y);
 
     if (absX >= absY) {
       return absX;
     } else {
-      return absX + ((absY - absX) / 2);
+      return absX + (absY - absX) / 2;
     }
   }
 
-  static run (input) {
+  static run(input) {
     const fileContent = fs.readFileSync(input, 'utf8');
     const directions = this.parseData(fileContent);
 
@@ -70,10 +70,7 @@ class Day11 {
       max = Math.max(max, this.getDistance(x, y));
     }
 
-    return [
-      this.getDistance(x, y),
-      max
-    ];
+    return [this.getDistance(x, y), max];
   }
 }
 
