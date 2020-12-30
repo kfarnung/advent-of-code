@@ -9,7 +9,7 @@ from __future__ import print_function
 from collections import deque
 
 
-class Point4D(object):
+class Point4D:
     """Represents a point in 4D space."""
 
     def __init__(self, w, x, y, z):
@@ -36,7 +36,7 @@ class Point4D(object):
         )
 
 
-class FixedPointInSpacetime(object):
+class FixedPointInSpacetime:
     """Represents a fixed point in spacetime as defined by the puzzle."""
 
     def __init__(self, coord):

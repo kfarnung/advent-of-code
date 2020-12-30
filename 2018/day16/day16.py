@@ -141,7 +141,7 @@ def _get_instruction_map(samples):
                         for key, value in probabilities.items() if len(value) == 1]
         for match in single_match:
             del probabilities[match[0]]
-            item = [item for item in match[1]][0]
+            item = list(item for item in match[1])[0]
             instruction_map[match[0]] = item
 
             for value in probabilities.values():

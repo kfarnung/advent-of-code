@@ -36,6 +36,7 @@ class RecipeGenerator:
         return recipe
 
     def next(self):
+        """Gets the next recipe generated."""
         return self.__next__()
 
     def skip(self, count):

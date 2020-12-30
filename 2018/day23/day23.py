@@ -13,7 +13,7 @@ from operator import attrgetter
 _POSITIONS_REGEX = re.compile(r'^pos=<(-?\d+),(-?\d+),(-?\d+)>, r=(\d+)$')
 
 
-class Point3D(object):
+class Point3D:
     """Represents a point in 3D space."""
 
     def __init__(self, coord_x, coord_y, coord_z):
@@ -65,7 +65,7 @@ class Point3D(object):
         )
 
 
-class Rect3D(object):
+class Rect3D:
     """Represents a rectangle in 3D space."""
 
     def __init__(self, negative_corner, positive_corner):
@@ -140,7 +140,7 @@ class Rect3D(object):
         return Rect3D(negative_corner, positive_corner)
 
 
-class NanoBot(object):
+class NanoBot:
     """Represents a single nanobot."""
 
     def __init__(self, position, signal_radius):

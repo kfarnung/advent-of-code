@@ -51,7 +51,7 @@ class Battle:
                     raise Exception('Unexpected tile type')
 
     def __str__(self):
-        board = [[col for col in row] for row in self.board]
+        board = [col for col in row for row in self.board]
         for unit in self.units:
             if not unit.is_alive():
                 continue

@@ -85,7 +85,7 @@ class CartTrack:
     """Represents the current state of the cart track."""
 
     def __init__(self, content):
-        self.grid = [[cell for cell in row] for row in content]
+        self.grid = [list(cell for cell in row) for row in content]
         self.carts = []
 
         for row_index, row in enumerate(self.grid):
