@@ -12,6 +12,90 @@ _IP_REGEX = re.compile(r'^#ip (\d)$')
 _INSTRUCTION_REGEX = re.compile(r'^([a-z]+) (\d+) (\d+) (\d+)$')
 
 
+def _addr(registers, in_a, in_b, out_c):
+    registers[out_c] = registers[in_a] + registers[in_b]
+
+
+def _addi(registers, in_a, in_b, out_c):
+    registers[out_c] = registers[in_a] + in_b
+
+
+def _mulr(registers, in_a, in_b, out_c):
+    registers[out_c] = registers[in_a] * registers[in_b]
+
+
+def _muli(registers, in_a, in_b, out_c):
+    registers[out_c] = registers[in_a] * in_b
+
+
+def _banr(registers, in_a, in_b, out_c):
+    registers[out_c] = registers[in_a] & registers[in_b]
+
+
+def _bani(registers, in_a, in_b, out_c):
+    registers[out_c] = registers[in_a] & in_b
+
+
+def _borr(registers, in_a, in_b, out_c):
+    registers[out_c] = registers[in_a] | registers[in_b]
+
+
+def _bori(registers, in_a, in_b, out_c):
+    registers[out_c] = registers[in_a] | in_b
+
+
+def _setr(registers, in_a, _in_b, out_c):
+    registers[out_c] = registers[in_a]
+
+
+def _seti(registers, in_a, _in_b, out_c):
+    registers[out_c] = in_a
+
+
+def _gtir(registers, in_a, in_b, out_c):
+    registers[out_c] = 1 if in_a > registers[in_b] else 0
+
+
+def _gtri(registers, in_a, in_b, out_c):
+    registers[out_c] = 1 if registers[in_a] > in_b else 0
+
+
+def _gtrr(registers, in_a, in_b, out_c):
+    registers[out_c] = 1 if registers[in_a] > registers[in_b] else 0
+
+
+def _eqir(registers, in_a, in_b, out_c):
+    registers[out_c] = 1 if in_a == registers[in_b] else 0
+
+
+def _eqri(registers, in_a, in_b, out_c):
+    registers[out_c] = 1 if registers[in_a] == in_b else 0
+
+
+def _eqrr(registers, in_a, in_b, out_c):
+    registers[out_c] = 1 if registers[in_a] == registers[in_b] else 0
+
+
+_INSTRUCTION_HANDLERS = {
+    'addr': _addr,
+    'addi': _addi,
+    'mulr': _mulr,
+    'muli': _muli,
+    'banr': _banr,
+    'bani': _bani,
+    'borr': _borr,
+    'bori': _bori,
+    'setr': _setr,
+    'seti': _seti,
+    'gtir': _gtir,
+    'gtri': _gtri,
+    'gtrr': _gtrr,
+    'eqir': _eqir,
+    'eqri': _eqri,
+    'eqrr': _eqrr,
+}
+
+
 class Device:
     """Represents the current state of the device."""
 
@@ -20,52 +104,22 @@ class Device:
 
     def execute_program(self, reg_ip, instructions, instruction_index, register_index):
         """Executes the entire program given an instruction-pointer register and instructions."""
-        instruction_pointer = 0
-        while 0 <= instruction_pointer < len(instructions):
-            if instruction_index == instruction_pointer:
-                yield self.registers[register_index]
-            self.registers[reg_ip] = instruction_pointer
-            instruction = instructions[instruction_pointer]
-            self._execute(instruction[0], instruction[1],
-                          instruction[2], instruction[3])
-            instruction_pointer = self.registers[reg_ip] + 1
+        registers = self.registers
+        instruction_count = len(instructions)
+        instruction_pointer = registers[reg_ip]
 
-    def _execute(self, name, in_a, in_b, out_c):
-        """Executes the given instruction."""
-        if name == 'addr':
-            self.registers[out_c] = self.registers[in_a] + self.registers[in_b]
-        elif name == 'addi':
-            self.registers[out_c] = self.registers[in_a] + in_b
-        elif name == 'mulr':
-            self.registers[out_c] = self.registers[in_a] * self.registers[in_b]
-        elif name == 'muli':
-            self.registers[out_c] = self.registers[in_a] * in_b
-        elif name == 'banr':
-            self.registers[out_c] = self.registers[in_a] & self.registers[in_b]
-        elif name == 'bani':
-            self.registers[out_c] = self.registers[in_a] & in_b
-        elif name == 'borr':
-            self.registers[out_c] = self.registers[in_a] | self.registers[in_b]
-        elif name == 'bori':
-            self.registers[out_c] = self.registers[in_a] | in_b
-        elif name == 'setr':
-            self.registers[out_c] = self.registers[in_a]
-        elif name == 'seti':
-            self.registers[out_c] = in_a
-        elif name == 'gtir':
-            self.registers[out_c] = 1 if in_a > self.registers[in_b] else 0
-        elif name == 'gtri':
-            self.registers[out_c] = 1 if self.registers[in_a] > in_b else 0
-        elif name == 'gtrr':
-            self.registers[out_c] = 1 if self.registers[in_a] > self.registers[in_b] else 0
-        elif name == 'eqir':
-            self.registers[out_c] = 1 if in_a == self.registers[in_b] else 0
-        elif name == 'eqri':
-            self.registers[out_c] = 1 if self.registers[in_a] == in_b else 0
-        elif name == 'eqrr':
-            self.registers[out_c] = 1 if self.registers[in_a] == self.registers[in_b] else 0
-        else:
-            raise Exception('Invalid opcode')
+        while 0 <= instruction_pointer < instruction_count:
+            instruction = instructions[instruction_pointer]
+            instruction[0](registers, instruction[1],
+                           instruction[2], instruction[3])
+
+            instruction_pointer = registers[reg_ip] + 1
+            registers[reg_ip] = instruction_pointer
+
+            if instruction_index == instruction_pointer:
+                break
+
+        return registers[register_index]
 
 
 def _parse_program(file_content):
@@ -79,7 +133,7 @@ def _parse_program(file_content):
 
         match = _INSTRUCTION_REGEX.match(line)
         if match:
-            instruction = [match.group(1)]
+            instruction = [_INSTRUCTION_HANDLERS[match.group(1)]]
             instruction += [int(group) for group in match.groups()[1:]]
             instructions.append(instruction)
 
@@ -93,8 +147,7 @@ def run_part1(file_content):
 
     instr_index = 28
     reg_index = instructions[instr_index][1]
-    for value in device.execute_program(reg_ip, instructions, instr_index, reg_index):
-        return value
+    return device.execute_program(reg_ip, instructions, instr_index, reg_index)
 
 
 def run_part2(file_content):
@@ -106,7 +159,10 @@ def run_part2(file_content):
     reg_index = instructions[instr_index][1]
     seen = set()
     last = None
-    for value in device.execute_program(reg_ip, instructions, instr_index, reg_index):
+
+    while True:
+        value = device.execute_program(
+            reg_ip, instructions, instr_index, reg_index)
         if value in seen:
             return last
 
