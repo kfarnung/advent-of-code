@@ -10,7 +10,7 @@ On the way to Jupiter, you're [pulled over](https://www.youtube.com/watch?v=KwY2
 
 "Attention, unmarked spacecraft! You are in violation of Space Law! All spacecraft must have a clearly visible _registration identifier_! You have 24 hours to comply or be sent to [Space Jail](https://www.youtube.com/watch?v=BVn1oQL9sWg&t=5)!"
 
-Not wanting to be sent to Space Jail, you radio back to the Elves on Earth for help. Although it takes almost three hours for their reply signal to reach you, they send instructions for how to power up the _emergency hull painting robot_ and even provide a small [Intcode program](9) (your puzzle input) that will cause it to paint your ship appropriately.
+Not wanting to be sent to Space Jail, you radio back to the Elves on Earth for help. Although it takes almost three hours for their reply signal to reach you, they send instructions for how to power up the _emergency hull painting robot_ and even provide a small [Intcode program](https://adventofcode.com/2019/day/9) (your puzzle input) that will cause it to paint your ship appropriately.
 
 There's just one problem: you don't have an emergency hull painting robot.
 

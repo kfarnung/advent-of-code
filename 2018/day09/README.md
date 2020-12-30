@@ -1,6 +1,6 @@
 # Day 9: Marble Mania
 
-[https://adventofcode.com/2018/day/9#part2](https://adventofcode.com/2018/day/9#part2)
+[https://adventofcode.com/2018/day/9](https://adventofcode.com/2018/day/9)
 
 ## Description
 
@@ -62,4 +62,4 @@ _What is the winning Elf's score?_
 
 Amused by the speed of your answer, the Elves are curious:
 
-_What would the winning Elf's score be if the number of the last marble were 100 times larger?_
+_What would the new winning Elf's score be if the number of the last marble were 100 times larger?_
