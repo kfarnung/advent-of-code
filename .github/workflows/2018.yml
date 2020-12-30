@@ -1,0 +1,37 @@
+name: Advent of Code 2018
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "2018/**"
+  pull_request:
+    paths:
+      - "2018/**"
+
+jobs:
+  build-2018:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "2018"
+    strategy:
+      matrix:
+        python-version: [2.7, 3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Lint with pylint
+        run: pylint ./day*/
+        if: ${{ !startsWith(matrix.python-version, '2.' )}}
+      - name: Test with pytest
+        run: pytest
