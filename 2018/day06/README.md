@@ -1,6 +1,6 @@
 # Day 6: Chronal Coordinates
 
-[https://adventofcode.com/2018/day/6#part2](https://adventofcode.com/2018/day/6#part2)
+[https://adventofcode.com/2018/day/6](https://adventofcode.com/2018/day/6)
 
 ## Description
 

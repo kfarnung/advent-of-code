@@ -10,7 +10,7 @@ Out here in deep space, many things can go wrong. Fortunately, many of those thi
 
 According to the readouts, the oxygen system must have failed days ago after a rupture in oxygen tank two; that section of the ship was automatically sealed once oxygen levels went dangerously low. A single remotely-operated _repair droid_ is your only option for fixing the oxygen system.
 
-The Elves' care package included an [Intcode](9) program (your puzzle input) that you can use to remotely control the repair droid. By running that program, you can direct the repair droid to the oxygen system and fix the problem.
+The Elves' care package included an [Intcode](https://adventofcode.com/2019/day/9) program (your puzzle input) that you can use to remotely control the repair droid. By running that program, you can direct the repair droid to the oxygen system and fix the problem.
 
 The remote control program executes the following steps in a loop forever:
 
@@ -83,7 +83,7 @@ Then, perhaps west (`3`) gets a reply of `0`, south (`2`) gets a reply of `1`, s
        #  
     
 
-Now, because of the reply of `2`, you know you've found the _oxygen system_! In this example, it was only `_2_` moves away from the repair droid's starting position.
+Now, because of the reply of `2`, you know you've found the _oxygen system_! In this example, it was only _`2`_ moves away from the repair droid's starting position.
 
 _What is the fewest number of movement commands_ required to move the repair droid from its starting position to the location of the oxygen system?
 
@@ -138,6 +138,6 @@ And finally, the whole region is full of oxygen after a total of four minutes:
      ###  
     
 
-So, in this example, all locations contain oxygen after `_4_` minutes.
+So, in this example, all locations contain oxygen after _`4`_ minutes.
 
 Use the repair droid to get a complete map of the area. _How many minutes will it take to fill with oxygen?_

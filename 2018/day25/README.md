@@ -40,7 +40,7 @@ Two points are in the same _constellation_ if their manhattan distance apart is 
     12,0,0,0
     
 
-In the above list, the first six points form a single constellation: `0,0,0,0` is exactly distance `3` from the next four, and the point at `0,0,0,6` is connected to the others by being `3` away from `0,0,0,3`, which is already in the constellation. The bottom two points, `9,0,0,0` and `12,0,0,0` are in a separate constellation because no point is close enough to connect them to the first constellation. So, in the above list, the number of constellations is `_2_`. (If a point at `6,0,0,0` were present, it would connect `3,0,0,0` and `9,0,0,0`, merging all of the points into a single giant constellation instead.)
+In the above list, the first six points form a single constellation: `0,0,0,0` is exactly distance `3` from the next four, and the point at `0,0,0,6` is connected to the others by being `3` away from `0,0,0,3`, which is already in the constellation. The bottom two points, `9,0,0,0` and `12,0,0,0` are in a separate constellation because no point is close enough to connect them to the first constellation. So, in the above list, the number of constellations is _`2`_. (If a point at `6,0,0,0` were present, it would connect `3,0,0,0` and `9,0,0,0`, merging all of the points into a single giant constellation instead.)
 
 In this example, the number of constellations is `4`:
 
@@ -92,7 +92,7 @@ _How many constellations are formed by the fixed points in spacetime?_
 
 A small glowing portal opens above the mug you prepared and just enough hot chocolate streams in to fill it. You suspect the reindeer has never encountered hot chocolate before, but seems to enjoy it anyway. You hope it works.
 
-It's time to start worrying about that _integer underflow in time itself_ you [set up a few days ago](21). You check the status of the device: "Insufficient chronal energy for activation. Energy required: _50 stars_."
+It's time to start worrying about that _integer underflow in time itself_ you [set up a few days ago](https://adventofcode.com/2018/day/21). You check the status of the device: "Insufficient chronal energy for activation. Energy required: _50 stars_."
 
 The reindeer bumps the device with its nose.
 
