@@ -10,23 +10,29 @@ import (
 )
 
 func playGame(numbers []int32, numTurns int32) int32 {
-	var turn, mostRecentNumber int32
-	numberHistory := make(map[int32][]int32)
-	for i, num := range numbers {
-		mostRecentNumber = num
-		numberHistory[num] = append(numberHistory[num], int32(i))
-		turn++
+	numberHistory := make(map[int32]int32)
+
+	// Fill the history with the previously seen numbers.
+	for i, num := range numbers[:len(numbers)-1] {
+		numberHistory[num] = int32(i)
 	}
 
-	for ; turn < numTurns; turn++ {
-		history := numberHistory[mostRecentNumber]
-		if len(history) == 1 {
-			mostRecentNumber = 0
-		} else {
-			mostRecentNumber = history[len(history)-1] - history[len(history)-2]
-		}
+	// Start with the last number from the list.
+	mostRecentNumber := numbers[len(numbers)-1]
 
-		numberHistory[mostRecentNumber] = append(numberHistory[mostRecentNumber], turn)
+	for turn := int32(len(numbers)); turn < numTurns; turn++ {
+		// Look up the most recent number and then update the history.
+		history, found := numberHistory[mostRecentNumber]
+		numberHistory[mostRecentNumber] = turn - 1
+
+		if found {
+			// Calculate the next number as the difference between last turn and
+			// the previous time it was seen.
+			mostRecentNumber = turn - history - 1
+		} else {
+			// Never seen before, default to zero.
+			mostRecentNumber = 0
+		}
 	}
 
 	return mostRecentNumber
