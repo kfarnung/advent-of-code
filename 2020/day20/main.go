@@ -143,7 +143,6 @@ func (t *tileGrid) RotateClockwise() {
 }
 
 func (t tileGrid) CountPattern(pattern map[lib.Point2D]rune) int {
-	fmt.Print(t)
 	count := 0
 
 OUTERLOOP:
