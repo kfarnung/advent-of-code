@@ -20,7 +20,9 @@ jobs:
         working-directory: "2018"
     strategy:
       matrix:
-        python-version: [2.7, 3.8]
+        python-version:
+          - pypy-2.7
+          - pypy-3.7
 
     steps:
       - uses: actions/checkout@v2
@@ -37,7 +39,7 @@ jobs:
 
       - name: Lint with pylint
         run: pylint ./day*/
-        if: ${{ !startsWith(matrix.python-version, '2.' )}}
+        if: ${{ !contains(matrix.python-version, '2.' )}}
 
       - name: Test with pytest
         run: pytest
