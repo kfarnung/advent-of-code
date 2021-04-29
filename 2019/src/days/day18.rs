@@ -80,58 +80,95 @@ impl Tunnels {
         }
     }
 
-    fn find_more_keys(
+    fn generate_graphs(&self) -> Vec<HashMap<char, Vec<(char, usize, TunnelKeys)>>> {
+        return self
+            .start
+            .iter()
+            .map(|x| {
+                let mut graph = HashMap::new();
+                let mut visited = HashSet::new();
+                let mut queue = VecDeque::new();
+
+                queue.push_back(('@', *x));
+
+                while !queue.is_empty() {
+                    let (value, position) = queue.pop_back().unwrap();
+                    visited.insert(position);
+
+                    let reachable_keys = self.find_reachable_keys(&position);
+                    let mut graph_nodes = Vec::new();
+                    for (position, value, distance, required_keys) in reachable_keys {
+                        graph_nodes.push((value, distance, required_keys));
+
+                        if visited.contains(&position) {
+                            continue;
+                        }
+
+                        queue.push_back((value, position));
+                    }
+
+                    graph.insert(value, graph_nodes);
+                }
+
+                return graph;
+            })
+            .collect();
+    }
+
+    fn find_reachable_keys(
         &self,
         start: &Point2D<i32>,
-        keys: &TunnelKeys,
-    ) -> Vec<(Point2D<i32>, usize, TunnelKeys)> {
+    ) -> Vec<(Point2D<i32>, char, usize, TunnelKeys)> {
         let mut queue = VecDeque::new();
         let mut visited = HashSet::new();
-        let mut accessible_keys = Vec::new();
-        let mut discovered_keys = keys.clone();
+        let mut reachable_keys = Vec::new();
+        queue.push_back((start.clone(), 0, TunnelKeys::new()));
 
-        queue.push_back((start.clone(), 0 as usize));
-
-        while !queue.is_empty() && discovered_keys != self.all_keys {
-            let (current_position, current_distance) = queue.pop_front().unwrap();
+        while !queue.is_empty() {
+            let (current_position, current_distance, current_keys) = queue.pop_front().unwrap();
             visited.insert(current_position.clone());
 
             let value = self.grid.get(&current_position).unwrap_or(&GRID_WALL);
-            if is_key(value) && !keys.has_key(value) {
-                discovered_keys.add_key(value);
+            if is_key(value) && current_position != *start {
+                reachable_keys.push((
+                    current_position.clone(),
+                    *value,
+                    current_distance,
+                    current_keys,
+                ));
 
-                let mut value_keys = keys.clone();
-                value_keys.add_key(value);
-                accessible_keys.push((current_position, current_distance, value_keys));
-            } else {
-                let neighbors = vec![
-                    current_position + Point2D::new(0, -1),
-                    current_position + Point2D::new(0, 1),
-                    current_position + Point2D::new(-1, 0),
-                    current_position + Point2D::new(1, 0),
-                ];
+                // No need to search further down this path.
+                continue;
+            }
 
-                for neighbor in neighbors {
-                    if visited.contains(&neighbor) {
-                        continue;
-                    }
-                    let value = self.grid.get(&neighbor).unwrap_or(&GRID_WALL);
-                    if is_door(value) {
-                        let key = value.to_ascii_lowercase();
-                        if !keys.has_key(&key) {
-                            continue;
-                        }
-                    }
-                    if value == &GRID_WALL {
-                        continue;
-                    }
+            let mut required_keys = current_keys.clone();
+            if is_door(value) {
+                // Add a required key to the set.
+                required_keys.add_key(&value.to_ascii_lowercase());
+            }
 
-                    queue.push_back((neighbor, current_distance + 1));
+            let neighbors = vec![
+                current_position + Point2D::new(0, -1),
+                current_position + Point2D::new(0, 1),
+                current_position + Point2D::new(-1, 0),
+                current_position + Point2D::new(1, 0),
+            ];
+
+            for neighbor in neighbors {
+                if visited.contains(&neighbor) {
+                    continue;
                 }
+
+                let value = self.grid.get(&neighbor).unwrap_or(&GRID_WALL);
+                if value == &GRID_WALL {
+                    continue;
+                }
+
+                queue.push_back((neighbor, current_distance + 1, required_keys.clone()));
             }
         }
 
-        return accessible_keys;
+        return reachable_keys;
     }
 }
 
@@ -166,6 +203,10 @@ impl TunnelKeys {
         };
     }
 
+    fn intersects(&self, other: &TunnelKeys) -> bool {
+        return (self.bit_field & other.bit_field) == other.bit_field;
+    }
+
     fn key_to_mask(other: &char) -> Option<u32> {
         if !is_key(other) {
             return None;
@@ -180,7 +221,7 @@ impl TunnelKeys {
 struct State {
     distance: usize,
     keys: TunnelKeys,
-    positions: Vec<Point2D<i32>>,
+    positions: Vec<char>,
 }
 
 impl Ord for State {
@@ -196,16 +237,20 @@ impl PartialOrd for State {
 }
 
 fn search_tunnels(tunnels: Tunnels) -> usize {
+    let graphs = tunnels.generate_graphs();
+
     let mut seen_states = HashMap::new();
     let mut priority_queue = BinaryHeap::new();
+
+    let initial_positions = graphs.iter().map(|_x| '@').collect::<Vec<char>>();
 
     priority_queue.push(State {
         distance: 0,
         keys: TunnelKeys::new(),
-        positions: tunnels.start.clone(),
+        positions: initial_positions.clone(),
     });
 
-    seen_states.insert((tunnels.start.clone(), TunnelKeys::new()), 0);
+    seen_states.insert((initial_positions, TunnelKeys::new()), 0);
 
     while !priority_queue.is_empty() {
         let current = priority_queue.pop().unwrap();
@@ -219,9 +264,17 @@ fn search_tunnels(tunnels: Tunnels) -> usize {
         for (i, current_position) in current.positions.iter().enumerate() {
             let mut positions = current.positions.clone();
 
-            let found_keys = tunnels.find_more_keys(&current_position, &current.keys);
-            for (position, distance, keys) in found_keys {
-                positions[i] = position;
+            let found_keys = graphs[i].get(current_position).unwrap();
+            for (position, distance, required_keys) in found_keys {
+                if !current.keys.intersects(required_keys) {
+                    // Location is inaccessible currently.
+                    continue;
+                }
+
+                positions[i] = *position;
+                let mut keys = current.keys.clone();
+                keys.add_key(position);
+
                 let distance = current.distance + distance;
                 let seen_distance = seen_states
                     .entry((positions.clone(), keys.clone()))
@@ -262,26 +315,6 @@ mod tests {
         let tunnels = Tunnels::parse(&case.join("\n"));
         assert_eq!(tunnels.grid.len(), 27);
         assert_eq!(tunnels.start[0], Point2D::new(5, 1));
-    }
-
-    #[test]
-    fn test_find_more_keys() {
-        let case = vec!["#########", "#b.A.@.a#", "#########"];
-        let tunnels = Tunnels::parse(&case.join("\n"));
-
-        let mut keys = TunnelKeys::new();
-        let found_keys = tunnels.find_more_keys(&tunnels.start[0].clone(), &keys);
-        assert_eq!(keys.add_key(&'a'), true);
-        assert_eq!(found_keys.len(), 1);
-        assert_eq!(found_keys[0], (Point2D::new(7, 1), 2, keys.clone()));
-
-        let found_keys = tunnels.find_more_keys(&found_keys[0].0, &found_keys[0].2);
-        assert_eq!(keys.add_key(&'b'), true);
-        assert_eq!(found_keys.len(), 1);
-        assert_eq!(found_keys[0], (Point2D::new(1, 1), 6, keys.clone()));
-
-        let found_keys = tunnels.find_more_keys(&found_keys[0].0, &found_keys[0].2);
-        assert_eq!(found_keys.is_empty(), true);
     }
 
     #[test]
@@ -362,13 +395,7 @@ mod tests {
         let cases = vec![
             (
                 vec![
-                    "#######",
-                    "#a.#Cd#",
-                    "##...##",
-                    "##.@.##",
-                    "##...##",
-                    "#cB#Ab#",
-                    "#######",
+                    "#######", "#a.#Cd#", "##...##", "##.@.##", "##...##", "#cB#Ab#", "#######",
                 ],
                 8,
             ),
