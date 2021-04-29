@@ -24,6 +24,7 @@ fn is_door(value: &char) -> bool {
 
 struct Tunnels {
     all_keys: TunnelKeys,
+    cache: HashMap<Point2D<i32>, Vec<(Point2D<i32>, char, usize, TunnelKeys)>>,
     grid: HashMap<Point2D<i32>, char>,
     start: Vec<Point2D<i32>>,
 }
@@ -54,6 +55,7 @@ impl Tunnels {
 
         return Self {
             all_keys,
+            cache: HashMap::new(),
             grid,
             start,
         };
@@ -80,45 +82,15 @@ impl Tunnels {
         }
     }
 
-    fn generate_graphs(&self) -> Vec<HashMap<char, Vec<(char, usize, TunnelKeys)>>> {
-        return self
-            .start
-            .iter()
-            .map(|x| {
-                let mut graph = HashMap::new();
-                let mut visited = HashSet::new();
-                let mut queue = VecDeque::new();
-
-                queue.push_back(('@', *x));
-
-                while !queue.is_empty() {
-                    let (value, position) = queue.pop_back().unwrap();
-                    visited.insert(position);
-
-                    let reachable_keys = self.find_reachable_keys(&position);
-                    let mut graph_nodes = Vec::new();
-                    for (position, value, distance, required_keys) in reachable_keys {
-                        graph_nodes.push((value, distance, required_keys));
-
-                        if visited.contains(&position) {
-                            continue;
-                        }
-
-                        queue.push_back((value, position));
-                    }
-
-                    graph.insert(value, graph_nodes);
-                }
-
-                return graph;
-            })
-            .collect();
-    }
-
     fn find_reachable_keys(
-        &self,
+        &mut self,
         start: &Point2D<i32>,
     ) -> Vec<(Point2D<i32>, char, usize, TunnelKeys)> {
+        let cache_result = self.cache.get(start);
+        if cache_result.is_some() {
+            return cache_result.unwrap().clone();
+        }
+
         let mut queue = VecDeque::new();
         let mut visited = HashSet::new();
         let mut reachable_keys = Vec::new();
@@ -168,6 +140,7 @@ impl Tunnels {
             }
         }
 
+        self.cache.insert(start.clone(), reachable_keys.clone());
         return reachable_keys;
     }
 }
@@ -221,7 +194,7 @@ impl TunnelKeys {
 struct State {
     distance: usize,
     keys: TunnelKeys,
-    positions: Vec<char>,
+    positions: Vec<Point2D<i32>>,
 }
 
 impl Ord for State {
@@ -236,21 +209,17 @@ impl PartialOrd for State {
     }
 }
 
-fn search_tunnels(tunnels: Tunnels) -> usize {
-    let graphs = tunnels.generate_graphs();
-
+fn search_tunnels(tunnels: &mut Tunnels) -> usize {
     let mut seen_states = HashMap::new();
     let mut priority_queue = BinaryHeap::new();
-
-    let initial_positions = graphs.iter().map(|_x| '@').collect::<Vec<char>>();
 
     priority_queue.push(State {
         distance: 0,
         keys: TunnelKeys::new(),
-        positions: initial_positions.clone(),
+        positions: tunnels.start.clone(),
     });
 
-    seen_states.insert((initial_positions, TunnelKeys::new()), 0);
+    seen_states.insert((tunnels.start.clone(), TunnelKeys::new()), 0);
 
     while !priority_queue.is_empty() {
         let current = priority_queue.pop().unwrap();
@@ -264,16 +233,16 @@ fn search_tunnels(tunnels: Tunnels) -> usize {
         for (i, current_position) in current.positions.iter().enumerate() {
             let mut positions = current.positions.clone();
 
-            let found_keys = graphs[i].get(current_position).unwrap();
-            for (position, distance, required_keys) in found_keys {
-                if !current.keys.intersects(required_keys) {
+            let found_keys = tunnels.find_reachable_keys(current_position);
+            for (position, key, distance, required_keys) in found_keys {
+                if !current.keys.intersects(&required_keys) {
                     // Location is inaccessible currently.
                     continue;
                 }
 
-                positions[i] = *position;
+                positions[i] = position;
                 let mut keys = current.keys.clone();
-                keys.add_key(position);
+                keys.add_key(&key);
 
                 let distance = current.distance + distance;
                 let seen_distance = seen_states
@@ -295,14 +264,14 @@ fn search_tunnels(tunnels: Tunnels) -> usize {
 }
 
 pub fn part1(contents: &str) -> usize {
-    let tunnels = Tunnels::parse(contents);
-    return search_tunnels(tunnels);
+    let mut tunnels = Tunnels::parse(contents);
+    return search_tunnels(&mut tunnels);
 }
 
 pub fn part2(contents: &str) -> usize {
     let mut tunnels = Tunnels::parse(contents);
     tunnels.replace_start();
-    return search_tunnels(tunnels);
+    return search_tunnels(&mut tunnels);
 }
 
 #[cfg(test)]
