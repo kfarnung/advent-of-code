@@ -3,7 +3,7 @@ name: Advent of Code 2017
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - ".github/workflows/2017.yml"
       - "2017/**"
