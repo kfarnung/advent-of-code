@@ -5,8 +5,11 @@ class Day10 {
     let current = '';
 
     for (const ch of str) {
-      if (ch === '\n' || ch === ',') {
-        yield Number.parseInt(current);
+      if (ch === '\n' || ch === '\r' || ch === ',') {
+        if (current) {
+          yield Number.parseInt(current);
+        }
+
         current = '';
       } else if (ch >= '0' && ch <= '9') {
         current += ch;
@@ -16,7 +19,7 @@ class Day10 {
 
   static *parseDataAsAscii(str) {
     for (const ch of str) {
-      if (ch !== '\n') {
+      if (ch !== '\n' && ch !== '\r') {
         yield ch.charCodeAt(0);
       }
     }
