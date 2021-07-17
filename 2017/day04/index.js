@@ -5,8 +5,11 @@ class Day04 {
     let current = '';
 
     for (const ch of str) {
-      if (ch === '\n') {
-        yield current;
+      if (ch === '\n' || ch === '\r') {
+        if (current) {
+          yield current;
+        }
+
         current = '';
       } else {
         current += ch;
