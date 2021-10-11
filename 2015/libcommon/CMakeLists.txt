@@ -1,6 +1,7 @@
 add_library(
   common
   src/input_parser.cc
+  src/string_convert.cc
   src/vector_convert.cc
 )
 
