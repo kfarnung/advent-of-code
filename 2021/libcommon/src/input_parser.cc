@@ -19,3 +19,17 @@ std::vector<std::string> common::splitlines(const char *input)
     std::stringstream ss(input);
     return splitlines(ss);
 }
+
+std::vector<std::string> common::splitstr(const std::string &input, char ch)
+{
+    std::vector<std::string> tokens;
+    std::istringstream ss(input);
+
+    std::string current;
+    while (std::getline(ss, current, ','))
+    {
+        tokens.emplace_back(std::move(current));
+    }
+
+    return tokens;
+}
