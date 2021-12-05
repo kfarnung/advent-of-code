@@ -1,6 +1,7 @@
 add_library(
   common
   src/input_parser.cc
+  src/point2d.cc
   src/vector_convert.cc
 )
 
