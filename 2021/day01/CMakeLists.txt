@@ -23,6 +23,13 @@ target_link_libraries(
   common
 )
 
+target_compile_options(
+  ${TARGET_NAME}
+  PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+)
+
 configure_file(input.txt input.txt COPYONLY)
 
 enable_testing()
@@ -38,6 +45,13 @@ target_link_libraries(
   ${TARGET_NAME}lib
   common
   gtest_main
+)
+
+target_compile_options(
+  ${TARGET_NAME}_test
+  PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
 )
 
 include(GoogleTest)

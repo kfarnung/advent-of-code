@@ -26,7 +26,7 @@ std::vector<std::string> common::splitstr(const std::string &input, char ch)
     std::istringstream ss(input);
 
     std::string current;
-    while (std::getline(ss, current, ','))
+    while (std::getline(ss, current, ch))
     {
         tokens.emplace_back(std::move(current));
     }
