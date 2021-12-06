@@ -47,7 +47,7 @@ namespace
 size_t day05::count_overlaps(const std::vector<std::string> &input, bool include_diagonals)
 {
     auto segments = parse_lines(input);
-    std::unordered_map<common::Point2D, size_t> hits;
+    std::unordered_map<common::Point2D, uint32_t> hits;
 
     for (const auto &segment : segments)
     {

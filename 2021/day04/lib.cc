@@ -119,7 +119,7 @@ namespace
     }
 }
 
-size_t day04::run_part1(const std::vector<std::string> &input)
+uint32_t day04::run_part1(const std::vector<std::string> &input)
 {
     std::vector<uint32_t> numbers;
     std::vector<BingoBoard> boards;
@@ -145,7 +145,7 @@ size_t day04::run_part1(const std::vector<std::string> &input)
     return 0;
 }
 
-size_t day04::run_part2(const std::vector<std::string> &input)
+uint32_t day04::run_part2(const std::vector<std::string> &input)
 {
     std::vector<uint32_t> numbers;
     std::vector<BingoBoard> boards;

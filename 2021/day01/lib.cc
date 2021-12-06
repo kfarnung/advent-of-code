@@ -4,9 +4,9 @@
 
 #include <limits>
 
-size_t day01::count_increases(const std::vector<std::string> &input, size_t window_size)
+uint32_t day01::count_increases(const std::vector<std::string> &input, size_t window_size)
 {
-    size_t increases = 0;
+    uint32_t increases = 0;
 
     auto values = common::vector_parse_int(input);
     int32_t previous = std::numeric_limits<int32_t>::max();

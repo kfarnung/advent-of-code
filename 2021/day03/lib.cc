@@ -17,7 +17,7 @@ namespace
     }
 }
 
-size_t day03::run_part1(const std::vector<std::string> &input)
+uint32_t day03::run_part1(const std::vector<std::string> &input)
 {
     size_t input_size = input.size();
     size_t line_size = input[0].size();
@@ -46,7 +46,7 @@ size_t day03::run_part1(const std::vector<std::string> &input)
     return gamma * epsilon;
 }
 
-size_t day03::run_part2(const std::vector<std::string> &input)
+uint32_t day03::run_part2(const std::vector<std::string> &input)
 {
     size_t count_index = 0;
     size_t half_size = input.size() / 2;
