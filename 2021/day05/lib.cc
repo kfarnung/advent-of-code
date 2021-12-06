@@ -21,12 +21,12 @@ namespace
             {
                 segments.emplace_back(std::make_pair(
                     common::Point2D{
-                        std::stol(sm[1].str()),
-                        std::stol(sm[2].str()),
+                        std::stoi(sm[1].str()),
+                        std::stoi(sm[2].str()),
                     },
                     common::Point2D{
-                        std::stol(sm[3].str()),
-                        std::stol(sm[4].str()),
+                        std::stoi(sm[3].str()),
+                        std::stoi(sm[4].str()),
                     }));
             }
         }
