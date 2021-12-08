@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <limits>
+#include <numeric>
 
 namespace
 {
@@ -21,18 +22,16 @@ namespace
         return input[middle];
     }
 
-    std::pair<int32_t, int32_t> get_range(const std::vector<int32_t> &input)
+    uint32_t calculate_fuel_part2(const std::vector<int32_t> &input, int32_t target)
     {
-        auto min = std::numeric_limits<int32_t>::max();
-        auto max = std::numeric_limits<int32_t>::min();
-
-        for (const auto &value : input)
+        uint32_t fuel_cost = 0;
+        for (const auto &sub : input)
         {
-            min = std::min(min, value);
-            max = std::max(max, value);
+            auto distance = std::abs(target - sub);
+            fuel_cost += distance * (distance + 1) / 2;
         }
 
-        return std::make_pair(min, max);
+        return fuel_cost;
     }
 }
 
@@ -54,21 +53,13 @@ uint32_t day07::run_part1(const std::vector<std::string> &input)
 uint32_t day07::run_part2(const std::vector<std::string> &input)
 {
     auto submarines = common::vector_parse_int(common::splitstr(input[0], ','));
-    auto range = get_range(submarines);
 
-    auto min_fuel = std::numeric_limits<uint32_t>::max();
+    auto total = std::accumulate(begin(submarines), end(submarines), 0);
+    auto mean = total / static_cast<double>(submarines.size());
+    auto lower = static_cast<int32_t>(mean - 0.5);
+    auto upper = static_cast<int32_t>(mean + 0.5);
 
-    for (int32_t i = range.first; i <= range.second; ++i)
-    {
-        uint32_t fuel_cost = 0;
-        for (const auto &sub : submarines)
-        {
-            auto distance = std::abs(i - sub);
-            fuel_cost += distance * (distance + 1) / 2;
-        }
-
-        min_fuel = std::min(min_fuel, fuel_cost);
-    }
-
-    return min_fuel;
+    return std::min(
+        calculate_fuel_part2(submarines, lower),
+        calculate_fuel_part2(submarines, upper));
 }
