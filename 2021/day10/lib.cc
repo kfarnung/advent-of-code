@@ -41,7 +41,7 @@ namespace
                 }
                 else
                 {
-                    return parser_state{false, ch};
+                    return parser_state{false, ch, stack};
                 }
             }
         }

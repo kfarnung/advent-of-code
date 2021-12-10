@@ -49,7 +49,6 @@ uint32_t day03::run_part1(const std::vector<std::string> &input)
 uint32_t day03::run_part2(const std::vector<std::string> &input)
 {
     size_t count_index = 0;
-    size_t half_size = input.size() / 2;
     std::vector<std::string> oxygen_list(input);
     std::vector<std::string> co2_list(input);
 

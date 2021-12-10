@@ -11,6 +11,13 @@ target_link_libraries(
   common
 )
 
+target_compile_options(
+  ${TARGET_NAME}lib
+  PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+)
+
 add_executable(
   ${TARGET_NAME}
   main.cc

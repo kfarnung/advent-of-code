@@ -62,7 +62,6 @@ uint32_t day08::run_part2(const std::vector<std::string> &input)
 
             for (const auto &entry : inputs)
             {
-                bool found = true;
                 uint8_t byte = segments_to_byte(entry);
 
                 switch (entry.size())

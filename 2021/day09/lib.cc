@@ -16,7 +16,7 @@ namespace
             std::vector<uint8_t> row;
             for (const auto &ch : line)
             {
-                row.emplace_back(ch - '0');
+                row.emplace_back(static_cast<uint8_t>(ch - '0'));
             }
 
             grid.emplace_back(std::move(row));
