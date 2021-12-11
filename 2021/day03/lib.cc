@@ -5,7 +5,7 @@ namespace
     size_t get_one_count(const std::vector<std::string> &input, size_t position)
     {
         size_t count = 0;
-        for (const auto current : input)
+        for (const auto &current : input)
         {
             if (current[position] == '1')
             {
@@ -59,7 +59,7 @@ uint32_t day03::run_part2(const std::vector<std::string> &input)
         size_t one_count = get_one_count(oxygen_list, count_index);
         char ch = one_count >= (oxygen_list.size() - one_count) ? '1' : '0';
 
-        for (const auto current : oxygen_list)
+        for (const auto &current : oxygen_list)
         {
             if (current[count_index] == ch)
             {
@@ -79,7 +79,7 @@ uint32_t day03::run_part2(const std::vector<std::string> &input)
         size_t one_count = get_one_count(co2_list, count_index);
         char ch = one_count >= (co2_list.size() - one_count) ? '0' : '1';
 
-        for (const auto current : co2_list)
+        for (const auto &current : co2_list)
         {
             if (current[count_index] == ch)
             {

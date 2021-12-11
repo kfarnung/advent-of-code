@@ -5,7 +5,7 @@ int32_t day02::run_part1(const std::vector<std::string> &input)
     int32_t horizontal = 0;
     int32_t vertical = 0;
 
-    for (const auto line : input)
+    for (const auto &line : input)
     {
         if (line.find("forward ") == 0)
         {
@@ -33,7 +33,7 @@ int32_t day02::run_part2(const std::vector<std::string> &input)
     int32_t vertical = 0;
     int32_t aim = 0;
 
-    for (const auto line : input)
+    for (const auto &line : input)
     {
         if (line.find("forward ") == 0)
         {
