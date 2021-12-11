@@ -23,18 +23,18 @@ namespace
 
 TEST(Day08, Part1)
 {
-    EXPECT_EQ(day08::run_part1(test_data), 26ul);
+    EXPECT_EQ(day08::run_part1(test_data), 26);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);
-    EXPECT_EQ(day08::run_part1(lines), 452ul);
+    EXPECT_EQ(day08::run_part1(lines), 452);
 }
 
 TEST(Day08, Part2)
 {
-    EXPECT_EQ(day08::run_part2(test_data), 61229ul);
+    EXPECT_EQ(day08::run_part2(test_data), 61229);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);
-    EXPECT_EQ(day08::run_part2(lines), 1096964ul);
+    EXPECT_EQ(day08::run_part2(lines), 1096964);
 }

@@ -20,9 +20,9 @@ namespace
     }
 }
 
-uint32_t day08::run_part1(const std::vector<std::string> &input)
+int64_t day08::run_part1(const std::vector<std::string> &input)
 {
-    uint32_t count = 0;
+    int64_t count = 0;
     for (const auto &line : input)
     {
         size_t index = line.find("| ") + 2;
@@ -43,9 +43,9 @@ uint32_t day08::run_part1(const std::vector<std::string> &input)
     return count;
 }
 
-uint32_t day08::run_part2(const std::vector<std::string> &input)
+int64_t day08::run_part2(const std::vector<std::string> &input)
 {
-    uint32_t sum = 0;
+    int64_t sum = 0;
 
     for (const auto &line : input)
     {
@@ -163,7 +163,7 @@ uint32_t day08::run_part2(const std::vector<std::string> &input)
             std::swap(inputs, remaining);
         }
 
-        uint32_t decoded = 0;
+        int64_t decoded = 0;
         for (const auto &output : outputs)
         {
             decoded *= 10;

@@ -36,9 +36,9 @@ namespace
 
     common::Point2D find_slope(common::Point2D p1, common::Point2D p2)
     {
-        int32_t x = p2.x - p1.x;
-        int32_t y = p2.y - p1.y;
-        int32_t divisor = std::max(std::abs(x), std::abs(y));
+        int64_t x = p2.x - p1.x;
+        int64_t y = p2.y - p1.y;
+        int64_t divisor = std::max(std::abs(x), std::abs(y));
 
         return common::Point2D{x / divisor, y / divisor};
     }
@@ -47,7 +47,7 @@ namespace
 size_t day05::count_overlaps(const std::vector<std::string> &input, bool include_diagonals)
 {
     auto segments = parse_lines(input);
-    std::unordered_map<common::Point2D, uint32_t> hits;
+    std::unordered_map<common::Point2D, int64_t> hits;
 
     for (const auto &segment : segments)
     {

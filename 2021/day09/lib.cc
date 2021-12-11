@@ -66,12 +66,12 @@ namespace
     }
 }
 
-uint32_t day09::run_part1(const std::vector<std::string> &input)
+int64_t day09::run_part1(const std::vector<std::string> &input)
 {
     auto grid = parse_grid(input);
     auto low_points = find_low_points(grid);
 
-    uint32_t risk_levels = 0;
+    int64_t risk_levels = 0;
     for (const auto &point : low_points)
     {
         risk_levels += grid[point.first][point.second] + 1;
@@ -80,19 +80,19 @@ uint32_t day09::run_part1(const std::vector<std::string> &input)
     return risk_levels;
 }
 
-uint32_t day09::run_part2(const std::vector<std::string> &input)
+int64_t day09::run_part2(const std::vector<std::string> &input)
 {
     auto grid = parse_grid(input);
     auto low_points = find_low_points(grid);
 
-    std::vector<uint32_t> basin_sizes;
+    std::vector<int64_t> basin_sizes;
 
     for (const auto &point : low_points)
     {
         std::set<std::pair<size_t, size_t>> visited;
         std::deque<std::pair<size_t, size_t>> queue;
 
-        uint32_t basin_size = 0;
+        int64_t basin_size = 0;
         queue.emplace_back(point);
 
         while (!queue.empty())
@@ -142,7 +142,7 @@ uint32_t day09::run_part2(const std::vector<std::string> &input)
 
     std::sort(begin(basin_sizes), end(basin_sizes));
     
-    uint32_t basins_score = 1;
+    int64_t basins_score = 1;
     for (size_t i = 0; i < 3; ++i)
     {
         basins_score *= basin_sizes[basin_sizes.size() - 1 - i];

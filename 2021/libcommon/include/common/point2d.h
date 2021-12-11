@@ -7,8 +7,8 @@ namespace common
 {
     struct Point2D
     {
-        int32_t x;
-        int32_t y;
+        int64_t x;
+        int64_t y;
     };
 
     bool operator==(const Point2D &lhs, const Point2D &rhs);
@@ -28,8 +28,8 @@ namespace std
         std::size_t operator()(const common::Point2D &s) const noexcept
         {
             std::size_t hash = 17;
-            hash = hash * 37 + std::hash<int32_t>{}(s.x);
-            hash = hash * 37 + std::hash<int32_t>{}(s.y);
+            hash = hash * 37 + std::hash<int64_t>{}(s.x);
+            hash = hash * 37 + std::hash<int64_t>{}(s.y);
             return hash;
         }
     };

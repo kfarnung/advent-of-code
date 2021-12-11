@@ -8,11 +8,11 @@
 
 namespace
 {
-    using BingoBoard = std::vector<std::vector<uint32_t>>;
+    using BingoBoard = std::vector<std::vector<int64_t>>;
 
-    std::vector<uint32_t> parse_numbers(const std::string &input)
+    std::vector<int64_t> parse_numbers(const std::string &input)
     {
-        std::vector<uint32_t> numbers;
+        std::vector<int64_t> numbers;
 
         auto tokens = common::splitstr(input, ',');
         for (const auto &token : tokens)
@@ -23,7 +23,7 @@ namespace
         return numbers;
     }
 
-    std::tuple<std::vector<uint32_t>, std::vector<BingoBoard>> parse_input(const std::vector<std::string> &input)
+    std::tuple<std::vector<int64_t>, std::vector<BingoBoard>> parse_input(const std::vector<std::string> &input)
     {
         std::vector<BingoBoard> boards;
         size_t index = 0;
@@ -42,8 +42,8 @@ namespace
             else
             {
                 std::istringstream ss(line);
-                std::vector<uint32_t> row;
-                uint32_t col;
+                std::vector<int64_t> row;
+                int64_t col;
                 while (ss >> col)
                 {
                     row.emplace_back(col);
@@ -57,10 +57,10 @@ namespace
 
         boards.emplace_back(std::move(current));
 
-        return std::tuple<std::vector<uint32_t>, std::vector<BingoBoard>>{numbers, boards};
+        return std::tuple<std::vector<int64_t>, std::vector<BingoBoard>>{numbers, boards};
     }
 
-    bool is_winner(BingoBoard board, const std::set<uint32_t> &chosen_numbers)
+    bool is_winner(BingoBoard board, const std::set<int64_t> &chosen_numbers)
     {
         for (size_t i = 0; i < board.size(); ++i)
         {
@@ -100,9 +100,9 @@ namespace
         return false;
     }
 
-    uint32_t score_board(BingoBoard board, std::set<uint32_t> chosen_numbers, uint32_t last_number)
+    int64_t score_board(BingoBoard board, std::set<int64_t> chosen_numbers, int64_t last_number)
     {
-        uint32_t score = 0;
+        int64_t score = 0;
 
         for (const auto &row : board)
         {
@@ -119,13 +119,13 @@ namespace
     }
 }
 
-uint32_t day04::run_part1(const std::vector<std::string> &input)
+int64_t day04::run_part1(const std::vector<std::string> &input)
 {
-    std::vector<uint32_t> numbers;
+    std::vector<int64_t> numbers;
     std::vector<BingoBoard> boards;
     std::tie(numbers, boards) = parse_input(input);
 
-    std::set<uint32_t> chosen_numbers;
+    std::set<int64_t> chosen_numbers;
 
     for (const auto &number : numbers)
     {
@@ -145,13 +145,13 @@ uint32_t day04::run_part1(const std::vector<std::string> &input)
     return 0;
 }
 
-uint32_t day04::run_part2(const std::vector<std::string> &input)
+int64_t day04::run_part2(const std::vector<std::string> &input)
 {
-    std::vector<uint32_t> numbers;
+    std::vector<int64_t> numbers;
     std::vector<BingoBoard> boards;
     std::tie(numbers, boards) = parse_input(input);
 
-    std::set<uint32_t> chosen_numbers;
+    std::set<int64_t> chosen_numbers;
 
     for (const auto &number : numbers)
     {

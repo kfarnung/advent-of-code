@@ -6,7 +6,7 @@
 
 namespace day06
 {
-    uint64_t simulate_lanternfish(const std::vector<std::string> &input, uint32_t day_count);
+    int64_t simulate_lanternfish(const std::vector<std::string> &input, int64_t day_count);
 }
 
 #endif

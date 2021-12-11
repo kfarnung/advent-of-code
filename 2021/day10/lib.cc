@@ -49,7 +49,7 @@ namespace
         return parser_state{true, '\0', stack};
     }
 
-    uint32_t score_illegal_character(char ch)
+    int64_t score_illegal_character(char ch)
     {
         switch (ch)
         {
@@ -69,7 +69,7 @@ namespace
         return 0;
     }
 
-    uint32_t score_missing_character(char ch)
+    int64_t score_missing_character(char ch)
     {
         switch (ch)
         {
@@ -90,9 +90,9 @@ namespace
     }
 }
 
-uint64_t day10::run_part1(const std::vector<std::string> &input)
+int64_t day10::run_part1(const std::vector<std::string> &input)
 {
-    uint64_t total_score = 0;
+    int64_t total_score = 0;
 
     for (const auto &line : input)
     {
@@ -106,16 +106,16 @@ uint64_t day10::run_part1(const std::vector<std::string> &input)
     return total_score;
 }
 
-uint64_t day10::run_part2(const std::vector<std::string> &input)
+int64_t day10::run_part2(const std::vector<std::string> &input)
 {
-    std::vector<uint64_t> scores;
+    std::vector<int64_t> scores;
 
     for (const auto &line : input)
     {
         auto parsed = parse_line(line);
         if (parsed.valid)
         {
-            uint64_t score = 0;
+            int64_t score = 0;
             while (!parsed.remaining_stack.empty())
             {
                 score *= 5;

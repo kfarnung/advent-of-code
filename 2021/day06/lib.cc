@@ -5,9 +5,9 @@
 #include <deque>
 #include <numeric>
 
-uint64_t day06::simulate_lanternfish(const std::vector<std::string> &input, uint32_t day_count)
+int64_t day06::simulate_lanternfish(const std::vector<std::string> &input, int64_t day_count)
 {
-    std::deque<uint64_t> queue(9, 0);
+    std::deque<int64_t> queue(9, 0);
 
     for (const auto &fish : common::splitstr(input[0], ','))
     {
@@ -15,7 +15,7 @@ uint64_t day06::simulate_lanternfish(const std::vector<std::string> &input, uint
         queue[index] += 1;
     }
 
-    for (uint32_t day = 0; day < day_count; ++day)
+    for (int64_t day = 0; day < day_count; ++day)
     {
         auto spawner_count = queue.front();
         queue.pop_front();
@@ -24,5 +24,5 @@ uint64_t day06::simulate_lanternfish(const std::vector<std::string> &input, uint
         queue.push_back(spawner_count);
     }
 
-    return std::accumulate(begin(queue), end(queue), 0ULL);
+    return std::accumulate(begin(queue), end(queue), 0LL);
 }

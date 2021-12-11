@@ -14,18 +14,18 @@ namespace
 
 TEST(Day06, Part1)
 {
-    EXPECT_EQ(day06::simulate_lanternfish(test_data, 80), 5934ull);
+    EXPECT_EQ(day06::simulate_lanternfish(test_data, 80), 5934);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);
-    EXPECT_EQ(day06::simulate_lanternfish(lines, 80), 362346ull);
+    EXPECT_EQ(day06::simulate_lanternfish(lines, 80), 362346);
 }
 
 TEST(Day06, Part2)
 {
-    EXPECT_EQ(day06::simulate_lanternfish(test_data, 256), 26984457539ull);
+    EXPECT_EQ(day06::simulate_lanternfish(test_data, 256), 26984457539);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);
-    EXPECT_EQ(day06::simulate_lanternfish(lines, 256), 1639643057051ull);
+    EXPECT_EQ(day06::simulate_lanternfish(lines, 256), 1639643057051);
 }

@@ -17,13 +17,13 @@ namespace
     }
 }
 
-uint32_t day03::run_part1(const std::vector<std::string> &input)
+int64_t day03::run_part1(const std::vector<std::string> &input)
 {
     size_t input_size = input.size();
     size_t line_size = input[0].size();
 
-    uint32_t gamma = 0;
-    uint32_t epsilon = 0;
+    int64_t gamma = 0;
+    int64_t epsilon = 0;
 
     for (size_t i = 0; i < line_size; ++i)
     {
@@ -46,7 +46,7 @@ uint32_t day03::run_part1(const std::vector<std::string> &input)
     return gamma * epsilon;
 }
 
-uint32_t day03::run_part2(const std::vector<std::string> &input)
+int64_t day03::run_part2(const std::vector<std::string> &input)
 {
     size_t count_index = 0;
     std::vector<std::string> oxygen_list(input);
