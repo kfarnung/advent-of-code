@@ -3,19 +3,12 @@
 #include <common/input_parser.h>
 
 #include <deque>
-#include <unordered_map>
-#include <unordered_set>
+#include <map>
+#include <set>
 
 namespace
 {
-    using Graph = std::unordered_map<std::string, std::vector<std::string>>;
-
-    struct GraphState
-    {
-        const std::string current;
-        const std::unordered_set<std::string> visited;
-        const bool visited_small_twice;
-    };
+    using Graph = std::map<std::string, std::vector<std::string>>;
 
     Graph parse_graph(const std::vector<std::string> &input)
     {
@@ -24,57 +17,56 @@ namespace
         for (const auto &line : input)
         {
             auto parts = common::splitstr(line, '-');
-            graph[parts[0]].push_back(parts[1]);
-            graph[parts[1]].push_back(parts[0]);
+
+            if (parts[1] != "start" && parts[0] != "end")
+            {
+                graph[parts[0]].push_back(parts[1]);
+            }
+
+            if (parts[0] != "start" && parts[1] != "end")
+            {
+                graph[parts[1]].push_back(parts[0]);
+            }
         }
 
         return graph;
     }
 
-    int64_t count_paths(const Graph &graph, bool allow_second_visit)
+    int64_t count_paths(
+        const Graph &graph,
+        const bool allow_second_visit,
+        const std::string &current,
+        const std::set<std::string> &visited,
+        const bool used_second_visit)
     {
+        if (current == "end")
+        {
+            return 1;
+        }
+
+        std::set<std::string> next_visited(visited);
+
+        if (!std::isupper(current[0]))
+        {
+            next_visited.insert(current);
+        }
+
         int64_t path_count = 0;
 
-        std::deque<GraphState> queue;
-        queue.emplace_back(GraphState{"start", std::unordered_set<std::string>{}, false});
-
-        while (!queue.empty())
+        for (const auto &neighbor : graph.at(current))
         {
-            auto current = queue.front();
-            queue.pop_front();
-
-            if (current.current == "end")
+            auto already_visited = visited.find(neighbor) != visited.end();
+            if (already_visited && (!allow_second_visit || used_second_visit))
             {
-                path_count += 1;
                 continue;
             }
 
-            std::unordered_set<std::string> next_visited(current.visited);
-            next_visited.insert(current.current);
-
-            for (const auto &neighbor : graph.at(current.current))
-            {
-                if (neighbor == "start")
-                {
-                    continue;
-                }
-
-                auto is_small_cave = !std::isupper(neighbor[0]);
-                auto already_visited = current.visited.find(neighbor) != current.visited.end();
-                if (is_small_cave &&
-                    already_visited &&
-                    (!allow_second_visit || current.visited_small_twice))
-                {
-                    continue;
-                }
-
-                queue.emplace_back(
-                    GraphState{
-                        neighbor,
-                        next_visited,
-                        current.visited_small_twice || (is_small_cave && already_visited),
-                    });
-            }
+            path_count += count_paths(
+                graph,
+                allow_second_visit,
+                neighbor,
+                next_visited,
+                used_second_visit || already_visited);
         }
 
         return path_count;
@@ -84,11 +76,11 @@ namespace
 int64_t day12::run_part1(const std::vector<std::string> &input)
 {
     auto graph = parse_graph(input);
-    return count_paths(graph, false);
+    return count_paths(graph, false, "start", {}, false);
 }
 
 int64_t day12::run_part2(const std::vector<std::string> &input)
 {
     auto graph = parse_graph(input);
-    return count_paths(graph, true);
+    return count_paths(graph, true, "start", {}, false);
 }
