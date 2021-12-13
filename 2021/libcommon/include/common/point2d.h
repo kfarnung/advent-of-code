@@ -9,6 +9,8 @@ namespace common
     {
         int64_t x;
         int64_t y;
+
+        Point2D(int64_t x, int64_t y);
     };
 
     bool operator==(const Point2D &lhs, const Point2D &rhs);
