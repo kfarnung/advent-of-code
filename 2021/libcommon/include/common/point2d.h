@@ -15,6 +15,7 @@ namespace common
 
     bool operator==(const Point2D &lhs, const Point2D &rhs);
     bool operator!=(const Point2D &lhs, const Point2D &rhs);
+    bool operator<(const Point2D &lhs, const Point2D &rhs);
     Point2D operator+(const Point2D &lhs, const Point2D &rhs);
     Point2D& operator+=(Point2D &lhs, const Point2D &rhs);
 }
