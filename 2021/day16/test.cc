@@ -5,11 +5,6 @@
 #include <fstream>
 #include <gtest/gtest.h>
 
-namespace
-{
-    const std::vector<std::string> test_data{};
-}
-
 TEST(Day16, Part1)
 {
     EXPECT_EQ(day16::run_part1("8A004A801A8002F478"), 16);
