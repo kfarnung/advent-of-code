@@ -63,8 +63,8 @@ namespace
             {
                 value <<= 4;
                 current_group = bs.get_bits(5);
-                value += current_group & 0b1111;
-            } while ((current_group & 0b10000) != 0);
+                value += current_group & 0x0F;
+            } while ((current_group & 0x10) != 0);
 
             return std::tuple<int64_t, int64_t>(version_sum, value);
         }
