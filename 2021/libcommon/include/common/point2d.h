@@ -1,6 +1,7 @@
 #ifndef COMMON_POINT2D_H
 #define COMMON_POINT2D_H
 
+#include <cstdint>
 #include <functional>
 
 namespace common
