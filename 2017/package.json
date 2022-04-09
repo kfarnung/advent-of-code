@@ -4,7 +4,7 @@
   "description": "http://adventofcode.com/2017",
   "main": "index.js",
   "dependencies": {
-    "minimist": "^1.2.3"
+    "minimist": "^1.2.6"
   },
   "devDependencies": {
     "eslint": "^8.8.0",
