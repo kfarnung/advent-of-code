@@ -11,7 +11,7 @@ from operator import itemgetter
 from sys import maxsize
 
 
-class TreeNode:
+class TreeNode:  # pylint: disable=too-few-public-methods
     """Represents a single node in the Regex tree."""
 
     def __init__(self, direction):
@@ -24,7 +24,7 @@ class TreeNode:
         return node
 
 
-class Regex:
+class Regex:  # pylint: disable=too-few-public-methods
     """Represents an input 'regex' string."""
 
     def __init__(self, input_str):
@@ -80,7 +80,7 @@ class Regex:
 
     @staticmethod
     def _stringify_grouping(grouping_start):
-        assert grouping_start.direction == '(' or grouping_start.direction == '^'
+        assert grouping_start.direction in ('(', '^')
         result = [grouping_start.direction]
         end_node = None
 

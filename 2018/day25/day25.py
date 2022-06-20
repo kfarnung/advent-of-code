@@ -12,7 +12,7 @@ from collections import deque
 class Point4D:
     """Represents a point in 4D space."""
 
-    def __init__(self, w, x, y, z):
+    def __init__(self, w, x, y, z):  # pylint: disable=invalid-name
         self.coord_w = w
         self.coord_x = x
         self.coord_y = y

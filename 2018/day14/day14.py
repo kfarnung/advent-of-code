@@ -37,7 +37,7 @@ class RecipeGenerator:
 
     def next(self):
         """Gets the next recipe generated."""
-        return self.__next__()
+        return self.__next__()  # pylint: disable=unnecessary-dunder-call
 
     def skip(self, count):
         """Skip the specified number of recipes."""
@@ -53,7 +53,7 @@ class RecipeGenerator:
         return result
 
 
-class DigitsMatcher:
+class DigitsMatcher:  # pylint: disable=too-few-public-methods
     """Look in the incoming digits for a match."""
 
     def __init__(self, digits):
