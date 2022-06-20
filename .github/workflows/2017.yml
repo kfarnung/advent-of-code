@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - ".github/workflows/2017.yml"
-      - "2017/**"
+      - .github/workflows/2017.yml
+      - 2017/**
   pull_request:
     paths:
-      - ".github/workflows/2017.yml"
-      - "2017/**"
+      - .github/workflows/2017.yml
+      - 2017/**
 
 jobs:
   build-2017:
@@ -25,7 +25,7 @@ jobs:
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
+          node-version: 16.x
 
       - run: npm ci
 

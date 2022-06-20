@@ -1,0 +1,38 @@
+name: Advent of Code 2015
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/2015.yml
+      - 2015/**
+  pull_request:
+    paths:
+      - .github/workflows/2015.yml
+      - 2015/**
+
+jobs:
+  build-2015:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: "2015"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure
+        run: cmake -B build
+
+      - name: Build
+        run: cmake --build build -j 4
+
+      - name: Test
+        run: ctest --test-dir build -j 4
