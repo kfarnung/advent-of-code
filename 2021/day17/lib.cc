@@ -1,5 +1,6 @@
 #include "lib.h"
 
+#include <cmath>
 #include <regex>
 
 namespace
@@ -22,7 +23,7 @@ namespace
             };
         }
 
-        throw std::exception("Invalid input");
+        throw std::runtime_error("Invalid input");
     }
 }
 
