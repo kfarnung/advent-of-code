@@ -1,19 +1,19 @@
-name: Advent of Code 2015
+name: Advent of Code 2021
 
 on:
   push:
     branches:
       - main
     paths:
-      - .github/workflows/2015.yml
-      - 2015/**
+      - .github/workflows/2021.yml
+      - 2021/**
   pull_request:
     paths:
-      - .github/workflows/2015.yml
-      - 2015/**
+      - .github/workflows/2021.yml
+      - 2021/**
 
 jobs:
-  build-2015:
+  build-2021:
     strategy:
       matrix:
         os:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
-        working-directory: "2015"
+        working-directory: "2021"
 
     steps:
       - uses: actions/checkout@v3
