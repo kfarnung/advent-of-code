@@ -96,7 +96,7 @@ _INSTRUCTION_HANDLERS = {
 }
 
 
-class Device:
+class Device:  # pylint: disable=too-few-public-methods
     """Represents the current state of the device."""
 
     def __init__(self, num_registers):

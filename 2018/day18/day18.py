@@ -11,7 +11,7 @@ from operator import itemgetter
 
 
 try:
-    xrange
+    xrange  # pylint: disable=used-before-assignment
 except NameError:
     xrange = range  # pylint: disable=invalid-name
 

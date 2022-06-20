@@ -56,7 +56,7 @@ class Graph:
         return self.nodes - done
 
 
-class Factory:
+class Factory:  # pylint: disable=too-few-public-methods
     """Represents a factory with time and worker constraints."""
 
     def __init__(self, worker_count, base_time):

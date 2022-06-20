@@ -12,7 +12,7 @@ _IP_REGEX = re.compile(r'^#ip (\d)$')
 _INSTRUCTION_REGEX = re.compile(r'^([a-z]+) (\d+) (\d+) (\d+)$')
 
 
-class Device:
+class Device:  # pylint: disable=too-few-public-methods
     """Represents the current state of the device."""
 
     def __init__(self, num_registers):

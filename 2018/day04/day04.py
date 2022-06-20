@@ -13,7 +13,7 @@ _INSTRUCTION_REGEX = re.compile(
     r"^\[(\d{4}-\d{2}-\d{2} \d{2}:(\d{2}))] (Guard #(\d+) begins shift|.+)$")
 
 
-class GuardAction:
+class GuardAction:  # pylint: disable=too-few-public-methods
     """Represents a single action by a single guard"""
 
     def __init__(self, instruction):
