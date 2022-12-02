@@ -1,0 +1,7 @@
+[package]
+name = "aoc2022"
+version = "0.1.0"
+authors = ["Kyle Farnung <kfarnung@outlook.com>"]
+edition = "2021"
+
+[dependencies]

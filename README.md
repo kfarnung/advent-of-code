@@ -10,3 +10,4 @@ https://adventofcode.com/
 - [2019](2019/) - Using [Rust](https://www.rust-lang.org/)
 - [2020](2020/) - Using [Go](https://golang.org/)
 - [2021](2021/) - Using [C++11](https://en.cppreference.com/w/cpp/11)
+- [2022](2022/) - Using [Rust](https://www.rust-lang.org/)
