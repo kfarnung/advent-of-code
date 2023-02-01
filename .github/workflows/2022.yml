@@ -1,0 +1,29 @@
+name: Advent of Code 2022
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/2022.yml
+      - 2022/**
+  pull_request:
+    paths:
+      - .github/workflows/2022.yml
+      - 2022/**
+
+jobs:
+  build-2022:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "2022"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build
+        run: cargo build
+
+      - name: Test
+        run: cargo test
