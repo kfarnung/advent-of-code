@@ -7,13 +7,12 @@ include(FetchContent)
 
 FetchContent_Declare(
   googletest
-  URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+  URL https://github.com/google/googletest/archive/f8d7d77c06936315286eb55f8de22cd23c188571.zip
 )
 
 FetchContent_Declare(
   json
-  GIT_REPOSITORY https://github.com/ArthurSonzogni/nlohmann_json_cmake_fetchcontent
-  GIT_TAG v3.10.4
+  URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz
 )
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
