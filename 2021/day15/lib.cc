@@ -3,6 +3,7 @@
 #include <common/point2d.h>
 
 #include <array>
+#include <cstdint>
 #include <queue>
 #include <map>
 

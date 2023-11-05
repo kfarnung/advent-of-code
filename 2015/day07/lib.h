@@ -1,6 +1,7 @@
 #ifndef DAY07_LIB_H
 #define DAY07_LIB_H
 
+#include <cstdint>
 #include <string>
 #include <vector>
 

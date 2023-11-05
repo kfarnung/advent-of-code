@@ -1,5 +1,6 @@
 #include "lib.h"
 
+#include <cstdint>
 #include <limits>
 #include <numeric>
 #include <tuple>

@@ -2,6 +2,7 @@
 
 #include <common/input_parser.h>
 
+#include <cstdint>
 #include <unordered_map>
 
 namespace

@@ -1,6 +1,7 @@
 #include "lib.h"
 
 #include <cmath>
+#include <cstdint>
 #include <limits>
 
 namespace
