@@ -1,5 +1,6 @@
 #include "lib.h"
 
+#include <cstdint>
 #include <deque>
 
 namespace

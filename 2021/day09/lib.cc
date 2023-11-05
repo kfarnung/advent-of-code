@@ -1,6 +1,7 @@
 #include "lib.h"
 
 #include <algorithm>
+#include <cstdint>
 #include <deque>
 #include <limits>
 #include <numeric>
