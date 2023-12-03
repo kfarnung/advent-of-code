@@ -115,7 +115,7 @@ def _parse_entry(input_str):
     """Parse the entry that contains the starting point and velocity."""
     match = _ENTRY_REGEX.match(input_str)
     if not match:
-        raise Exception('Invalid input string')
+        raise ValueError('Invalid input string')
 
     return LightPoint(
         Point2D(int(match.group(1)), int(match.group(2))),

@@ -87,7 +87,7 @@ class Group:  # pylint: disable=too-many-instance-attributes
         for modifier in line.split('; '):
             match = _MODIFIER_REGEX.match(modifier)
             if not match:
-                raise Exception('Could not locate modifiers')
+                raise ValueError('Could not locate modifiers')
 
             modifier_set = None
             modifier_category = match.group(1)
@@ -96,7 +96,7 @@ class Group:  # pylint: disable=too-many-instance-attributes
             elif modifier_category == 'immune':
                 modifier_set = self._immunities
             else:
-                raise Exception('Unknown modifier category encountered')
+                raise ValueError('Unknown modifier category encountered')
 
             for modifier_type in match.group(2).split(', '):
                 modifier_set.add(modifier_type)
@@ -123,7 +123,7 @@ class Group:  # pylint: disable=too-many-instance-attributes
         """Parse the group from the provided text."""
         group_match = _GROUP_REGEX.match(line)
         if not group_match:
-            raise Exception('Could not locate group')
+            raise ValueError('Could not locate group')
 
         group = Group(
             team_name,
@@ -228,7 +228,7 @@ def _parse_team(group_list, lines):
     """Parse the team from the provided lines of text."""
     team_match = _TEAM_REGEX.match(next(lines))
     if not team_match:
-        raise Exception('Could not locate team')
+        raise ValueError('Could not locate team')
 
     team_name = team_match.group(1)
 
@@ -253,7 +253,7 @@ def _load_groups(file_content):
         pass
 
     if team_count != 2:
-        raise Exception('Failed to find two teams')
+        raise ValueError('Failed to find two teams')
 
     return groups
 

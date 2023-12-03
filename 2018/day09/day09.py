@@ -58,7 +58,7 @@ class DoublyLinkedNode:
 def _parse_instruction(instruction):
     match = _INSTRUCTION_REGEX.match(instruction)
     if not match:
-        raise Exception('Invalid instruction')
+        raise ValueError('Invalid instruction')
 
     return (int(match.group(1)), int(match.group(2)))
 

@@ -190,7 +190,7 @@ class NanoBot:
         """Create a nanobot from input data."""
         match = _POSITIONS_REGEX.match(data)
         if not match:
-            raise Exception('Invalid nanobot data')
+            raise ValueError('Invalid nanobot data')
 
         position = Point3D(
             int(match.group(1)),

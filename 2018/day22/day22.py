@@ -98,7 +98,7 @@ class CaveSystem:
             # Nothing or torch
             return item in (0, 1)
 
-        raise Exception('Invalid region type')
+        raise ValueError('Invalid region type')
 
     def _get_intersecting_item(self, current_position, next_position):
         for item in range(3):
@@ -106,7 +106,7 @@ class CaveSystem:
                     self._is_item_valid(next_position, item)):
                 return item
 
-        raise Exception('Invalid combination of types')
+        raise ValueError('Invalid combination of types')
 
     def _get_region_type(self, position):
         return self._get_erosion_level(position) % 3
