@@ -48,7 +48,7 @@ class Battle:
                         Unit(col, (row_index, col_index), elf_power))
                     row[col_index] = '.'
                 elif col not in ('#', '.'):
-                    raise Exception('Unexpected tile type')
+                    raise ValueError('Unexpected tile type')
 
     def __str__(self):
         board = [col for col in row for row in self.board]

@@ -113,7 +113,7 @@ def _parse_clay(file_content):
     for line in file_content:
         match = _SPAN_REGEX.match(line)
         if not match:
-            raise Exception('Invalid line')
+            raise ValueError('Invalid line')
 
         flipped = match.group(1) == 'y'
         first = int(match.group(2))

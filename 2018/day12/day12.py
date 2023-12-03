@@ -20,7 +20,7 @@ def _parse_input(file_content):
     list_iter = iter(file_content)
     match = _INITIAL_STATE_REGEX.match(next(list_iter))
     if not match:
-        raise Exception('Invalid initial state')
+        raise ValueError('Invalid initial state')
 
     initial_state = match.group(1)
 
@@ -30,7 +30,7 @@ def _parse_input(file_content):
     for rule in list_iter:
         match = _RULE_REGEX.match(rule)
         if not match:
-            raise Exception('Invalid rule pattern')
+            raise ValueError('Invalid rule pattern')
 
         rules.append((match.group(1), match.group(2)))
 

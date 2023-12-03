@@ -63,7 +63,7 @@ class LumberArea:
                             self._has_neighbors(position, '|', 1)):
                         area_copy[position] = '.'
                 else:
-                    raise Exception('Unexpected character')
+                    raise ValueError('Unexpected character')
 
         self.area = area_copy
 

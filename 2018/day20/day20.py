@@ -36,7 +36,7 @@ class Regex:  # pylint: disable=too-few-public-methods
         current_node = current_root
 
         if input_str[current_index] != '^':
-            raise Exception('Invalid pattern')
+            raise ValueError('Invalid pattern')
 
         current_index += 1
         while current_index < len(input_str):
@@ -63,11 +63,11 @@ class Regex:  # pylint: disable=too-few-public-methods
                 current_node = current_node.connect(TreeNode(current))
                 break
             else:
-                raise Exception('Invalid character')
+                raise ValueError('Invalid character')
             current_index += 1
 
         if root_stack:
-            raise Exception('Malformed input')
+            raise ValueError('Malformed input')
 
         self.root = current_root
 
@@ -186,7 +186,7 @@ class FacilityMap:
         if direction in ('E', 'W'):
             return '|'
 
-        raise Exception('Invalid direction')
+        raise ValueError('Invalid direction')
 
     @staticmethod
     def _get_direction(direction):

@@ -113,7 +113,7 @@ class Factory:  # pylint: disable=too-few-public-methods
 def _parse_instruction(line):
     match = _INSTRUCTION_REGEX.match(line)
     if not match:
-        raise Exception('Failed to parse input')
+        raise ValueError('Failed to parse input')
 
     return (match.group(1), match.group(2))
 

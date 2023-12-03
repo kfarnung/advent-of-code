@@ -56,7 +56,7 @@ class Cart:
             # Nothing to do
             pass
         else:
-            raise Exception('Unexpected track')
+            raise ValueError('Unexpected track')
 
     def move_once(self):
         """Update the position of the cart."""
@@ -69,7 +69,7 @@ class Cart:
         elif self.direction == 3:
             self.cell_index -= 1
         else:
-            raise Exception('Invalid direction')
+            raise ValueError('Invalid direction')
 
     def _turn(self, delta):
         self.direction = (self.direction + delta) % len(_CART_DIRECTIONS)
