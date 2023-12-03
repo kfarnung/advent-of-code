@@ -13,41 +13,45 @@ import static com.github.kfarnung.adventofcode.aoc2023.utilities.InputUtils.read
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AppTest {
+    private final List<String> testInput = Arrays.asList(
+            "467..114..",
+            "...*......",
+            "..35..633.",
+            "......#...",
+            "617*......",
+            ".....+.58.",
+            "..592.....",
+            "......755.",
+            "...$.*....",
+            ".664.598..");
+
+    private final List<String> testInput2 = Arrays.asList(
+            "467..114..",
+            "...*......",
+            "..35...633",
+            "4.....#...",
+            "617*......",
+            ".....+.58.",
+            "..592.....",
+            "......755.",
+            "...$..*...",
+            ".664...598");
+
     @Test
     void testGetPart1() throws IOException {
-        List<String> lines = Arrays.asList(
-                "467..114..",
-                "...*......",
-                "..35..633.",
-                "......#...",
-                "617*......",
-                ".....+.58.",
-                "..592.....",
-                "......755.",
-                "...$.*....",
-                ".664.598..");
-        assertEquals("4361", App.getPart1(lines));
+        assertEquals("4361", App.getPart1(testInput));
+        assertEquals("4361", App.getPart1(testInput2));
 
-        lines = readLinesFromResources(this, "input.txt");
-        assertEquals("512794", App.getPart1(lines));
+        List<String> realInput = readLinesFromResources(this, "input.txt");
+        assertEquals("512794", App.getPart1(realInput));
     }
 
     @Test
     void testGetPart2() throws IOException {
-        List<String> lines = Arrays.asList(
-                "467..114..",
-                "...*......",
-                "..35..633.",
-                "......#...",
-                "617*......",
-                ".....+.58.",
-                "..592.....",
-                "......755.",
-                "...$.*....",
-                ".664.598..");
-        assertEquals("467835", App.getPart2(lines));
+        assertEquals("467835", App.getPart2(testInput));
+        assertEquals("467835", App.getPart2(testInput2));
 
-        lines = readLinesFromResources(this, "input.txt");
-        assertEquals("67779080", App.getPart2(lines));
+        List<String> realInput = readLinesFromResources(this, "input.txt");
+        assertEquals("67779080", App.getPart2(realInput));
     }
 }

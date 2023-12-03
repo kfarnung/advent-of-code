@@ -41,7 +41,9 @@ public class App {
                     for (Part symbol : findSymbols(rows, i, j)) {
                         symbols.add(symbol);
                     }
-                } else {
+                } 
+                
+                if (!Character.isDigit(c) || j == row.size() - 1) {
                     if (!symbols.isEmpty()) {
                         total += Integer.parseInt(sb.toString());
                     }
@@ -74,7 +76,9 @@ public class App {
                             symbols.add(symbol);
                         }
                     }
-                } else {
+                } 
+                
+                if (!Character.isDigit(c) || j == row.size() - 1) {
                     for (Part symbol : symbols) {
                         symbolMap.computeIfAbsent(symbol, k -> new ArrayList<>()).add(Integer.parseInt(sb.toString()));
                     }
