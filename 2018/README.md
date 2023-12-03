@@ -9,19 +9,17 @@ works in either Python 2 or Python 3.
 
 ## Preparation
 
-1. Install your favorite version of [Python](https://www.python.org/).
-2. The tests are written to use `pytest`, which needs to be installed:
-
-   ```console
-   python -m pip install pytest
-   ```
+Install [Python 3](https://www.python.org/).
 
 ## Running tests
 
-The tests can simply be run using `pytest` with the Python version of choice:
+The tests can be run using `pytest` within a Python 3 venv:
 
 ```console
-python -m pytest
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pytest
 ```
 
 ## Execution time
