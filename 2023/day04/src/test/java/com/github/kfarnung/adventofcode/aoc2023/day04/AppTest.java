@@ -24,15 +24,15 @@ class AppTest {
     void testGetPart1() throws IOException {
         assertEquals("13", App.getPart1(input));
 
-        List<String> lines = readLinesFromResources(this, "input.txt");
-        assertEquals("20829", App.getPart1(lines));
+        List<String> realInput = readLinesFromResources(this, "input.txt");
+        assertEquals("20829", App.getPart1(realInput));
     }
 
     @Test
     void testGetPart2() throws IOException {
         assertEquals("30", App.getPart2(input));
 
-        List<String> lines = readLinesFromResources(this, "input.txt");
-        assertEquals("12648035", App.getPart2(lines));
+        List<String> realInput = readLinesFromResources(this, "input.txt");
+        assertEquals("12648035", App.getPart2(realInput));
     }
 }
