@@ -4,7 +4,6 @@
 package com.github.kfarnung.adventofcode.aoc2023.day03;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,7 @@ import static com.github.kfarnung.adventofcode.aoc2023.utilities.InputUtils.read
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AppTest {
-    private final List<String> testInput = Arrays.asList(
+    private final List<String> testInput = List.of(
             "467..114..",
             "...*......",
             "..35..633.",
@@ -25,7 +24,7 @@ class AppTest {
             "...$.*....",
             ".664.598..");
 
-    private final List<String> testInput2 = Arrays.asList(
+    private final List<String> testInput2 = List.of(
             "467..114..",
             "...*......",
             "..35...633",

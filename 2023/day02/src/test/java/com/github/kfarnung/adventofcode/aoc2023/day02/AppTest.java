@@ -4,7 +4,6 @@
 package com.github.kfarnung.adventofcode.aoc2023.day02;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class AppTest {
     @Test
     void testGetPart1() throws IOException {
-        List<String> lines = Arrays.asList(
+        List<String> lines = List.of(
                 "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
                 "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
                 "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red",
@@ -29,7 +28,7 @@ class AppTest {
 
     @Test
     void testGetPart2() throws IOException {
-        List<String> lines = Arrays.asList(
+        List<String> lines = List.of(
                 "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
                 "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
                 "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red",
