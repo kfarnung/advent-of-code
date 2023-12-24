@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.14)
 project(advent_of_code_2021)
 
-cmake_policy(SET CMP0135 NEW)
+if(POLICY CMP0135)
+  cmake_policy(SET CMP0135 NEW)
+endif()
 
 include(FetchContent)
 
