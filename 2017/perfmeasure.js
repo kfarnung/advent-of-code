@@ -38,7 +38,7 @@ async function runPerfTests(filter = null, iterations = 1, csvFile = null) {
       }
 
       const testName = config.args[0];
-      const input = config.args[1].replace('${workspaceFolder}', `${__dirname}`); // eslint-disable-line no-template-curly-in-string
+      const input = config.args[1].replace('${workspaceFolder}', `${__dirname}`);
       const testModule = require(`./${testName}`);
 
       console.log(`Running ${name}...`);
