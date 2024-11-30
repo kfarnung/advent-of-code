@@ -24,7 +24,7 @@ target_link_libraries(
   common
 )
 
-configure_file(input.txt input.txt COPYONLY)
+configure_file(../../private/inputs/2015/${TARGET_NAME}.txt input.txt COPYONLY)
 
 enable_testing()
 
