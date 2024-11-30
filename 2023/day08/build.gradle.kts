@@ -9,3 +9,11 @@ dependencies {
 application {
     mainClass.set("com.github.kfarnung.adventofcode.aoc2023.day08.App")
 }
+
+sourceSets {
+    test {
+        resources {
+            setSrcDirs(listOf("../../private/inputs/2023"))
+        }
+    }
+}

@@ -22,7 +22,7 @@ class AppTest {
     void testGetPart1() throws IOException {
         assertEquals("8", App.getPart1(testInput));
 
-        List<String> realInput = readLinesFromResources(this, "input.txt");
+        List<String> realInput = readLinesFromResources(this, "day02.txt");
         assertEquals("2913", App.getPart1(realInput));
     }
 
@@ -30,7 +30,7 @@ class AppTest {
     void testGetPart2() throws IOException {
         assertEquals("2286", App.getPart2(testInput));
 
-        List<String> realInput = readLinesFromResources(this, "input.txt");
+        List<String> realInput = readLinesFromResources(this, "day02.txt");
         assertEquals("55593", App.getPart2(realInput));
     }
 }

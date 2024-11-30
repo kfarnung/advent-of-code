@@ -41,7 +41,7 @@ class AppTest {
         assertEquals("4361", App.getPart1(testInput));
         assertEquals("4361", App.getPart1(testInput2));
 
-        List<String> realInput = readLinesFromResources(this, "input.txt");
+        List<String> realInput = readLinesFromResources(this, "day03.txt");
         assertEquals("512794", App.getPart1(realInput));
     }
 
@@ -50,7 +50,7 @@ class AppTest {
         assertEquals("467835", App.getPart2(testInput));
         assertEquals("467835", App.getPart2(testInput2));
 
-        List<String> realInput = readLinesFromResources(this, "input.txt");
+        List<String> realInput = readLinesFromResources(this, "day03.txt");
         assertEquals("67779080", App.getPart2(realInput));
     }
 }

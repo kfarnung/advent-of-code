@@ -21,7 +21,7 @@ class AppTest {
                 "treb7uchet");
         assertEquals("142", App.getPart1(testInput));
 
-        List<String> realInput = readLinesFromResources(this, "input.txt");
+        List<String> realInput = readLinesFromResources(this, "day01.txt");
         assertEquals("54697", App.getPart1(realInput));
     }
 
@@ -37,7 +37,7 @@ class AppTest {
                 "7pqrstsixteen");
         assertEquals("281", App.getPart2(testInput));
 
-        List<String> realInput = readLinesFromResources(this, "input.txt");
+        List<String> realInput = readLinesFromResources(this, "day01.txt");
         assertEquals("54885", App.getPart2(realInput));
     }
 }
