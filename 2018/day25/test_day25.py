@@ -8,6 +8,12 @@ from os import path
 from .day25 import run_part1
 
 _CURRENT_FILE_DIR = path.dirname(__file__)
+_INPUT_FILE = path.join(
+    path.dirname(path.dirname(_CURRENT_FILE_DIR)),
+    'private',
+    'inputs',
+    '2018',
+    path.basename(_CURRENT_FILE_DIR) + '.txt')
 _TEST_DATA = [
     '0,0,0,0',
     '3,0,0,0',
@@ -63,6 +69,6 @@ def test_part1():
     assert run_part1(_TEST_DATA3) == 3
     assert run_part1(_TEST_DATA4) == 8
 
-    with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
+    with open(_INPUT_FILE, 'r') as input_file:
         file_content = input_file.readlines()
         assert run_part1(file_content) == 370

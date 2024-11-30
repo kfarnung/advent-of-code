@@ -8,6 +8,12 @@ from os import path
 from .day02 import calculate_checksum, find_correct_id
 
 _CURRENT_FILE_DIR = path.dirname(__file__)
+_INPUT_FILE = path.join(
+    path.dirname(path.dirname(_CURRENT_FILE_DIR)),
+    'private',
+    'inputs',
+    '2018',
+    path.basename(_CURRENT_FILE_DIR) + '.txt')
 
 
 def test_part1():
@@ -22,7 +28,7 @@ def test_part1():
         'ababab',
     ]) == 12
 
-    with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
+    with open(_INPUT_FILE, 'r') as input_file:
         file_content = input_file.readlines()
         assert calculate_checksum(file_content) == 9633
 
@@ -39,6 +45,6 @@ def test_part2():
         'wvxyz',
     ]) == 'fgij'
 
-    with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
+    with open(_INPUT_FILE, 'r') as input_file:
         file_content = input_file.readlines()
         assert find_correct_id(file_content) == 'lujnogabetpmsydyfcovzixaw'

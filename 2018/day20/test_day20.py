@@ -8,6 +8,12 @@ from os import path
 from .day20 import Regex, run_part1, run_part2
 
 _CURRENT_FILE_DIR = path.dirname(__file__)
+_INPUT_FILE = path.join(
+    path.dirname(path.dirname(_CURRENT_FILE_DIR)),
+    'private',
+    'inputs',
+    '2018',
+    path.basename(_CURRENT_FILE_DIR) + '.txt')
 _TEST_DATA = [
     ("^WNE$", 3),
     ("^ENWWW(NEEE|SSE(EE|N))$", 10),
@@ -26,14 +32,14 @@ def test_part1():
     for test in _TEST_DATA:
         assert run_part1(test[0]) == test[1]
 
-    with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
+    with open(_INPUT_FILE, 'r') as input_file:
         file_content = input_file.read().strip()
         assert run_part1(file_content) == 4155
 
 
 def test_part2():
     """Tests for Part 2."""
-    with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
+    with open(_INPUT_FILE, 'r') as input_file:
         file_content = input_file.read().strip()
         assert run_part2(file_content) == 8434
 
@@ -43,6 +49,6 @@ def test_regex():
     for test in _TEST_DATA:
         assert str(Regex(test[0])) == test[0]
 
-    with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
+    with open(_INPUT_FILE, 'r') as input_file:
         file_content = input_file.read().strip()
         assert str(Regex(file_content)) == file_content

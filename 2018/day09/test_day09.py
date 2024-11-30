@@ -8,6 +8,12 @@ from os import path
 from .day09 import run_part1, run_part2
 
 _CURRENT_FILE_DIR = path.dirname(__file__)
+_INPUT_FILE = path.join(
+    path.dirname(path.dirname(_CURRENT_FILE_DIR)),
+    'private',
+    'inputs',
+    '2018',
+    path.basename(_CURRENT_FILE_DIR) + '.txt')
 _TEST_DATA = [
     ('9 players; last marble is worth 25 points', 32),
     ('10 players; last marble is worth 1618 points', 8317),
@@ -23,13 +29,13 @@ def test_part1():
     for (instruction, high_score) in _TEST_DATA:
         assert run_part1(instruction) == high_score
 
-    with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
+    with open(_INPUT_FILE, 'r') as input_file:
         file_content = input_file.read().strip()
         assert run_part1(file_content) == 399745
 
 
 def test_part2():
     """Tests for Part 2."""
-    with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
+    with open(_INPUT_FILE, 'r') as input_file:
         file_content = input_file.read().strip()
         assert run_part2(file_content) == 3349098263

@@ -8,6 +8,12 @@ from os import path
 from .day10 import find_message
 
 _CURRENT_FILE_DIR = path.dirname(__file__)
+_INPUT_FILE = path.join(
+    path.dirname(path.dirname(_CURRENT_FILE_DIR)),
+    'private',
+    'inputs',
+    '2018',
+    path.basename(_CURRENT_FILE_DIR) + '.txt')
 _TEST_DATA = [
     'position=< 9,  1> velocity=< 0,  2>',
     'position=< 7,  0> velocity=<-1,  0>',
@@ -71,7 +77,7 @@ def test_find_message():
     assert message == _TEST_EXPECTED
     assert seconds == 3
 
-    with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
+    with open(_INPUT_FILE, 'r') as input_file:
         message, seconds = find_message(input_file.readlines())
         assert message == _INPUT_EXPECTED
         assert seconds == 10886

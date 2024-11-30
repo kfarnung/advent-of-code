@@ -8,6 +8,12 @@ from os import path
 from .day24 import run_part1, run_part2
 
 _CURRENT_FILE_DIR = path.dirname(__file__)
+_INPUT_FILE = path.join(
+    path.dirname(path.dirname(_CURRENT_FILE_DIR)),
+    'private',
+    'inputs',
+    '2018',
+    path.basename(_CURRENT_FILE_DIR) + '.txt')
 _TEST_DATA = [
     'Immune System:',
     '17 units each with 5390 hit points (weak to radiation, bludgeoning) with an attack that does '
@@ -27,7 +33,7 @@ def test_part1():
     """Tests for Part 1."""
     assert run_part1(_TEST_DATA) == 5216
 
-    with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
+    with open(_INPUT_FILE, 'r') as input_file:
         file_content = input_file.readlines()
         assert run_part1(file_content) == 20150
 
@@ -36,6 +42,6 @@ def test_part2():
     """Tests for Part 2."""
     assert run_part2(_TEST_DATA) == 51
 
-    with open(path.join(_CURRENT_FILE_DIR, 'input'), 'r') as input_file:
+    with open(_INPUT_FILE, 'r') as input_file:
         file_content = input_file.readlines()
         assert run_part2(file_content) == 13005
