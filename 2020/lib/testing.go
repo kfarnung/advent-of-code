@@ -10,5 +10,6 @@ func GetTestFilePath(name string) string {
 	// Hack to build a relative path based on the stack frame
 	_, filename, _, _ := runtime.Caller(1)
 	dir := filepath.Dir(filename)
-	return filepath.Join(dir, name)
+	dayDir := filepath.Base(dir)
+	return filepath.Join(dir, "..", "..", "private", "inputs", "2020", dayDir+".txt")
 }
