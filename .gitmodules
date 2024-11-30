@@ -1,0 +1,3 @@
+[submodule "private"]
+	path = private
+	url = git@github.com:kfarnung/advent-of-code-private.git
