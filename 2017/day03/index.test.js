@@ -20,7 +20,7 @@ describe('Part 1', () => {
 });
 
 test('Input', () => {
-  const [part1, part2] = Day03.run('./day03/input');
+  const [part1, part2] = Day03.run('../private/inputs/2017/day03.txt');
   expect(part1).toBe(430);
   expect(part2).toBe(312453);
 });

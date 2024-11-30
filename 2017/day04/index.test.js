@@ -21,7 +21,7 @@ describe('Examples', () => {
 });
 
 test('Input', () => {
-  const [part1, part2] = Day04.run('./day04/input');
+  const [part1, part2] = Day04.run('../private/inputs/2017/day04.txt');
   expect(part1).toBe(455);
   expect(part2).toBe(186);
 });
