@@ -37,7 +37,7 @@ target_compile_options(
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
 )
 
-configure_file(input.txt input.txt COPYONLY)
+configure_file(../../private/inputs/2021/${TARGET_NAME}.txt input.txt COPYONLY)
 
 enable_testing()
 
