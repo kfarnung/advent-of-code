@@ -22,7 +22,7 @@ func TestProductOfEntries(t *testing.T) {
 }
 
 func TestInput(t *testing.T) {
-	name := lib.GetTestFilePath("input.txt")
+	name := lib.GetInputFilePath()
 	values, err := parseFile(name)
 	assert.NoError(t, err)
 

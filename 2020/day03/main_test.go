@@ -8,7 +8,7 @@ import (
 )
 
 func TestInput(t *testing.T) {
-	name := lib.GetTestFilePath("input.txt")
+	name := lib.GetInputFilePath()
 	grid, err := parseInput(name)
 	assert.NoError(t, err)
 

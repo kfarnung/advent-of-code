@@ -5,8 +5,8 @@ import (
 	"runtime"
 )
 
-// GetTestFilePath returns the path to a file next to the calling file.
-func GetTestFilePath(name string) string {
+// GetInputFilePath returns the path to the input file.
+func GetInputFilePath() string {
 	// Hack to build a relative path based on the stack frame
 	_, filename, _, _ := runtime.Caller(1)
 	dir := filepath.Dir(filename)

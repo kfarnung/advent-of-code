@@ -37,7 +37,7 @@ func TestExamples(t *testing.T) {
 }
 
 func TestInput(t *testing.T) {
-	name := lib.GetTestFilePath("input.txt")
+	name := lib.GetInputFilePath()
 	lines, err := lib.LoadFileLines(name)
 	assert.NoError(t, err)
 

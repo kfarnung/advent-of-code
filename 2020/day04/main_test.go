@@ -67,7 +67,7 @@ func TestPart2(t *testing.T) {
 }
 
 func TestInput(t *testing.T) {
-	name := lib.GetTestFilePath("input.txt")
+	name := lib.GetInputFilePath()
 	passports, err := parseInput(name)
 	assert.NoError(t, err)
 
