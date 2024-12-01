@@ -12,3 +12,4 @@ https://adventofcode.com/
 - [2021](2021/) - Using [C++11](https://en.cppreference.com/w/cpp/11)
 - [2022](2022/) - Using [Rust](https://www.rust-lang.org/)
 - [2023](2023/) - Using [Java](https://www.java.com/)
+- [2024](2024/) - Using [Go](https://golang.org/)
