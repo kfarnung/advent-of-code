@@ -17,12 +17,12 @@ func part1(input string) int64 {
 		log.Fatal(err)
 	}
 
-	lib.SortSliceInt64(first)
-	lib.SortSliceInt64(second)
+	lib.SortSliceAscending(first)
+	lib.SortSliceAscending(second)
 
 	sum := int64(0)
 	for i := 0; i < len(first); i++ {
-		sum += lib.AbsInt64(first[i] - second[i])
+		sum += lib.Abs(first[i] - second[i])
 	}
 
 	return sum
@@ -59,12 +59,12 @@ func parseInput(input string) ([]int64, []int64, error) {
 			continue
 		}
 
-		firstValue, err := lib.ParseInt64(matches[1])
+		firstValue, err := lib.ParseInt[int64](matches[1])
 		if err != nil {
 			return nil, nil, err
 		}
 
-		secondValue, err := lib.ParseInt64(matches[2])
+		secondValue, err := lib.ParseInt[int64](matches[2])
 		if err != nil {
 			return nil, nil, err
 		}

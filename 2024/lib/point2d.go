@@ -41,7 +41,7 @@ func (p *Point2D) Rotate90DegreesCounterClockwise(count int) {
 
 // ManhattanDistance calculates the manhattan distance between two points
 func (p Point2D) ManhattanDistance(other Point2D) int64 {
-	return AbsInt64(other.X-p.X) + AbsInt64(other.Y-p.Y)
+	return Abs(other.X-p.X) + Abs(other.Y-p.Y)
 }
 
 func (p Point2D) String() string {

@@ -1,7 +1,9 @@
 package lib
 
-// AbsInt64 calculates the absolute value of a given int
-func AbsInt64(n int64) int64 {
+import "golang.org/x/exp/constraints"
+
+// Abs calculates the absolute value of a given int
+func Abs[T constraints.Signed](n T) T {
 	if n < 0 {
 		return -n
 	}
@@ -9,8 +11,8 @@ func AbsInt64(n int64) int64 {
 	return n
 }
 
-// ModInt64 calculates the modulus value (as opposed to the remainder)
+// Mod calculates the modulus value (as opposed to the remainder)
 // https://github.com/golang/go/issues/448
-func ModInt64(x, y int64) int64 {
+func Mod[T constraints.Signed](x, y T) T {
 	return ((x % y) + y) % y
 }
