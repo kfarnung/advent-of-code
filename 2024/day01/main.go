@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
+	"regexp"
 
 	"github.com/kfarnung/advent-of-code/2024/lib"
 )
+
+var lineParseRegex = regexp.MustCompile(`^(\d+) +(\d+)$`)
 
 func part1(input string) int64 {
 	first, second, err := parseInput(input)
@@ -50,19 +52,19 @@ func part2(input string) int64 {
 func parseInput(input string) ([]int64, []int64, error) {
 	var first []int64
 	var second []int64
-	lines := lib.SplitLines(input)
-	for _, line := range lines {
-		if (len(line)) == 0 {
+
+	for _, line := range lib.SplitLines(input) {
+		matches := lineParseRegex.FindStringSubmatch(line)
+		if matches == nil {
 			continue
 		}
 
-		splitLine := strings.Split(line, " ")
-		firstValue, err := lib.ParseInt64(splitLine[0])
+		firstValue, err := lib.ParseInt64(matches[1])
 		if err != nil {
 			return nil, nil, err
 		}
 
-		secondValue, err := lib.ParseInt64(splitLine[len(splitLine)-1])
+		secondValue, err := lib.ParseInt64(matches[2])
 		if err != nil {
 			return nil, nil, err
 		}

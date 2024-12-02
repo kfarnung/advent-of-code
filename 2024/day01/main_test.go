@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var input string = strings.Join([]string{
+var input = strings.Join([]string{
 	"3   4",
 	"4   3",
 	"2   5",
