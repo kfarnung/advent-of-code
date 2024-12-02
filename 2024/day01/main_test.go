@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/kfarnung/advent-of-code/2020/lib"
+	"github.com/kfarnung/advent-of-code/2024/lib"
 	"github.com/stretchr/testify/assert"
 )
 

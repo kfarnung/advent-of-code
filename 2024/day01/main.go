@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/kfarnung/advent-of-code/2020/lib"
+	"github.com/kfarnung/advent-of-code/2024/lib"
 )
 
 func part1(input string) int64 {
