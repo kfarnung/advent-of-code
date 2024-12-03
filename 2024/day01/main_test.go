@@ -15,6 +15,7 @@ var input = strings.Join([]string{
 	"1   3",
 	"3   9",
 	"3   3",
+	"",
 }, "\n")
 
 func TestPart1(t *testing.T) {
