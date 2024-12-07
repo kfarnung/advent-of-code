@@ -22,7 +22,7 @@ func part1(input string) int64 {
 
 	sum := int64(0)
 	for _, equation := range equations {
-		if isValidEquation(0, equation.operands, equation.testValue, false) {
+		if isValidEquation(equation.operands[0], equation.operands[1:], equation.testValue, false) {
 			sum += equation.testValue
 		}
 	}
@@ -38,7 +38,7 @@ func part2(input string) int64 {
 
 	sum := int64(0)
 	for _, equation := range equations {
-		if isValidEquation(0, equation.operands, equation.testValue, true) {
+		if isValidEquation(equation.operands[0], equation.operands[1:], equation.testValue, true) {
 			sum += equation.testValue
 		}
 	}
@@ -58,18 +58,14 @@ func isValidEquation(current int64, operands []int64, target int64, allowConcat 
 		return true
 	}
 
+	if isValidEquation(current*operand, operands, target, allowConcat) {
+		return true
+	}
+
 	if allowConcat {
 		if isValidEquation(current*getMultiplier(operand)+operand, operands, target, allowConcat) {
 			return true
 		}
-	}
-
-	if current == 0 {
-		current = 1
-	}
-
-	if isValidEquation(current*operand, operands, target, allowConcat) {
-		return true
 	}
 
 	return false
