@@ -34,12 +34,12 @@ func TestPart1(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-	assert.Equal(t, int64(0), part2(input))
+	assert.Equal(t, int64(1206), part2(input))
 
 	inputContent, err := lib.GetInputContent()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, int64(0), part2(inputContent))
+	assert.Equal(t, int64(914966), part2(inputContent))
 }
