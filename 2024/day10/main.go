@@ -34,7 +34,6 @@ func part2(input string) int64 {
 
 func findTerminalPositions(topoMap [][]rune, position lib.Point2D, terminalPositions map[lib.Point2D]bool) int64 {
 	current := topoMap[position.X][position.Y]
-	fmt.Printf("current: %v %v\n", current, position)
 	if current == '9' {
 		terminalPositions[position] = true
 		return 1
