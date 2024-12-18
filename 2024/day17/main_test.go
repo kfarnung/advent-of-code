@@ -18,7 +18,7 @@ var input = strings.Join([]string{
 }, "\n")
 
 func TestPart1(t *testing.T) {
-	// assert.Equal(t, "4,6,3,5,6,3,5,2,1,0", part1(input))
+	assert.Equal(t, "4,6,3,5,6,3,5,2,1,0", part1(input))
 
 	inputContent, err := lib.GetInputContent()
 	if err != nil {
