@@ -41,7 +41,7 @@ func part2(input string) int64 {
 	seen := make(map[point]bool)
 
 	for i, row := range garden {
-		for j, _ := range row {
+		for j := range row {
 			location := point{i, j}
 			if seen[location] {
 				continue
