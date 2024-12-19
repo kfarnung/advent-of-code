@@ -11,10 +11,11 @@ import (
 
 func part1(input string) int64 {
 	towels, patterns := parseInput(input)
+	memo := make(map[string]bool)
 	count := int64(0)
 
 	for _, pattern := range patterns {
-		if isValidPattern(towels, pattern) {
+		if isValidPattern(towels, pattern, memo) {
 			count++
 		}
 	}
@@ -34,9 +35,13 @@ func part2(input string) int64 {
 	return count
 }
 
-func isValidPattern(towels []string, pattern string) bool {
+func isValidPattern(towels []string, pattern string, memo map[string]bool) bool {
 	if pattern == "" {
 		return true
+	}
+
+	if isValid, ok := memo[pattern]; ok {
+		return isValid
 	}
 
 	for _, towel := range towels {
@@ -45,7 +50,9 @@ func isValidPattern(towels []string, pattern string) bool {
 		}
 
 		if strings.HasPrefix(pattern, towel) {
-			if isValidPattern(towels, pattern[len(towel):]) {
+			isValid := isValidPattern(towels, pattern[len(towel):], memo)
+			memo[pattern] = isValid
+			if isValid {
 				return true
 			}
 		}
