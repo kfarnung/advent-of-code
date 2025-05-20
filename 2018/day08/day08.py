@@ -4,8 +4,6 @@ Implementation for Advent of Code Day 8.
 https://adventofcode.com/2018/day/8
 """
 
-from __future__ import print_function
-
 
 class TreeNode:  # pylint: disable=too-few-public-methods
     """Represents a single node in the tree."""

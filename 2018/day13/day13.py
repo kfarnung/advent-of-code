@@ -4,8 +4,6 @@ Implementation for Advent of Code Day 13.
 https://adventofcode.com/2018/day/13
 """
 
-from __future__ import print_function
-
 _TURN_ORDER = [
     -1,
     0,

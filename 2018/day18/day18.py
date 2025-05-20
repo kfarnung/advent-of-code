@@ -4,16 +4,11 @@ Implementation for Advent of Code Day 18.
 https://adventofcode.com/2018/day/18
 """
 
-from __future__ import print_function
-
 from collections import Counter
 from operator import itemgetter
 
 
-try:
-    xrange  # pylint: disable=used-before-assignment
-except NameError:
-    xrange = range  # pylint: disable=invalid-name
+
 
 
 class LumberArea:
@@ -33,9 +28,9 @@ class LumberArea:
 
     def __str__(self):
         lines = []
-        for row_index in xrange(self.max_rows + 1):
+        for row_index in range(self.max_rows + 1):
             line = []
-            for cell_index in xrange(self.max_cells + 1):
+            for cell_index in range(self.max_cells + 1):
                 line.append(self.area[(row_index, cell_index)])
             lines.append(''.join(line))
 
@@ -48,8 +43,8 @@ class LumberArea:
     def execute_minute(self):
         """Executes a single minute of growth."""
         area_copy = self.area.copy()
-        for row_index in xrange(self.max_rows + 1):
-            for cell_index in xrange(self.max_cells + 1):
+        for row_index in range(self.max_rows + 1):
+            for cell_index in range(self.max_cells + 1):
                 position = (row_index, cell_index)
                 cell = self.area[position]
                 if cell == '.':
@@ -94,7 +89,7 @@ def run_part1(file_content):
     """Implmentation for Part 1."""
     area = LumberArea(file_content)
 
-    for _ in xrange(10):
+    for _ in range(10):
         area.execute_minute()
 
     counts = area.get_counts()
@@ -108,7 +103,7 @@ def run_part2(file_content):
     cycle_index = None
     cycle_patterns = []
 
-    for minute in xrange(1000000000):
+    for minute in range(1000000000):
         area.execute_minute()
 
         pattern = str(area)

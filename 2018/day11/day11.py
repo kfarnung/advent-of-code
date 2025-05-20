@@ -4,8 +4,6 @@ Implementation for Advent of Code Day 11.
 https://adventofcode.com/2018/day/11
 """
 
-from __future__ import print_function
-
 
 def get_power_level(serial_number, coord_x, coord_y):
     """Gets the power level for a given coordinate."""

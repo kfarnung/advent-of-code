@@ -4,8 +4,6 @@ Implementation for Advent of Code Day 25.
 https://adventofcode.com/2018/day/25
 """
 
-from __future__ import print_function
-
 from collections import deque
 
 
