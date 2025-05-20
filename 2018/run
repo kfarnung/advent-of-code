@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+if [[ "$1" == "test" ]]; then
+    pytest -n auto
+elif [[ "$1" == "lint" ]]; then
+    pylint day*
+else
+    echo "Usage: $0 [test|lint]"
+    exit 1
+fi
