@@ -45,4 +45,4 @@ jobs:
         if: ${{ !contains(matrix.python-version, '2.' )}}
 
       - name: Test with pytest
-        run: pytest
+        run: pytest -n auto --slow

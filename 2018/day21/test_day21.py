@@ -4,6 +4,8 @@ Tests for Advent of Code Day 21.
 https://adventofcode.com/2018/day/21
 """
 
+import pytest
+
 from os import path
 from .day21 import run_part1, run_part2
 
@@ -23,6 +25,7 @@ def test_part1():
         assert run_part1(file_content) == 6619857
 
 
+@pytest.mark.slow
 def test_part2():
     """Tests for Part 2."""
     with open(_INPUT_FILE, 'r') as input_file:
