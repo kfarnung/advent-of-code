@@ -5,7 +5,7 @@ https://adventofcode.com/2018
 ## Language
 
 This year I chose to implement in Python 2, but ported the code such that it
-works in either Python 2 or Python 3.
+works properly in Python 3. Python 2 support has been removed.
 
 ## Preparation
 
