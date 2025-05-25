@@ -18,7 +18,7 @@ jobs:
       matrix:
         python-version:
           - pypy-2.7
-          - pypy-3.7
+          - pypy-3.11
     runs-on: ubuntu-latest
     defaults:
       run:
