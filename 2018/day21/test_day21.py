@@ -4,9 +4,8 @@ Tests for Advent of Code Day 21.
 https://adventofcode.com/2018/day/21
 """
 
-import pytest
-
 from os import path
+import pytest
 from .day21 import run_part1, run_part2
 
 _CURRENT_FILE_DIR = path.dirname(__file__)
