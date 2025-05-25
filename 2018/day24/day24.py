@@ -19,7 +19,7 @@ _MODIFIER_REGEX = re.compile(r'([a-z]+) to ([a-z, ]+)')
 class Group:  # pylint: disable=too-many-instance-attributes
     """Represents a single group of attackers."""
 
-    def __init__(self, team_name, unit_count, hit_points, attack_damage, attack_type, initiative):  # pylint: disable=too-many-arguments
+    def __init__(self, team_name, unit_count, hit_points, attack_damage, attack_type, initiative):  # pylint: disable=too-many-arguments,too-many-positional-arguments
         self.team_name = team_name
         self._unit_count = unit_count
         self._hit_points = hit_points
