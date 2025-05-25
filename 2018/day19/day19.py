@@ -4,8 +4,6 @@ Implementation for Advent of Code Day 19.
 https://adventofcode.com/2018/day/19
 """
 
-from __future__ import print_function
-
 import re
 
 _IP_REGEX = re.compile(r'^#ip (\d)$')

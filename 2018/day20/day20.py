@@ -4,8 +4,6 @@ Implementation for Advent of Code Day 20.
 https://adventofcode.com/2018/day/20
 """
 
-from __future__ import print_function
-
 from collections import defaultdict, deque
 from operator import itemgetter
 from sys import maxsize

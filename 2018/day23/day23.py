@@ -4,8 +4,6 @@ Implementation for Advent of Code Day 23.
 https://adventofcode.com/2018/day/23
 """
 
-from __future__ import print_function
-
 import heapq
 import re
 from operator import attrgetter

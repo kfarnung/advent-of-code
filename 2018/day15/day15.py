@@ -4,8 +4,6 @@ Implementation for Advent of Code Day 15.
 https://adventofcode.com/2018/day/15
 """
 
-from __future__ import print_function
-
 from collections import defaultdict, deque
 from operator import attrgetter
 

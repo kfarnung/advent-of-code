@@ -4,12 +4,8 @@ Implementation for Advent of Code Day 6.
 https://adventofcode.com/2018/day/6
 """
 
-from __future__ import print_function
-
 import sys
 from functools import reduce
-
-_MIN_INT = -sys.maxsize - 1
 
 
 class Point:
@@ -37,10 +33,10 @@ class Rect:
     @staticmethod
     def bounding_box(points):
         """Returns a rectangle which forms the boundary of all points"""
-        min_x = sys.maxsize
-        min_y = sys.maxsize
-        max_x = _MIN_INT
-        max_y = _MIN_INT
+        min_x = float('inf')
+        min_y = float('inf')
+        max_x = float('-inf')
+        max_y = float('-inf')
 
         for point in points:
             min_x = min(min_x, point.coord_x)

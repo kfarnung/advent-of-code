@@ -4,8 +4,6 @@ Implementation for Advent of Code Day 14.
 https://adventofcode.com/2018/day/14
 """
 
-from __future__ import print_function
-
 
 class RecipeGenerator:
     """Generator for the recipe combinations."""
