@@ -5,16 +5,20 @@ if(POLICY CMP0135)
   cmake_policy(SET CMP0135 NEW)
 endif()
 
+# GoogleTest requires at least C++17
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 include(FetchContent)
 
 FetchContent_Declare(
   googletest
-  URL https://github.com/google/googletest/archive/f8d7d77c06936315286eb55f8de22cd23c188571.zip
+  URL https://github.com/google/googletest/archive/52eb8108c5bdec04579160ae17225d66034bd723.zip
 )
 
 FetchContent_Declare(
   json
-  URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz
+  URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
 )
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
@@ -22,9 +26,6 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(googletest)
 FetchContent_MakeAvailable(json)
-
-# GoogleTest requires at least C++11
-set(CMAKE_CXX_STANDARD 11)
 
 add_subdirectory(libcommon)
 
