@@ -3,6 +3,3 @@ name = "aoc2025"
 version = "0.1.0"
 authors = ["Kyle Farnung <kfarnung@outlook.com>"]
 edition = "2024"
-
-[dependencies]
-regex = "1"
