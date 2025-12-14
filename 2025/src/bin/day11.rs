@@ -1,4 +1,4 @@
-use aoc2025::days::day09::{part1, part2};
+use aoc2025::days::day11::{part1, part2};
 use std::env;
 use std::fs;
 use std::process;
