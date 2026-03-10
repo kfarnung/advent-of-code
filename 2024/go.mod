@@ -1,12 +1,10 @@
 module github.com/kfarnung/advent-of-code/2024
 
-go 1.24.0
-
-toolchain go1.24.3
+go 1.25.0
 
 require (
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/exp v0.0.0-20251009144603-d2f985daa21b
+	golang.org/x/exp v0.0.0-20260218203240-3dfff04db8fa
 )
 
 require (

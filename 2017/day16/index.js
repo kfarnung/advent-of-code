@@ -70,7 +70,7 @@ class ProgramDance {
 class Day16 {
   static *parseDanceMoves(str) {
     const regexp = /([sxp])([a-z0-9]+)(?:\/([a-z0-9]+))?/g;
-    let result = null;
+    let result;
 
     do {
       result = regexp.exec(str);

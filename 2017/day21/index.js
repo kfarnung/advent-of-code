@@ -214,7 +214,7 @@ class EnhancementRunner {
 class Day21 {
   static *parseRules(str) {
     const regexp = /^([.#/]+) => ([.#/]+)$/gm;
-    let result = null;
+    let result;
 
     do {
       result = regexp.exec(str);

@@ -86,7 +86,7 @@ class Blueprint {
   }
 
   _parseState() {
-    let result = null;
+    let result;
 
     const stateRegex = /In state ([A-Z]+):/;
     result = stateRegex.exec(this._getNextLine());
@@ -108,7 +108,7 @@ class Blueprint {
   }
 
   _parseCondition(state) {
-    let result = null;
+    let result;
 
     const conditionRegex = / {2}If the current value is ([0-1]):/;
     result = conditionRegex.exec(this._getNextLine());
@@ -132,7 +132,7 @@ class Blueprint {
   }
 
   _parseHeader() {
-    let result = null;
+    let result;
 
     const beginRegex = /Begin in state ([A-Z])./;
     result = beginRegex.exec(this._getNextLine());

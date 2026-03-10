@@ -36,7 +36,7 @@ class InfiniteGrid {
   }
 
   _translateCoodinates(x, y) {
-    let grid = null;
+    let grid;
     if (x >= 0) {
       if (y >= 0) {
         grid = this._ne;
@@ -144,7 +144,7 @@ class InfectionAgent {
 class Day22 {
   static *parseGrid(str) {
     const regexp = /^[.#]+$/gm;
-    let result = null;
+    let result;
 
     do {
       result = regexp.exec(str);

@@ -122,7 +122,7 @@ class Process {
 class Day23 {
   static *parseInstructions(str) {
     const regexp = /^([a-z]+) ([0-9a-z]+)(?: (-?[0-9]+|[a-z]+))?$/gm;
-    let result = null;
+    let result;
 
     do {
       result = regexp.exec(str);
@@ -140,7 +140,7 @@ class Day23 {
   static runPart2() {
     let b = 67 * 100 + 100000;
     const c = b + 17000;
-    let g = 0;
+    let g;
     let h = 0;
 
     do {

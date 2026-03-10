@@ -8,6 +8,7 @@
       nodejs_22
       python312Packages.pylint
       python312Packages.pytest
+      python312Packages.pytest-xdist
       rustc
     ];
-}
+  }

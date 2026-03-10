@@ -79,7 +79,7 @@ class Day20 {
   static *parseParticles(str) {
     const regexp = /^p=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>, v=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>, a=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>$/gm;
     let currentId = 0;
-    let result = null;
+    let result;
 
     do {
       result = regexp.exec(str);
