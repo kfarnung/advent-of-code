@@ -86,10 +86,8 @@ class Blueprint {
   }
 
   _parseState() {
-    let result = null;
-
     const stateRegex = /In state ([A-Z]+):/;
-    result = stateRegex.exec(this._getNextLine());
+    let result = stateRegex.exec(this._getNextLine());
     if (result === null) {
       return false;
     }
@@ -108,10 +106,8 @@ class Blueprint {
   }
 
   _parseCondition(state) {
-    let result = null;
-
     const conditionRegex = / {2}If the current value is ([0-1]):/;
-    result = conditionRegex.exec(this._getNextLine());
+    let result = conditionRegex.exec(this._getNextLine());
     const currentValue = Number.parseInt(result[1]);
 
     const valueRegex = / {4}- Write the value ([0-1])./;
@@ -132,10 +128,8 @@ class Blueprint {
   }
 
   _parseHeader() {
-    let result = null;
-
     const beginRegex = /Begin in state ([A-Z])./;
-    result = beginRegex.exec(this._getNextLine());
+    let result = beginRegex.exec(this._getNextLine());
     this._beginState = result[1];
 
     const checksumRegex = /Perform a diagnostic checksum after ([0-9]+) steps./;

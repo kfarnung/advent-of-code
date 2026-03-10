@@ -176,7 +176,7 @@ class ComponentGraph {
 class Day24 {
   static *parseComponents(str) {
     const regexp = /^([0-9]+)\/([0-9]+)$/gm;
-    let result = null;
+    let result;
 
     do {
       result = regexp.exec(str);

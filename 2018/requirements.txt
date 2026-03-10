@@ -1,4 +1,3 @@
 pylint
 pytest
-pytest-skip-slow
 pytest-xdist

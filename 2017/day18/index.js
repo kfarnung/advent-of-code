@@ -208,7 +208,7 @@ class Part2Process extends ProcessBase {
 class Day18 {
   static *parseInstructions(str) {
     const regexp = /^([a-z]+) ([0-9a-z]+)(?: (-?[0-9]+|[a-z]+))?$/gm;
-    let result = null;
+    let result;
 
     do {
       result = regexp.exec(str);

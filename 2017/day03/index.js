@@ -43,9 +43,9 @@ class Day03 {
   }
 
   static findIndex(x, y) {
-    let length = 0;
-    let side = 0;
-    let pos = 0;
+    let length;
+    let side;
+    let pos;
 
     const absX = Math.abs(x);
     const absY = Math.abs(y);
