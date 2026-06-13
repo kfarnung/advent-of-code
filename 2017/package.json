@@ -10,14 +10,13 @@
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^10.0.1",
     "eslint": "^10.0.3",
-    "globals": "^17.4.0",
-    "jest": "^30.2.0"
+    "globals": "^17.4.0"
   },
   "scripts": {
     "lint": "eslint .",
     "lint-fix": "eslint --fix .",
     "pretest": "npm run lint",
-    "test": "jest"
+    "test": "node --test --test-reporter=spec day*/index.test.js"
   },
   "repository": {
     "type": "git",

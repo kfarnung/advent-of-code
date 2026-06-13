@@ -1,9 +1,19 @@
-/* global expect, test */
-
 const Day22 = require('.');
+const { describe, test } = require('node:test');
+const assert = require('node:assert/strict');
 
-test('Input', () => {
-  const [part1, part2] = Day22.run('../private/inputs/2017/day22.txt');
-  expect(part1).toBe(5261);
-  expect(part2).toBe(2511927);
+describe('Day 22', () => {
+  describe('Part 1', () => {
+    test('Input', () => {
+      const [part1] = Day22.run('../private/inputs/2017/day22.txt');
+      assert.strictEqual(part1, 5261);
+    });
+  });
+
+  describe('Part 2', () => {
+    test('Input', () => {
+      const [, part2] = Day22.run('../private/inputs/2017/day22.txt');
+      assert.strictEqual(part2, 2511927);
+    });
+  });
 });
