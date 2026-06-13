@@ -1,9 +1,12 @@
-/* global expect, test */
 
 const Day12 = require('.');
+const { describe, test } = require('node:test');
+const assert = require('node:assert/strict');
 
-test('Input', () => {
-  const [part1, part2] = Day12.run('../private/inputs/2017/day12.txt');
-  expect(part1).toBe(169);
-  expect(part2).toBe(179);
+describe('Day 12', () => {
+  test('Input', () => {
+    const [part1, part2] = Day12.run('../private/inputs/2017/day12.txt');
+    assert.strictEqual(part1, 169);
+    assert.strictEqual(part2, 179);
+  });
 });
