@@ -3,9 +3,9 @@
 set -e
 
 if [[ "$1" == "test" ]]; then
-    pytest -n auto
+    uv run pytest -n auto
 elif [[ "$1" == "lint" ]]; then
-    pylint day*
+    uv run pylint day*/
 else
     echo "Usage: $0 [test|lint]"
     exit 1

@@ -1,0 +1,11 @@
+[project]
+name = "advent-of-code-2018"
+version = "0.1.0"
+requires-python = ">=3.9"
+
+[dependency-groups]
+dev = [
+    "pylint",
+    "pytest",
+    "pytest-xdist",
+]

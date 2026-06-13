@@ -9,17 +9,26 @@ works properly in Python 3. Python 2 support has been removed.
 
 ## Preparation
 
-Install [Python 3](https://www.python.org/).
+Install [Python 3](https://www.python.org/) and [uv](https://docs.astral.sh/uv/).
 
 ## Running tests
 
-The tests can be run using `pytest` within a Python 3 venv:
+The tests can be run using `uv`:
 
 ```console
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-pytest
+uv run pytest -n auto
+```
+
+To run including slow tests:
+
+```console
+uv run pytest -n auto --slow
+```
+
+## Linting
+
+```console
+uv run pylint day*/
 ```
 
 ## Execution time
