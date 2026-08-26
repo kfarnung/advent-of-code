@@ -201,7 +201,7 @@ def run_part2(file_content):
         teams = battle.get_team_sizes()
         remaining = battle.fight()
         if len(remaining) == teams["E"] and remaining[0].unit_type == "E":
-            hit_points = sum(unit.hit_points for unit in battle.fight())
+            hit_points = sum(unit.hit_points for unit in remaining)
             return hit_points * battle.rounds_completed
 
         elf_power += 1
