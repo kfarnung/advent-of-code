@@ -6,7 +6,7 @@
 
 namespace day13
 {
-    int64_t find_highest_happiness(const std::vector<std::string> &input, bool include_me);
+int64_t find_highest_happiness(const std::vector<std::string> &input, bool include_me);
 }
 
 #endif

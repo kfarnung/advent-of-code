@@ -5,7 +5,7 @@
 
 namespace common
 {
-    int string_to_int(const std::string &input);
+int string_to_int(const std::string &input);
 }
 
 #endif

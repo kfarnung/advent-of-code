@@ -5,27 +5,27 @@
 
 namespace
 {
-    struct target_area
-    {
-        std::pair<int64_t, int64_t> x;
-        std::pair<int64_t, int64_t> y;
-    };
+struct target_area
+{
+    std::pair<int64_t, int64_t> x;
+    std::pair<int64_t, int64_t> y;
+};
 
-    target_area parse_input(const std::string &input)
+target_area parse_input(const std::string &input)
+{
+    std::regex re(R"(^target area: x=(-?\d+)..(-?\d+), y=(-?\d+)..(-?\d+)$)");
+    std::smatch sm;
+    if (std::regex_match(input, sm, re))
     {
-        std::regex re(R"(^target area: x=(-?\d+)..(-?\d+), y=(-?\d+)..(-?\d+)$)");
-        std::smatch sm;
-        if (std::regex_match(input, sm, re))
-        {
-            return {
-                std::make_pair(std::stoll(sm[1].str()), std::stoll(sm[2].str())),
-                std::make_pair(std::stoll(sm[3].str()), std::stoll(sm[4].str())),
-            };
-        }
-
-        throw std::runtime_error("Invalid input");
+        return {
+            std::make_pair(std::stoll(sm[1].str()), std::stoll(sm[2].str())),
+            std::make_pair(std::stoll(sm[3].str()), std::stoll(sm[4].str())),
+        };
     }
+
+    throw std::runtime_error("Invalid input");
 }
+} // namespace
 
 int64_t day17::run_part1(const std::string &input)
 {
@@ -86,8 +86,7 @@ int64_t day17::run_part2(const std::string &input)
                 pos_y += vel_y;
                 --vel_y;
 
-                if (pos_x >= area.x.first && pos_x <= area.x.second &&
-                    pos_y >= area.y.first && pos_y <= area.y.second)
+                if (pos_x >= area.x.first && pos_x <= area.x.second && pos_y >= area.y.first && pos_y <= area.y.second)
                 {
                     ++count;
                     break;

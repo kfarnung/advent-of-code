@@ -2,20 +2,20 @@
 
 namespace
 {
-    size_t get_one_count(const std::vector<std::string> &input, size_t position)
+size_t get_one_count(const std::vector<std::string> &input, size_t position)
+{
+    size_t count = 0;
+    for (const auto &current : input)
     {
-        size_t count = 0;
-        for (const auto &current : input)
+        if (current[position] == '1')
         {
-            if (current[position] == '1')
-            {
-                ++count;
-            }
+            ++count;
         }
-
-        return count;
     }
+
+    return count;
 }
+} // namespace
 
 int64_t day03::run_part1(const std::vector<std::string> &input)
 {
@@ -75,7 +75,7 @@ int64_t day03::run_part2(const std::vector<std::string> &input)
     while (co2_list.size() > 1)
     {
         std::vector<std::string> new_co2;
-        
+
         size_t one_count = get_one_count(co2_list, count_index);
         char ch = one_count >= (co2_list.size() - one_count) ? '0' : '1';
 
@@ -91,5 +91,6 @@ int64_t day03::run_part2(const std::vector<std::string> &input)
         ++count_index;
     }
 
-    return std::stoul(oxygen_list[0], nullptr, 2) * std::stoul(co2_list[0], nullptr, 2);
+    return static_cast<int64_t>(std::stoul(oxygen_list[0], nullptr, 2)) *
+           static_cast<int64_t>(std::stoul(co2_list[0], nullptr, 2));
 }

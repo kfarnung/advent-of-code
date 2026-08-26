@@ -6,8 +6,8 @@
 
 namespace day13
 {
-    int64_t run_part1(const std::vector<std::string> &input);
-    std::string run_part2(const std::vector<std::string> &input);
-}
+int64_t run_part1(const std::vector<std::string> &input);
+std::string run_part2(const std::vector<std::string> &input);
+} // namespace day13
 
 #endif

@@ -5,56 +5,74 @@
 
 namespace
 {
-    using Grid = std::vector<std::vector<uint8_t>>;
+using Grid = std::vector<std::vector<uint8_t>>;
 
-    const std::vector<std::pair<int32_t, int32_t>> directions{
-        {-1, -1},
-        {-1, 0},
-        {-1, 1},
-        {0, -1},
-        {0, 1},
-        {1, -1},
-        {1, 0},
-        {1, 1},
+const std::vector<std::pair<int32_t, int32_t>> &directions()
+{
+    static const std::vector<std::pair<int32_t, int32_t>> result{
+        {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1},
     };
+    return result;
+}
 
-    Grid parse_grid(const std::vector<std::string> &input)
+Grid parse_grid(const std::vector<std::string> &input)
+{
+    Grid grid;
+
+    for (const auto &line : input)
     {
-        Grid grid;
+        std::vector<uint8_t> row;
 
-        for (const auto &line : input)
+        for (const auto &ch : line)
         {
-            std::vector<uint8_t> row;
+            row.emplace_back(static_cast<uint8_t>(ch - '0'));
+        }
 
-            for (const auto &ch : line)
+        grid.emplace_back(std::move(row));
+    }
+
+    return grid;
+}
+
+int64_t count_grid_cells(const Grid &grid)
+{
+    int64_t count = 0;
+    for (const auto &row : grid)
+    {
+        count += static_cast<int64_t>(row.size());
+    }
+
+    return count;
+}
+
+int64_t do_step(Grid &grid)
+{
+    std::deque<std::pair<int64_t, int64_t>> queue;
+
+    for (size_t i = 0; i < grid.size(); ++i)
+    {
+        for (size_t j = 0; j < grid[i].size(); ++j)
+        {
+            grid[i][j] += 1;
+            if (grid[i][j] > 9)
             {
-                row.emplace_back(static_cast<uint8_t>(ch - '0'));
+                queue.emplace_back(i, j);
             }
-
-            grid.emplace_back(std::move(row));
         }
-
-        return grid;
     }
 
-    int64_t count_grid_cells(const Grid &grid)
+    while (!queue.empty())
     {
-        size_t count = 0;
-        for (const auto &row : grid)
+        auto current = queue.front();
+        queue.pop_front();
+
+        for (const auto &direction : directions())
         {
-            count += row.size();
-        }
+            auto i = current.first + direction.first;
+            auto j = current.second + direction.second;
 
-        return count;
-    }
-
-    int64_t do_step(Grid &grid)
-    {
-        std::deque<std::pair<int64_t, int64_t>> queue;
-
-        for (size_t i = 0; i < grid.size(); ++i)
-        {
-            for (size_t j = 0; j < grid[i].size(); ++j)
+            if (i >= 0 && i < static_cast<int64_t>(grid.size()) && j >= 0 && j < static_cast<int64_t>(grid[i].size()) &&
+                grid[i][j] <= 9)
             {
                 grid[i][j] += 1;
                 if (grid[i][j] > 9)
@@ -63,46 +81,24 @@ namespace
                 }
             }
         }
-
-        while (!queue.empty())
-        {
-            auto current = queue.front();
-            queue.pop_front();
-
-            for (const auto &direction : directions)
-            {
-                auto i = current.first + direction.first;
-                auto j = current.second + direction.second;
-
-                if (i >= 0 && i < static_cast<int64_t>(grid.size()) &&
-                    j >= 0 && j < static_cast<int64_t>(grid[i].size()) &&
-                    grid[i][j] <= 9)
-                {
-                    grid[i][j] += 1;
-                    if (grid[i][j] > 9)
-                    {
-                        queue.emplace_back(i, j);
-                    }
-                }
-            }
-        }
-
-        int64_t flash_count = 0;
-        for (size_t i = 0; i < grid.size(); ++i)
-        {
-            for (size_t j = 0; j < grid[i].size(); ++j)
-            {
-                if (grid[i][j] > 9)
-                {
-                    flash_count += 1;
-                    grid[i][j] = 0;
-                }
-            }
-        }
-
-        return flash_count;
     }
+
+    int64_t flash_count = 0;
+    for (size_t i = 0; i < grid.size(); ++i)
+    {
+        for (size_t j = 0; j < grid[i].size(); ++j)
+        {
+            if (grid[i][j] > 9)
+            {
+                flash_count += 1;
+                grid[i][j] = 0;
+            }
+        }
+    }
+
+    return flash_count;
 }
+} // namespace
 
 int64_t day11::run_part1(const std::vector<std::string> &input)
 {

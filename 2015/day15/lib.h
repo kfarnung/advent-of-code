@@ -6,7 +6,7 @@
 
 namespace day15
 {
-    int64_t find_best_cookie(const std::vector<std::string> &input, int32_t calorie_target);
+int64_t find_best_cookie(const std::vector<std::string> &input, int32_t calorie_target);
 }
 
 #endif

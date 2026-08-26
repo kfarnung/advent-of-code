@@ -5,44 +5,45 @@
 #include <limits>
 
 namespace
-{    
-    uint32_t sum_of_factors(uint32_t num, uint32_t multiplier, uint32_t max_visits)
+{
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters) -- reordering these adds no clarity here.
+uint32_t sum_of_factors(uint32_t num, uint32_t multiplier, uint32_t max_visits)
+{
+    if (num == 1)
     {
-        if (num == 1)
+        return multiplier;
+    }
+
+    uint32_t sum = num * multiplier;
+
+    if (num <= max_visits)
+    {
+        sum += multiplier;
+    }
+
+    uint32_t range_end = static_cast<uint32_t>(std::sqrt(static_cast<double>(num)));
+
+    for (uint32_t i = 2; i <= range_end; i++)
+    {
+        if (num % i == 0)
         {
-            return multiplier;
-        }
+            auto other = num / i;
 
-        uint32_t sum = num * multiplier;
-
-        if (num <= max_visits)
-        {
-            sum += multiplier;
-        }
-
-        uint32_t range_end = static_cast<uint32_t>(std::sqrt(static_cast<double>(num)));
-
-        for (uint32_t i = 2; i <= range_end; i++)
-        {
-            if (num % i == 0)
+            if (other <= max_visits)
             {
-                auto other = num / i;
+                sum += i * multiplier;
+            }
 
-                if (other <= max_visits)
-                {
-                    sum += i * multiplier;
-                }
-                
-                if (other != i && i <= max_visits)
-                {
-                    sum += other * multiplier;
-                }
+            if (other != i && i <= max_visits)
+            {
+                sum += other * multiplier;
             }
         }
-
-        return sum;
     }
+
+    return sum;
 }
+} // namespace
 
 uint32_t day20::find_first_house(const std::string &input)
 {

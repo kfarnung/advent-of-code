@@ -11,6 +11,6 @@ int main(int argc, char *argv[])
     auto lines = common::splitlines(file);
 
     auto part1 = day11::next_valid_password(lines[0]);
-    std::cout << "Part 1: " << part1 << std::endl;
-    std::cout << "Part 2: " << day11::next_valid_password(part1) << std::endl;
+    std::cout << "Part 1: " << part1 << "\n";
+    std::cout << "Part 2: " << day11::next_valid_password(part1) << "\n";
 }

@@ -2,47 +2,47 @@
 
 #include <common/point2d.h>
 
-#include <unordered_map>
 #include <regex>
+#include <unordered_map>
 
 namespace
 {
-    using LineSegment = std::pair<common::Point2D, common::Point2D>;
+using LineSegment = std::pair<common::Point2D, common::Point2D>;
 
-    std::vector<LineSegment> parse_lines(const std::vector<std::string> &input)
+std::vector<LineSegment> parse_lines(const std::vector<std::string> &input)
+{
+    std::vector<LineSegment> segments;
+    std::regex re(R"(^(\d+),(\d+) -> (\d+),(\d+)$)");
+
+    for (const auto &line : input)
     {
-        std::vector<LineSegment> segments;
-        std::regex re(R"(^(\d+),(\d+) -> (\d+),(\d+)$)");
-
-        for (const auto &line : input)
+        std::smatch sm;
+        if (std::regex_match(line, sm, re))
         {
-            std::smatch sm;
-            if (std::regex_match(line, sm, re))
-            {
-                segments.emplace_back(std::make_pair(
-                    common::Point2D{
-                        std::stoi(sm[1].str()),
-                        std::stoi(sm[2].str()),
-                    },
-                    common::Point2D{
-                        std::stoi(sm[3].str()),
-                        std::stoi(sm[4].str()),
-                    }));
-            }
+            segments.emplace_back(std::make_pair(
+                common::Point2D{
+                    std::stoi(sm[1].str()),
+                    std::stoi(sm[2].str()),
+                },
+                common::Point2D{
+                    std::stoi(sm[3].str()),
+                    std::stoi(sm[4].str()),
+                }));
         }
-
-        return segments;
     }
 
-    common::Point2D find_slope(common::Point2D p1, common::Point2D p2)
-    {
-        int64_t x = p2.x - p1.x;
-        int64_t y = p2.y - p1.y;
-        int64_t divisor = std::max(std::abs(x), std::abs(y));
-
-        return common::Point2D{x / divisor, y / divisor};
-    }
+    return segments;
 }
+
+common::Point2D find_slope(common::Point2D p1, common::Point2D p2)
+{
+    int64_t x = p2.x - p1.x;
+    int64_t y = p2.y - p1.y;
+    int64_t divisor = std::max(std::abs(x), std::abs(y));
+
+    return common::Point2D{x / divisor, y / divisor};
+}
+} // namespace
 
 size_t day05::count_overlaps(const std::vector<std::string> &input, bool include_diagonals)
 {

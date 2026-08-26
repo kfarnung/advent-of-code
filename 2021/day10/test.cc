@@ -7,23 +7,19 @@
 
 namespace
 {
-    const std::vector<std::string> test_data{
-        "[({(<(())[]>[[{[]{<()<>>",
-        "[(()[<>])]({[<{<<[]>>(",
-        "{([(<{}[<>[]}>{[]{[(<()>",
-        "(((({<>}<{<{<>}{[]{[]{}",
-        "[[<[([]))<([[{}[[()]]]",
-        "[{[{({}]{}}([{[{{{}}([]",
-        "{<[[]]>}<{[{[{[]{()[[[]",
-        "[<(<(<(<{}))><([]([]()",
-        "<{([([[(<>()){}]>(<<{{",
-        "<{([{{}}[<[[[<>{}]]]>[]]",
+std::vector<std::string> test_data()
+{
+    return {
+        "[({(<(())[]>[[{[]{<()<>>", "[(()[<>])]({[<{<<[]>>(",   "{([(<{}[<>[]}>{[]{[(<()>", "(((({<>}<{<{<>}{[]{[]{}",
+        "[[<[([]))<([[{}[[()]]]",   "[{[{({}]{}}([{[{{{}}([]",  "{<[[]]>}<{[{[{[]{()[[[]",  "[<(<(<(<{}))><([]([]()",
+        "<{([([[(<>()){}]>(<<{{",   "<{([{{}}[<[[[<>{}]]]>[]]",
     };
 }
+} // namespace
 
 TEST(Day10, Part1)
 {
-    EXPECT_EQ(day10::run_part1(test_data), 26397);
+    EXPECT_EQ(day10::run_part1(test_data()), 26397);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);
@@ -32,7 +28,7 @@ TEST(Day10, Part1)
 
 TEST(Day10, Part2)
 {
-    EXPECT_EQ(day10::run_part2(test_data), 288957);
+    EXPECT_EQ(day10::run_part2(test_data()), 288957);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);

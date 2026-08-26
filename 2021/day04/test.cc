@@ -7,7 +7,9 @@
 
 namespace
 {
-    const std::vector<std::string> test_data{
+std::vector<std::string> test_data()
+{
+    return {
         "7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1",
         "",
         "22 13 17 11  0",
@@ -29,10 +31,11 @@ namespace
         " 2  0 12  3  7",
     };
 }
+} // namespace
 
 TEST(Day04, Part1)
 {
-    EXPECT_EQ(day04::run_part1(test_data), 4512);
+    EXPECT_EQ(day04::run_part1(test_data()), 4512);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);
@@ -41,7 +44,7 @@ TEST(Day04, Part1)
 
 TEST(Day04, Part2)
 {
-    EXPECT_EQ(day04::run_part2(test_data), 1924);
+    EXPECT_EQ(day04::run_part2(test_data()), 1924);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);

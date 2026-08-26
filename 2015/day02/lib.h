@@ -6,10 +6,10 @@
 
 namespace day02
 {
-    int64_t calculate_wrapping_paper(const std::string &input);
-    int64_t calculate_wrapping_paper(const std::vector<std::string> &input);
-    int64_t calculate_ribbon(const std::string &input);
-    int64_t calculate_ribbon(const std::vector<std::string> &input);
-}
+int64_t calculate_wrapping_paper(const std::string &input);
+int64_t calculate_wrapping_paper(const std::vector<std::string> &input);
+int64_t calculate_ribbon(const std::string &input);
+int64_t calculate_ribbon(const std::vector<std::string> &input);
+} // namespace day02
 
 #endif

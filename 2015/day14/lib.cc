@@ -8,69 +8,69 @@
 
 namespace
 {
-    struct Reindeer
-    {
-        std::string name;
-        int32_t velocity;
-        int32_t move_duration;
-        int32_t rest_duration;
-    };
+struct Reindeer
+{
+    std::string name;
+    int32_t velocity;
+    int32_t move_duration;
+    int32_t rest_duration;
+};
 
-    std::vector<Reindeer> parse_list(const std::vector<std::string> &input)
-    {
-        std::regex re(R"(^(\w+) can fly (\d+) km/s for (\d+) seconds, but then must rest for (\d+) seconds.$)");
-        std::vector<Reindeer> result;
+std::vector<Reindeer> parse_list(const std::vector<std::string> &input)
+{
+    std::regex re(R"(^(\w+) can fly (\d+) km/s for (\d+) seconds, but then must rest for (\d+) seconds.$)");
+    std::vector<Reindeer> result;
 
-        for (const auto &line : input)
+    for (const auto &line : input)
+    {
+        std::smatch sm;
+        if (std::regex_match(line, sm, re))
         {
-            std::smatch sm;
-            if (std::regex_match(line, sm, re))
-            {
-                result.emplace_back(Reindeer{
-                    sm[1].str(),
-                    common::string_to_int(sm[2].str()),
-                    common::string_to_int(sm[3].str()),
-                    common::string_to_int(sm[4].str()),
-                });
-            }
+            result.emplace_back(Reindeer{
+                sm[1].str(),
+                common::string_to_int(sm[2].str()),
+                common::string_to_int(sm[3].str()),
+                common::string_to_int(sm[4].str()),
+            });
         }
-
-        return result;
     }
 
-    int32_t calculate_distance(Reindeer reindeer, int32_t current_time)
-    {
-        int32_t total_time = reindeer.move_duration + reindeer.rest_duration;
-        int32_t iteration_count = current_time / total_time;
-        int32_t remainder = current_time % total_time;
-
-        return (reindeer.velocity * reindeer.move_duration * iteration_count) +
-               (reindeer.velocity * std::min(reindeer.move_duration, remainder));
-    }
-
-    std::vector<std::string> pick_winners(const std::vector<Reindeer> &input, int32_t current_time)
-    {
-        int32_t max_distance = std::numeric_limits<int32_t>::min();
-        std::vector<std::string> max_reindeer;
-
-        for (const auto &reindeer : input)
-        {
-            int32_t distance_travelled = calculate_distance(reindeer, current_time);
-            if (distance_travelled > max_distance)
-            {
-                max_distance = distance_travelled;
-                max_reindeer.clear();
-            }
-
-            if (distance_travelled == max_distance)
-            {
-                max_reindeer.emplace_back(reindeer.name);
-            }
-        }
-
-        return max_reindeer;
-    }
+    return result;
 }
+
+int32_t calculate_distance(const Reindeer &reindeer, int32_t current_time)
+{
+    int32_t total_time = reindeer.move_duration + reindeer.rest_duration;
+    int32_t iteration_count = current_time / total_time;
+    int32_t remainder = current_time % total_time;
+
+    return (reindeer.velocity * reindeer.move_duration * iteration_count) +
+           (reindeer.velocity * std::min(reindeer.move_duration, remainder));
+}
+
+std::vector<std::string> pick_winners(const std::vector<Reindeer> &input, int32_t current_time)
+{
+    int32_t max_distance = std::numeric_limits<int32_t>::min();
+    std::vector<std::string> max_reindeer;
+
+    for (const auto &reindeer : input)
+    {
+        int32_t distance_travelled = calculate_distance(reindeer, current_time);
+        if (distance_travelled > max_distance)
+        {
+            max_distance = distance_travelled;
+            max_reindeer.clear();
+        }
+
+        if (distance_travelled == max_distance)
+        {
+            max_reindeer.emplace_back(reindeer.name);
+        }
+    }
+
+    return max_reindeer;
+}
+} // namespace
 
 int32_t day14::find_longest_distance(const std::vector<std::string> &input, int32_t target_time)
 {
