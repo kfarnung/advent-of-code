@@ -45,6 +45,10 @@ jobs:
         run: uv run ruff check .
         if: ${{ !contains(matrix.python-version, '2.' )}}
 
+      - name: Check formatting with Ruff
+        run: uv run ruff format --check .
+        if: ${{ matrix.python-version == '3.12' }}
+
       - name: Test with pytest
         run: uv run pytest -n auto
         if: ${{ !contains(matrix.python-version, 'pypy' )}}
