@@ -28,5 +28,11 @@ jobs:
       - name: Build
         run: cargo build
 
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Clippy
+        run: cargo clippy --all-targets
+
       - name: Test
         run: cargo test

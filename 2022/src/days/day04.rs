@@ -16,9 +16,7 @@ pub fn part1(contents: &str) -> i64 {
 pub fn part2(contents: &str) -> i64 {
     let mut count = 0;
     for pair in contents.lines().map(|x| parse(x)) {
-        if (pair.0 >= pair.2 && pair.0 <= pair.3)
-            || (pair.2 >= pair.0 && pair.2 <= pair.1)
-        {
+        if (pair.0 >= pair.2 && pair.0 <= pair.3) || (pair.2 >= pair.0 && pair.2 <= pair.1) {
             count += 1;
         }
     }

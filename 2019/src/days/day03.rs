@@ -9,7 +9,7 @@ struct PathStep {
 
 pub fn part1(contents: &str) -> i32 {
     let lines: Vec<&str> = contents.lines().collect();
-    
+
     let wire_a = follow_path(lines[0]);
     let wire_b = follow_path(lines[1]);
 
@@ -25,7 +25,7 @@ pub fn part1(contents: &str) -> i32 {
 
 pub fn part2(contents: &str) -> i32 {
     let lines: Vec<&str> = contents.lines().collect();
-    
+
     let wire_a = follow_path(lines[0]);
     let wire_b = follow_path(lines[1]);
 

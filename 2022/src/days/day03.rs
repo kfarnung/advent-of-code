@@ -1,6 +1,5 @@
 use std::collections::HashSet;
 
-
 const CODE_LOWERCASE_A: u8 = 97;
 const CODE_UPPERCASE_A: u8 = 65;
 

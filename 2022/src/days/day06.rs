@@ -10,7 +10,11 @@ pub fn part2(contents: &str) -> usize {
 
 fn find_marker(contents: &str, length: usize) -> usize {
     for i in length - 1..contents.len() {
-        let set: HashSet<char> = contents.get(i - (length - 1)..=i).unwrap().chars().collect();
+        let set: HashSet<char> = contents
+            .get(i - (length - 1)..=i)
+            .unwrap()
+            .chars()
+            .collect();
         if set.len() == length {
             return i + 1;
         }
