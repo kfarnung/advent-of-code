@@ -53,7 +53,8 @@ int64_t calculate_risk_level(const grid_t &grid, size_t boards)
     std::priority_queue<queue_item_t, std::vector<queue_item_t>, std::greater<queue_item_t>> queue;
     queue.emplace(0, common::Point2D(0, 0));
 
-    std::map<common::Point2D, int64_t> visited;
+    std::map<common::Point2D, int64_t> best_dist;
+    best_dist.emplace(common::Point2D(0, 0), 0);
 
     while (!queue.empty())
     {
@@ -65,7 +66,12 @@ int64_t calculate_risk_level(const grid_t &grid, size_t boards)
             return current.first;
         }
 
-        visited.emplace(current.second, current.first);
+        // Skip stale queue entries made obsolete by a shorter path found later.
+        auto current_best = best_dist.find(current.second);
+        if (current_best != best_dist.end() && current.first > current_best->second)
+        {
+            continue;
+        }
 
         for (const auto &direction : directions())
         {
@@ -76,12 +82,13 @@ int64_t calculate_risk_level(const grid_t &grid, size_t boards)
             {
                 common::Point2D next{x, y};
                 auto risk_level = (grid[x % size_x][y % size_y] - 1 + x / size_x + y / size_y) % 9 + 1;
+                auto next_dist = current.first + risk_level;
 
-                auto best = visited.find(next);
-                if (best == visited.end() || risk_level < best->second)
+                auto best = best_dist.find(next);
+                if (best == best_dist.end() || next_dist < best->second)
                 {
-                    visited[next] = risk_level;
-                    queue.emplace(current.first + risk_level, next);
+                    best_dist[next] = next_dist;
+                    queue.emplace(next_dist, next);
                 }
             }
         }

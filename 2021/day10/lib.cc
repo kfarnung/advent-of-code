@@ -35,7 +35,7 @@ parser_state parse_line(const std::string &line)
             break;
 
         default:
-            if (stack.back() == ch)
+            if (!stack.empty() && stack.back() == ch)
             {
                 stack.pop_back();
             }
