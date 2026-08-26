@@ -4,9 +4,10 @@
 #include <string>
 #include <vector>
 
-namespace day04 {
-int64_t run_part1(const std::vector<std::string> &input);
-int64_t run_part2(const std::vector<std::string> &input);
-} // namespace day04
+namespace day04
+{
+    int64_t run_part1(const std::vector<std::string> &input);
+    int64_t run_part2(const std::vector<std::string> &input);
+}
 
 #endif

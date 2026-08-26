@@ -3,8 +3,9 @@
 
 #include <string>
 
-namespace day12 {
-int64_t sum_all_numbers(const std::string &input, bool skip_red);
+namespace day12
+{
+    int64_t sum_all_numbers(const std::string &input, bool skip_red);
 }
 
 #endif

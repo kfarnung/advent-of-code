@@ -11,18 +11,20 @@ const std::vector<std::string> test_data{
     "Dublin to Belfast = 141",
 };
 
-TEST(Day09, Part1) {
-  EXPECT_EQ(day09::calculate_shortest_distance(test_data), 605);
+TEST(Day09, Part1)
+{
+    EXPECT_EQ(day09::calculate_shortest_distance(test_data), 605);
 
-  std::ifstream file("input.txt");
-  auto lines = common::splitlines(file);
-  EXPECT_EQ(day09::calculate_shortest_distance(lines), 251);
+    std::ifstream file("input.txt");
+    auto lines = common::splitlines(file);
+    EXPECT_EQ(day09::calculate_shortest_distance(lines), 251);
 }
 
-TEST(Day09, Part2) {
-  EXPECT_EQ(day09::calculate_longest_distance(test_data), 982);
+TEST(Day09, Part2)
+{
+    EXPECT_EQ(day09::calculate_longest_distance(test_data), 982);
 
-  std::ifstream file("input.txt");
-  auto lines = common::splitlines(file);
-  EXPECT_EQ(day09::calculate_longest_distance(lines), 898);
+    std::ifstream file("input.txt");
+    auto lines = common::splitlines(file);
+    EXPECT_EQ(day09::calculate_longest_distance(lines), 898);
 }

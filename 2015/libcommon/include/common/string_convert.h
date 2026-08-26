@@ -3,8 +3,9 @@
 
 #include <string>
 
-namespace common {
-int string_to_int(const std::string &input);
+namespace common
+{
+    int string_to_int(const std::string &input);
 }
 
 #endif

@@ -20,16 +20,18 @@ const std::vector<std::string> test_data{
     "David would gain 41 happiness units by sitting next to Carol.",
 };
 
-TEST(Day13, Part1) {
-  EXPECT_EQ(day13::find_highest_happiness(test_data, false), 330);
+TEST(Day13, Part1)
+{
+    EXPECT_EQ(day13::find_highest_happiness(test_data, false), 330);
 
-  std::ifstream file("input.txt");
-  auto lines = common::splitlines(file);
-  EXPECT_EQ(day13::find_highest_happiness(lines, false), 709);
+    std::ifstream file("input.txt");
+    auto lines = common::splitlines(file);
+    EXPECT_EQ(day13::find_highest_happiness(lines, false), 709);
 }
 
-TEST(Day13, Part2) {
-  std::ifstream file("input.txt");
-  auto lines = common::splitlines(file);
-  EXPECT_EQ(day13::find_highest_happiness(lines, true), 668);
+TEST(Day13, Part2)
+{
+    std::ifstream file("input.txt");
+    auto lines = common::splitlines(file);
+    EXPECT_EQ(day13::find_highest_happiness(lines, true), 668);
 }

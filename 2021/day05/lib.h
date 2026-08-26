@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-namespace day05 {
-size_t count_overlaps(const std::vector<std::string> &input,
-                      bool include_diagonals);
+namespace day05
+{
+    size_t count_overlaps(const std::vector<std::string> &input, bool include_diagonals);
 }
 
 #endif

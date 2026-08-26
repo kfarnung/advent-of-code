@@ -5,24 +5,27 @@
 #include <fstream>
 #include <gtest/gtest.h>
 
-namespace {
-const std::vector<std::string> test_data{
-    "3,4,3,1,2",
-};
+namespace
+{
+    const std::vector<std::string> test_data{
+        "3,4,3,1,2",
+    };
 }
 
-TEST(Day06, Part1) {
-  EXPECT_EQ(day06::simulate_lanternfish(test_data, 80), 5934);
+TEST(Day06, Part1)
+{
+    EXPECT_EQ(day06::simulate_lanternfish(test_data, 80), 5934);
 
-  std::ifstream file("input.txt");
-  auto lines = common::splitlines(file);
-  EXPECT_EQ(day06::simulate_lanternfish(lines, 80), 362346);
+    std::ifstream file("input.txt");
+    auto lines = common::splitlines(file);
+    EXPECT_EQ(day06::simulate_lanternfish(lines, 80), 362346);
 }
 
-TEST(Day06, Part2) {
-  EXPECT_EQ(day06::simulate_lanternfish(test_data, 256), 26984457539);
+TEST(Day06, Part2)
+{
+    EXPECT_EQ(day06::simulate_lanternfish(test_data, 256), 26984457539);
 
-  std::ifstream file("input.txt");
-  auto lines = common::splitlines(file);
-  EXPECT_EQ(day06::simulate_lanternfish(lines, 256), 1639643057051);
+    std::ifstream file("input.txt");
+    auto lines = common::splitlines(file);
+    EXPECT_EQ(day06::simulate_lanternfish(lines, 256), 1639643057051);
 }

@@ -12,18 +12,20 @@ const std::vector<std::string> test_data{
     R"("\x27")",
 };
 
-TEST(Day08, Part1) {
-  EXPECT_EQ(day08::calculate_string_overhead(test_data), 12);
+TEST(Day08, Part1)
+{
+    EXPECT_EQ(day08::calculate_string_overhead(test_data), 12);
 
-  std::ifstream file("input.txt");
-  auto lines = common::splitlines(file);
-  EXPECT_EQ(day08::calculate_string_overhead(lines), 1342);
+    std::ifstream file("input.txt");
+    auto lines = common::splitlines(file);
+    EXPECT_EQ(day08::calculate_string_overhead(lines), 1342);
 }
 
-TEST(Day08, Part2) {
-  EXPECT_EQ(day08::calculate_encoding_overhead(test_data), 19);
+TEST(Day08, Part2)
+{
+    EXPECT_EQ(day08::calculate_encoding_overhead(test_data), 19);
 
-  std::ifstream file("input.txt");
-  auto lines = common::splitlines(file);
-  EXPECT_EQ(day08::calculate_encoding_overhead(lines), 2074);
+    std::ifstream file("input.txt");
+    auto lines = common::splitlines(file);
+    EXPECT_EQ(day08::calculate_encoding_overhead(lines), 2074);
 }
