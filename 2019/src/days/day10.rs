@@ -35,8 +35,7 @@ pub fn part2(map: &str) -> i32 {
 }
 
 fn get_sorted_angles(hits_map: &HashMap<Fraction<i32>, Vec<Point2D<i32>>>) -> Vec<Fraction<i32>> {
-    let keys: Vec<&Fraction<i32>> = hits_map.keys().collect();
-    keys.iter().cloned().cloned().collect()
+    hits_map.keys().cloned().collect()
 }
 
 fn parse_map(map: &str) -> HashSet<Point2D<i32>> {
