@@ -5,7 +5,7 @@ use std::collections::{HashMap, HashSet};
 
 pub fn part1(map: &str) -> usize {
     let asteroids = parse_map(map);
-    return find_location(&asteroids).1;
+    find_location(&asteroids).1
 }
 
 pub fn part2(map: &str) -> i32 {
@@ -21,7 +21,7 @@ pub fn part2(map: &str) -> i32 {
 
     loop {
         for angle in &angles {
-            let hits = hits_map.get_mut(&angle).unwrap();
+            let hits = hits_map.get_mut(angle).unwrap();
             hits.sort_by_cached_key(|x| x.manhattan_distance(&best_location));
 
             let point = hits.remove(0);
@@ -36,7 +36,7 @@ pub fn part2(map: &str) -> i32 {
 
 fn get_sorted_angles(hits_map: &HashMap<Fraction<i32>, Vec<Point2D<i32>>>) -> Vec<Fraction<i32>> {
     let keys: Vec<&Fraction<i32>> = hits_map.keys().collect();
-    return keys.iter().cloned().cloned().collect();
+    keys.iter().cloned().cloned().collect()
 }
 
 fn parse_map(map: &str) -> HashSet<Point2D<i32>> {
@@ -50,18 +50,18 @@ fn parse_map(map: &str) -> HashSet<Point2D<i32>> {
         }
     }
 
-    return asteroids;
+    asteroids
 }
 
 fn find_location(asteroids: &HashSet<Point2D<i32>>) -> (Point2D<i32>, usize) {
     let mut positions = Vec::new();
 
     for point in asteroids {
-        let hits_map = find_hits(&asteroids, point);
-        positions.push((point.clone(), hits_map.len()));
+        let hits_map = find_hits(asteroids, point);
+        positions.push((*point, hits_map.len()));
     }
 
-    return positions.iter().max_by_key(|x| x.1).unwrap().clone();
+    *positions.iter().max_by_key(|x| x.1).unwrap()
 }
 
 fn find_hits(
@@ -75,15 +75,15 @@ fn find_hits(
             continue;
         }
 
-        let slope = point.slope(&other);
+        let slope = point.slope(other);
         if let Some(x) = hits_map.get_mut(&slope) {
-            x.push(other.clone());
+            x.push(*other);
         } else {
-            hits_map.insert(slope, vec![other.clone()]);
+            hits_map.insert(slope, vec![*other]);
         }
     }
 
-    return hits_map;
+    hits_map
 }
 
 #[cfg(test)]

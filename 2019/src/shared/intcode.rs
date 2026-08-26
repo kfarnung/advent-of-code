@@ -16,10 +16,10 @@ struct IntcodeInstruction {
 
 impl IntcodeInstruction {
     fn new(opcode: i64) -> Self {
-        return IntcodeInstruction {
-            opcode: opcode,
+        IntcodeInstruction {
+            opcode,
             modes: Vec::new(),
-        };
+        }
     }
 
     pub fn parse(instruction: i64) -> Self {
@@ -34,13 +34,13 @@ impl IntcodeInstruction {
             current /= 10;
         }
 
-        return parsed;
+        parsed
     }
 
     fn get_mode(&self, index: usize) -> i64 {
         let mode = self.modes.get(index);
         match mode {
-            Some(x) => x.clone(),
+            Some(x) => *x,
             None => 0,
         }
     }
@@ -54,13 +54,13 @@ pub struct IntcodeProcess {
 }
 
 impl IntcodeProcess {
-    pub fn new(initial_memory: &Vec<i64>) -> Self {
-        return IntcodeProcess {
+    pub fn new(initial_memory: &[i64]) -> Self {
+        IntcodeProcess {
             ip: 0,
-            memory: initial_memory.clone(),
+            memory: initial_memory.to_vec(),
             relative_base: 0,
             state: IntcodeProcessState::Initialized,
-        };
+        }
     }
 
     pub fn new_from_string(initial_memory: &str) -> Self {
@@ -68,9 +68,9 @@ impl IntcodeProcess {
             .trim()
             .split(',')
             .map(|i| i.parse::<i64>().unwrap())
-            .collect();
+            .collect::<Vec<i64>>();
 
-        return Self::new(&initial_memory);
+        Self::new(&initial_memory)
     }
 
     pub fn execute(initial_memory: &str, input: i64) -> i64 {
@@ -81,7 +81,7 @@ impl IntcodeProcess {
         inputs.push_back(input);
         computer.run(&mut inputs, &mut outputs);
 
-        return outputs.pop_back().unwrap();
+        outputs.pop_back().unwrap()
     }
 
     pub fn run(
@@ -97,7 +97,7 @@ impl IntcodeProcess {
             }
         }
 
-        return self.state;
+        self.state
     }
 
     fn run_step(&mut self, inputs: &mut VecDeque<i64>, outputs: &mut VecDeque<i64>) {
@@ -119,9 +119,9 @@ impl IntcodeProcess {
 
     pub fn get_memory(&self, address: usize) -> i64 {
         if address < self.memory.len() {
-            return self.memory[address];
+            self.memory[address]
         } else {
-            return 0;
+            0
         }
     }
 
@@ -159,7 +159,7 @@ impl IntcodeProcess {
         self.store_parameter(instruction, 2, a + b);
         self.ip += 4;
 
-        return IntcodeProcessState::Running;
+        IntcodeProcessState::Running
     }
 
     fn do_multiply(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
@@ -169,7 +169,7 @@ impl IntcodeProcess {
         self.store_parameter(instruction, 2, a * b);
         self.ip += 4;
 
-        return IntcodeProcessState::Running;
+        IntcodeProcessState::Running
     }
 
     fn do_input(
@@ -181,9 +181,9 @@ impl IntcodeProcess {
             self.store_parameter(instruction, 0, value);
 
             self.ip += 2;
-            return IntcodeProcessState::Running;
+            IntcodeProcessState::Running
         } else {
-            return IntcodeProcessState::Waiting;
+            IntcodeProcessState::Waiting
         }
     }
 
@@ -196,7 +196,7 @@ impl IntcodeProcess {
         outputs.push_back(value);
         self.ip += 2;
 
-        return IntcodeProcessState::Running;
+        IntcodeProcessState::Running
     }
 
     fn do_jump_if_true(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
@@ -207,7 +207,7 @@ impl IntcodeProcess {
             self.ip += 3;
         }
 
-        return IntcodeProcessState::Running;
+        IntcodeProcessState::Running
     }
 
     fn do_jump_if_false(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
@@ -218,7 +218,7 @@ impl IntcodeProcess {
             self.ip += 3;
         }
 
-        return IntcodeProcessState::Running;
+        IntcodeProcessState::Running
     }
 
     fn do_less_than(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
@@ -229,7 +229,7 @@ impl IntcodeProcess {
         self.store_parameter(instruction, 2, value);
         self.ip += 4;
 
-        return IntcodeProcessState::Running;
+        IntcodeProcessState::Running
     }
 
     fn do_equals(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
@@ -240,14 +240,14 @@ impl IntcodeProcess {
         self.store_parameter(instruction, 2, value);
         self.ip += 4;
 
-        return IntcodeProcessState::Running;
+        IntcodeProcessState::Running
     }
 
     fn do_adjust_relative_base(&mut self, instruction: &IntcodeInstruction) -> IntcodeProcessState {
         self.relative_base += self.load_parameter(instruction, 0);
         self.ip += 2;
 
-        return IntcodeProcessState::Running;
+        IntcodeProcessState::Running
     }
 }
 

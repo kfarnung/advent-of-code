@@ -3,9 +3,9 @@ pub fn part1(image: &str) -> usize {
     let height = 6;
 
     let pixels = get_pixels(image);
-    let digit_counts = pixels.chunks(width * height).map(|x| count_digits(x));
+    let digit_counts = pixels.chunks(width * height).map(count_digits);
     let min = digit_counts.min_by_key(|x| x.0).unwrap();
-    return min.1 * min.2;
+    min.1 * min.2
 }
 
 pub fn part2(image: &str) -> String {
@@ -24,35 +24,35 @@ pub fn part2(image: &str) -> String {
         }
     }
 
-    return get_output(&output, width);
+    get_output(&output, width)
 }
 
 fn get_pixels(image: &str) -> Vec<i32> {
-    return image
+    image
         .trim()
         .chars()
         .map(|x| x.to_digit(10).unwrap() as i32)
-        .collect::<Vec<i32>>();
+        .collect::<Vec<i32>>()
 }
 
 fn count_digits(digits: &[i32]) -> (usize, usize, usize) {
-    return (
+    (
         count_digit(digits, 0),
         count_digit(digits, 1),
         count_digit(digits, 2),
-    );
+    )
 }
 
 fn count_digit(digits: &[i32], digit: i32) -> usize {
-    return digits.iter().filter(|&x| *x == digit).count();
+    digits.iter().filter(|&x| *x == digit).count()
 }
 
-fn get_output(output: &Vec<i32>, width: usize) -> String {
-    return output
+fn get_output(output: &[i32], width: usize) -> String {
+    output
         .chunks(width)
-        .map(|x| get_output_line(x))
+        .map(get_output_line)
         .collect::<Vec<String>>()
-        .join("\n");
+        .join("\n")
 }
 
 fn get_output_line(digits: &[i32]) -> String {
@@ -65,5 +65,5 @@ fn get_output_line(digits: &[i32]) -> String {
         })
         .collect();
 
-    return line_chars.join("");
+    line_chars.join("")
 }

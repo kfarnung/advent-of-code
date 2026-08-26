@@ -8,7 +8,7 @@ pub fn part1(contents: &str) -> i32 {
         }
     }
 
-    return valid_count;
+    valid_count
 }
 
 pub fn part2(contents: &str) -> i32 {
@@ -21,16 +21,16 @@ pub fn part2(contents: &str) -> i32 {
         }
     }
 
-    return valid_count;
+    valid_count
 }
 
 fn parse_range(contents: &str) -> (i32, i32) {
     let range: Vec<&str> = contents.trim().split('-').collect();
-    return (range[0].parse().unwrap(), range[1].parse().unwrap());
+    (range[0].parse().unwrap(), range[1].parse().unwrap())
 }
 
 fn is_valid_password(password: i32, max_repeat: Option<i32>) -> bool {
-    if password > 999999 || password < 100000 {
+    if !(100000..=999999).contains(&password) {
         // Password must be six digits.
         return false;
     }
@@ -38,7 +38,7 @@ fn is_valid_password(password: i32, max_repeat: Option<i32>) -> bool {
     let mut remaining = password;
     let mut repeat = false;
     let mut repeat_count = 1;
-    let mut last_digit = i32::max_value();
+    let mut last_digit = i32::MAX;
 
     loop {
         let current_digit = remaining % 10;
@@ -79,7 +79,7 @@ fn is_valid_password(password: i32, max_repeat: Option<i32>) -> bool {
     }
 
     // Now we just need to make sure we found a repeat somewhere.
-    return repeat;
+    repeat
 }
 
 #[cfg(test)]
@@ -93,19 +93,19 @@ mod tests {
 
     #[test]
     fn test_is_valid_password() {
-        assert_eq!(is_valid_password(99999, None), false);
-        assert_eq!(is_valid_password(1000000, None), false);
+        assert!(!is_valid_password(99999, None));
+        assert!(!is_valid_password(1000000, None));
 
-        assert_eq!(is_valid_password(122345, None), true);
-        assert_eq!(is_valid_password(111123, None), true);
-        assert_eq!(is_valid_password(135679, None), false);
+        assert!(is_valid_password(122345, None));
+        assert!(is_valid_password(111123, None));
+        assert!(!is_valid_password(135679, None));
 
-        assert_eq!(is_valid_password(111111, None), true);
-        assert_eq!(is_valid_password(223450, None), false);
-        assert_eq!(is_valid_password(123789, None), false);
+        assert!(is_valid_password(111111, None));
+        assert!(!is_valid_password(223450, None));
+        assert!(!is_valid_password(123789, None));
 
-        assert_eq!(is_valid_password(112233, Some(2)), true);
-        assert_eq!(is_valid_password(123444, Some(2)), false);
-        assert_eq!(is_valid_password(111122, Some(2)), true);
+        assert!(is_valid_password(112233, Some(2)));
+        assert!(!is_valid_password(123444, Some(2)));
+        assert!(is_valid_password(111122, Some(2)));
     }
 }

@@ -22,17 +22,17 @@ pub fn part2(contents: &str) -> i64 {
     let mut count = 0;
     let diagrams = parse_input(contents);
     for diagram in &diagrams {
-        let mut combinations = generate_combinations(&diagram.buttons);
-        count += count_presses(&diagram.powers, &mut combinations).unwrap();
+        let combinations = generate_combinations(&diagram.buttons);
+        count += count_presses(&diagram.powers, &combinations).unwrap();
     }
     count
 }
 
 fn parse_input(input: &str) -> Vec<Diagram> {
-    input.lines().map(|line| Diagram::from_line(line)).collect()
+    input.lines().map(Diagram::from_line).collect()
 }
 
-fn generate_combinations(buttons: &Vec<u32>) -> HashMap<u32, Vec<Vec<u32>>> {
+fn generate_combinations(buttons: &[u32]) -> HashMap<u32, Vec<Vec<u32>>> {
     let mut map = HashMap::new();
 
     // Include the empty combination to handle the case of zero lights
@@ -58,7 +58,7 @@ fn generate_combinations(buttons: &Vec<u32>) -> HashMap<u32, Vec<Vec<u32>>> {
     map
 }
 
-fn get_parity(powers: &Vec<i32>) -> u32 {
+fn get_parity(powers: &[i32]) -> u32 {
     let mut parity: u32 = 0;
     for (i, &power) in powers.iter().enumerate() {
         if power % 2 == 1 {
@@ -68,8 +68,8 @@ fn get_parity(powers: &Vec<i32>) -> u32 {
     parity
 }
 
-fn calculate_powers(powers: &Vec<i32>, buttons: &Vec<u32>) -> Option<Vec<i32>> {
-    let mut powers = powers.clone();
+fn calculate_powers(powers: &[i32], buttons: &[u32]) -> Option<Vec<i32>> {
+    let mut powers = powers.to_vec();
     for (i, power) in powers.iter_mut().enumerate() {
         for button in buttons {
             if (button & (1 << i)) != 0 {
@@ -85,7 +85,7 @@ fn calculate_powers(powers: &Vec<i32>, buttons: &Vec<u32>) -> Option<Vec<i32>> {
     Some(powers)
 }
 
-fn found_solution(powers: &Vec<i32>) -> bool {
+fn found_solution(powers: &[i32]) -> bool {
     for power in powers {
         if *power != 0 {
             return false;
@@ -94,7 +94,7 @@ fn found_solution(powers: &Vec<i32>) -> bool {
     true
 }
 
-fn count_presses(powers: &Vec<i32>, map: &HashMap<u32, Vec<Vec<u32>>>) -> Option<i64> {
+fn count_presses(powers: &[i32], map: &HashMap<u32, Vec<Vec<u32>>>) -> Option<i64> {
     if found_solution(powers) {
         return Some(0);
     }
@@ -103,10 +103,10 @@ fn count_presses(powers: &Vec<i32>, map: &HashMap<u32, Vec<Vec<u32>>>) -> Option
     if let Some(possible_presses) = map.get(&parity) {
         let mut counts = vec![];
         for presses in possible_presses {
-            if let Some(new_powers) = calculate_powers(powers, &presses) {
-                if let Some(sub_count) = count_presses(&new_powers, map) {
-                    counts.push(sub_count * 2 + presses.len() as i64);
-                }
+            if let Some(new_powers) = calculate_powers(powers, presses)
+                && let Some(sub_count) = count_presses(&new_powers, map)
+            {
+                counts.push(sub_count * 2 + presses.len() as i64);
             }
         }
 
@@ -131,12 +131,10 @@ impl Diagram {
         let mut powers = vec![];
         for part in parts {
             if part.starts_with('[') {
-                let mut shift = 0;
-                for c in part.chars().skip(1).take(part.len() - 2) {
+                for (shift, c) in part.chars().skip(1).take(part.len() - 2).enumerate() {
                     if c == '#' {
                         lights |= 1 << shift;
                     }
-                    shift += 1;
                 }
             } else if part.starts_with('(') {
                 let button_values: Vec<u32> = part[1..part.len() - 1]
@@ -157,9 +155,9 @@ impl Diagram {
             }
         }
         Diagram {
-            lights: lights,
-            buttons: buttons,
-            powers: powers,
+            lights,
+            buttons,
+            powers,
         }
     }
 }
@@ -170,7 +168,7 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        let input = vec![
+        let input = [
             "[.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}",
             "[...#.] (0,2,3,4) (2,3) (0,4) (0,1,2) (1,2,3,4) {7,5,12,7,2}",
             "[.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}",
@@ -181,7 +179,7 @@ mod tests {
 
     #[test]
     fn test_part2() {
-        let input = vec![
+        let input = [
             "[.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}",
             "[...#.] (0,2,3,4) (2,3) (0,4) (0,1,2) (1,2,3,4) {7,5,12,7,2}",
             "[.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}",

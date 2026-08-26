@@ -1,16 +1,14 @@
 use crate::shared::num::lcm;
 use crate::shared::point::Point3D;
 use regex::Regex;
-use std::cmp::max;
-use std::cmp::min;
 
 pub fn part1(moons: &str) -> i32 {
-    return do_part1(moons, 1000);
+    do_part1(moons, 1000)
 }
 
 pub fn part2(moons: &str) -> i64 {
     let mut planets = parse_planets(moons);
-    let initial_state: Vec<Planet> = planets.iter().map(|x| x.clone()).collect();
+    let initial_state: Vec<Planet> = planets.to_vec();
     let mut step = 0;
     let mut cycle_counts = (0, 0, 0);
 
@@ -37,7 +35,7 @@ pub fn part2(moons: &str) -> i64 {
         }
     }
 
-    return lcm(cycle_counts.0, lcm(cycle_counts.1, cycle_counts.2));
+    lcm(cycle_counts.0, lcm(cycle_counts.1, cycle_counts.2))
 }
 
 fn do_part1(moons: &str, steps: usize) -> i32 {
@@ -47,10 +45,10 @@ fn do_part1(moons: &str, steps: usize) -> i32 {
         do_step(&mut planets);
     }
 
-    return planets.iter().fold(0, |acc, x| acc + x.potential_energy());
+    planets.iter().fold(0, |acc, x| acc + x.potential_energy())
 }
 
-fn do_step(planets: &mut Vec<Planet>) {
+fn do_step(planets: &mut [Planet]) {
     let positions: Vec<Point3D> = planets.iter().map(|x| x.position.clone()).collect();
 
     for position in positions {
@@ -75,26 +73,25 @@ impl Planet {
     fn potential_energy(&self) -> i32 {
         let origin = Point3D::new(0, 0, 0);
 
-        return self.position.manhattan_distance(&origin)
-            * self.velocity.manhattan_distance(&origin);
+        self.position.manhattan_distance(&origin) * self.velocity.manhattan_distance(&origin)
     }
 }
 
 fn parse_planets(moons: &str) -> Vec<Planet> {
-    return moons.lines().map(|x| parse_planet(x)).collect();
+    moons.lines().map(parse_planet).collect()
 }
 
 fn parse_planet(moon: &str) -> Planet {
     let re = Regex::new(r"<x=(-?\d+), y=(-?\d+), z=(-?\d+)>").unwrap();
     let caps = re.captures(moon).unwrap();
-    return Planet {
+    Planet {
         position: Point3D::new(
             caps[1].parse::<i32>().unwrap(),
             caps[2].parse::<i32>().unwrap(),
             caps[3].parse::<i32>().unwrap(),
         ),
         velocity: Point3D::new(0, 0, 0),
-    };
+    }
 }
 
 fn update_velocity(first: &mut Planet, second: &Point3D) {
@@ -106,12 +103,12 @@ fn update_velocity(first: &mut Planet, second: &Point3D) {
 }
 
 fn velocity_delta(first: i32, second: i32) -> i32 {
-    return max(-1, min(1, second - first));
+    (second - first).clamp(-1, 1)
 }
 
 fn detect_cycle(
-    initial_state: &Vec<Planet>,
-    current_state: &Vec<Planet>,
+    initial_state: &[Planet],
+    current_state: &[Planet],
     position_key: fn(&Planet) -> i32,
     velocity_key: fn(&Planet) -> i32,
 ) -> bool {
@@ -121,7 +118,7 @@ fn detect_cycle(
     let current = current_state
         .iter()
         .map(|x| (position_key(x), velocity_key(x)));
-    return initial.eq(current);
+    initial.eq(current)
 }
 
 #[cfg(test)]
@@ -181,24 +178,18 @@ mod tests {
             },
         ];
 
-        assert_eq!(
-            detect_cycle(
-                &initial_state,
-                &current_state,
-                |x| x.position.x,
-                |x| x.velocity.x
-            ),
-            true
-        );
-        assert_eq!(
-            detect_cycle(
-                &initial_state,
-                &current_state2,
-                |x| x.position.y,
-                |x| x.velocity.y
-            ),
-            false
-        );
+        assert!(detect_cycle(
+            &initial_state,
+            &current_state,
+            |x| x.position.x,
+            |x| x.velocity.x
+        ));
+        assert!(!detect_cycle(
+            &initial_state,
+            &current_state2,
+            |x| x.position.y,
+            |x| x.velocity.y
+        ));
     }
 
     #[test]

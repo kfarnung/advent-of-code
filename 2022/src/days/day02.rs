@@ -59,20 +59,18 @@ fn score_play(you: &str) -> i64 {
 
 #[cfg(test)]
 mod tests {
-    use std::vec;
-
     use super::*;
 
     #[test]
     fn test_part1() {
-        let lines = vec!["A Y", "B X", "C Z"];
+        let lines = ["A Y", "B X", "C Z"];
 
         assert_eq!(part1(&lines.join("\n")), 15);
     }
 
     #[test]
     fn test_part2() {
-        let lines = vec!["A Y", "B X", "C Z"];
+        let lines = ["A Y", "B X", "C Z"];
 
         assert_eq!(part2(&lines.join("\n")), 12);
     }

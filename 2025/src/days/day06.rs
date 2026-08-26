@@ -7,8 +7,8 @@ pub fn part1(contents: &str) -> i64 {
     let mut parsed_input = Vec::new();
     for i in 0..split_lines[0].len() {
         let mut column = Vec::new();
-        for j in 0..split_lines.len() - 1 {
-            let cell = &split_lines[j][i];
+        for row in split_lines.iter().take(split_lines.len() - 1) {
+            let cell = &row[i];
             column.push(cell.parse::<i64>().unwrap());
         }
         parsed_input.push((
@@ -78,7 +78,7 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        let input = vec![
+        let input = [
             "123 328  51 64 ",
             " 45 64  387 23 ",
             "  6 98  215 314",
@@ -90,7 +90,7 @@ mod tests {
 
     #[test]
     fn test_part2() {
-        let input = vec![
+        let input = [
             "123 328  51 64 ",
             " 45 64  387 23 ",
             "  6 98  215 314",

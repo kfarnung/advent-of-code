@@ -1,5 +1,3 @@
-use std::vec;
-
 pub fn part1(contents: &str) -> i64 {
     let grid = parse_input(contents);
     let mut count = 0;
@@ -45,7 +43,7 @@ fn parse_input(contents: &str) -> Vec<Vec<char>> {
     grid
 }
 
-fn is_movable(grid: &Vec<Vec<char>>, x: usize, y: usize) -> bool {
+fn is_movable(grid: &[Vec<char>], x: usize, y: usize) -> bool {
     let mut count: usize = 0;
     let rows = grid.len();
     let cols = grid[0].len();

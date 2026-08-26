@@ -12,7 +12,7 @@ pub fn part2(contents: &str) -> i64 {
         .get(0..3)
         .unwrap()
         .iter()
-        .fold(0, |sum, x| sum + x)
+        .sum()
 }
 
 fn find_totals(lines: Lines<'_>) -> Vec<i64> {

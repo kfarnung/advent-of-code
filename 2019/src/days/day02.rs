@@ -9,7 +9,7 @@ pub fn part1(initial_memory: &str) -> i64 {
     computer.set_memory(2, 2);
     computer.run(&mut inputs, &mut outputs);
 
-    return computer.get_memory(0);
+    computer.get_memory(0)
 }
 
 pub fn part2(initial_memory: &str) -> i64 {

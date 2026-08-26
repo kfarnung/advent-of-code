@@ -31,7 +31,7 @@ pub fn part1(initial_memory: &str) -> usize {
         }
     }
 
-    return display.iter().filter(|x| *x.1 == 2).count();
+    display.iter().filter(|x| *x.1 == 2).count()
 }
 
 pub fn part2(initial_memory: &str) -> i64 {
@@ -78,9 +78,9 @@ pub fn part2(initial_memory: &str) -> i64 {
         }
     }
 
-    return score;
+    score
 }
 
 fn next_move(ball: &Point2D<i64>, paddle: &Point2D<i64>) -> i64 {
-    return num::clamp(ball.x - paddle.x, -1, 1);
+    num::clamp(ball.x - paddle.x, -1, 1)
 }

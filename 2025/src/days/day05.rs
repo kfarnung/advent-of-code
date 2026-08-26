@@ -14,7 +14,7 @@ pub fn part1(contents: &str) -> i64 {
 
 pub fn part2(contents: &str) -> i64 {
     let (mut ranges, _) = parse_input(contents);
-    ranges.sort_by(|a, b| a.0.cmp(&b.0));
+    ranges.sort_by_key(|a| a.0);
     let mut merged_ranges = Vec::new();
     let mut current_merged = ranges[0];
     for r in ranges.iter().skip(1) {
@@ -22,7 +22,7 @@ pub fn part2(contents: &str) -> i64 {
             current_merged.1 = current_merged.1.max(r.1);
         } else {
             merged_ranges.push(current_merged);
-            current_merged = r.clone();
+            current_merged = *r;
         }
     }
     merged_ranges.push(current_merged);

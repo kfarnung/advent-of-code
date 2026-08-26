@@ -6,7 +6,7 @@ pub fn part1(initial_memory: &str) -> i64 {
     let map = generate_map(initial_memory);
     let generator_location = find_oxygen_generator(&map);
     let distances = calculate_distances(&map, &generator_location);
-    return distances.get(&Point2D::new(0, 0)).unwrap().clone();
+    *distances.get(&Point2D::new(0, 0)).unwrap()
 }
 
 pub fn part2(initial_memory: &str) -> i64 {
@@ -14,7 +14,7 @@ pub fn part2(initial_memory: &str) -> i64 {
     let generator_location = find_oxygen_generator(&map);
     let distances = calculate_distances(&map, &generator_location);
     let max_point = distances.iter().max_by_key(|x| x.1).unwrap();
-    return *max_point.1;
+    *max_point.1
 }
 
 fn generate_map(initial_memory: &str) -> HashMap<Point2D<i64>, i64> {
@@ -29,7 +29,7 @@ fn generate_map(initial_memory: &str) -> HashMap<Point2D<i64>, i64> {
     let mut is_backtrack = false;
     let mut direction = 1;
     let mut position = Point2D::new(0, 0);
-    visited.insert(position.clone(), 1);
+    visited.insert(position, 1);
 
     loop {
         if direction <= 4 {
@@ -69,16 +69,14 @@ fn generate_map(initial_memory: &str) -> HashMap<Point2D<i64>, i64> {
         }
     }
 
-    return visited;
+    visited
 }
 
 fn find_oxygen_generator(map: &HashMap<Point2D<i64>, i64>) -> Point2D<i64> {
-    return map
-        .iter()
+    *map.iter()
         .filter_map(|(k, v)| if *v == 2 { Some(k) } else { None })
         .next()
         .unwrap()
-        .clone();
 }
 
 fn calculate_distances(
@@ -88,8 +86,8 @@ fn calculate_distances(
     let mut distances = HashMap::new();
     let mut search_queue = VecDeque::new();
 
-    distances.insert(start.clone(), 0);
-    search_queue.push_back((start.clone(), 0));
+    distances.insert(*start, 0);
+    search_queue.push_back((*start, 0));
 
     while !search_queue.is_empty() {
         let current = search_queue.pop_front().unwrap();
@@ -108,23 +106,23 @@ fn calculate_distances(
                 if *entity != 0 {
                     // We're not moving into a wall.
                     search_queue.push_back((next_position, new_distance));
-                    distances.insert(next_position.clone(), new_distance);
+                    distances.insert(next_position, new_distance);
                 }
             }
         }
     }
 
-    return distances;
+    distances
 }
 
 fn reverse_direction(direction: i64) -> i64 {
-    return match direction {
+    match direction {
         1 => 2,
         2 => 1,
         3 => 4,
         4 => 3,
         _ => panic!("Invalid direction"),
-    };
+    }
 }
 
 fn get_position(current: &Point2D<i64>, direction: i64) -> Point2D<i64> {
@@ -136,5 +134,5 @@ fn get_position(current: &Point2D<i64>, direction: i64) -> Point2D<i64> {
         _ => panic!("Invalid direction"),
     };
 
-    return *current + offset;
+    *current + offset
 }
