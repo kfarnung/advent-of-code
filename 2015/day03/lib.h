@@ -3,9 +3,8 @@
 
 #include <string>
 
-namespace day03
-{
-    int64_t count_visited_houses(const std::string &input, size_t actor_count);
+namespace day03 {
+int64_t count_visited_houses(const std::string &input, size_t actor_count);
 }
 
 #endif

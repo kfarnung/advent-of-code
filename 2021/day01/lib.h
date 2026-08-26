@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-namespace day01
-{
-    int64_t count_increases(const std::vector<std::string> &input, size_t window_size);
+namespace day01 {
+int64_t count_increases(const std::vector<std::string> &input,
+                        size_t window_size);
 }
 
 #endif

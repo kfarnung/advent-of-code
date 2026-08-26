@@ -4,10 +4,9 @@
 #include <string>
 #include <vector>
 
-namespace day19
-{
-    size_t count_molecules(const std::vector<std::string> &input);
-    size_t find_minimum_replacements(const std::vector<std::string> &input);
-}
+namespace day19 {
+size_t count_molecules(const std::vector<std::string> &input);
+size_t find_minimum_replacements(const std::vector<std::string> &input);
+} // namespace day19
 
 #endif

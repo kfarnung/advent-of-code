@@ -4,9 +4,8 @@
 #include <string>
 #include <vector>
 
-namespace common
-{
-    std::vector<int> vector_parse_int(std::vector<std::string> &input);
+namespace common {
+std::vector<int> vector_parse_int(std::vector<std::string> &input);
 }
 
 #endif
