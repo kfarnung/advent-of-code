@@ -73,9 +73,8 @@ fn generate_map(initial_memory: &str) -> HashMap<Point2D<i64>, i64> {
 }
 
 fn find_oxygen_generator(map: &HashMap<Point2D<i64>, i64>) -> Point2D<i64> {
-    *map.iter()
-        .filter_map(|(k, v)| if *v == 2 { Some(k) } else { None })
-        .next()
+    map.iter()
+        .find_map(|(k, v)| if *v == 2 { Some(*k) } else { None })
         .unwrap()
 }
 

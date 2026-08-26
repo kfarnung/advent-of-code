@@ -55,9 +55,7 @@ pub fn part2(contents: &str) -> i64 {
     let start = grid[0]
         .iter()
         .enumerate()
-        .filter(|(_, c)| **c == 'S')
-        .map(|(i, _)| (0_usize, i))
-        .next()
+        .find_map(|(i, c)| if *c == 'S' { Some((0_usize, i)) } else { None })
         .unwrap();
     let mut memo = HashMap::new();
     count_recursive(&grid, start, &mut memo)
