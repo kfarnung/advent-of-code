@@ -5,7 +5,7 @@ set -e
 if [[ "$1" == "test" ]]; then
     uv run pytest -n auto
 elif [[ "$1" == "lint" ]]; then
-    uv run pylint day*/
+    uv run ruff check .
 else
     echo "Usage: $0 [test|lint]"
     exit 1

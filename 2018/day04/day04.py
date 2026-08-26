@@ -8,10 +8,11 @@ import re
 from collections import defaultdict
 
 _INSTRUCTION_REGEX = re.compile(
-    r"^\[(\d{4}-\d{2}-\d{2} \d{2}:(\d{2}))] (Guard #(\d+) begins shift|.+)$")
+    r"^\[(\d{4}-\d{2}-\d{2} \d{2}:(\d{2}))] (Guard #(\d+) begins shift|.+)$"
+)
 
 
-class GuardAction:  # pylint: disable=too-few-public-methods
+class GuardAction:
     """Represents a single action by a single guard"""
 
     def __init__(self, instruction):
@@ -70,14 +71,14 @@ def _parse_input(inputs):
             else:
                 guard = Guard(action.guard_id)
                 guard_map[action.guard_id] = guard
-        elif 'sleep' in action.event:
+        elif "sleep" in action.event:
             assert sleep_minute is None
             sleep_minute = action.minute
-        elif 'wake' in action.event:
+        elif "wake" in action.event:
             guard.add_sleep_event(sleep_minute, action.minute)
             sleep_minute = None
         else:
-            assert False
+            raise AssertionError
 
     return guard_map
 
@@ -107,13 +108,13 @@ if __name__ == "__main__":
 
     def run(input_path):
         """The main function."""
-        with open(input_path, 'r') as input_file:
+        with open(input_path) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

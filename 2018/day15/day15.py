@@ -33,30 +33,28 @@ class Battle:
     def __init__(self, initial_state, elf_power=3):
         self.rounds_completed = 0
         self.units = []
-        self.board = [[col for col in row if col != '\n']
-                      for row in initial_state]
+        self.board = [[col for col in row if col != "\n"] for row in initial_state]
 
         for row_index, row in enumerate(self.board):
             for col_index, col in enumerate(row):
-                if col == 'G':
+                if col == "G":
                     self.units.append(Unit(col, (row_index, col_index), 3))
-                    row[col_index] = '.'
-                elif col == 'E':
-                    self.units.append(
-                        Unit(col, (row_index, col_index), elf_power))
-                    row[col_index] = '.'
-                elif col not in ('#', '.'):
-                    raise ValueError('Unexpected tile type')
+                    row[col_index] = "."
+                elif col == "E":
+                    self.units.append(Unit(col, (row_index, col_index), elf_power))
+                    row[col_index] = "."
+                elif col not in ("#", "."):
+                    raise ValueError("Unexpected tile type")
 
     def __str__(self):
-        board = [col for col in row for row in self.board]
+        board = [row[:] for row in self.board]
         for unit in self.units:
             if not unit.is_alive():
                 continue
 
             board[unit.position[0]][unit.position[1]] = unit.unit_type
 
-        return '\n'.join(''.join(row) for row in board)
+        return "\n".join("".join(row) for row in board)
 
     def get_team_sizes(self):
         """Gets the size of each team."""
@@ -75,7 +73,7 @@ class Battle:
 
     def _execute_round(self):
         """Execute one round of the battle."""
-        for unit in sorted(self.units, key=attrgetter('position')):
+        for unit in sorted(self.units, key=attrgetter("position")):
             if not unit.is_alive():
                 continue
 
@@ -96,11 +94,11 @@ class Battle:
         if not Battle._try_attack(unit, targets):
             # Find the closest destination
             target_positions = [target.position for target in targets]
-            closest_target, _ = self._find_closest_target(
-                unit.position, target_positions)
+            closest_target, _ = self._find_closest_target(unit.position, target_positions)
             if closest_target:
                 closest_step, _ = self._find_closest_target(
-                    closest_target, self._get_open_neighbors(unit.position))
+                    closest_target, self._get_open_neighbors(unit.position)
+                )
                 unit.position = closest_step
 
                 # Try to attack again after moving.
@@ -138,27 +136,30 @@ class Battle:
 
     def _is_open_cavern(self, position):
         board_cell = self.board[position[0]][position[1]]
-        if board_cell != '.':
+        if board_cell != ".":
             return False
 
-        for unit in self.units:
-            if unit.is_alive() and unit.position == position:
-                return False
-
-        return True
+        return not any(unit.is_alive() and unit.position == position for unit in self.units)
 
     def _get_open_neighbors(self, position):
-        return [neighbor for neighbor in Battle._get_neighbors(position)
-                if self._is_open_cavern(neighbor)]
+        return [
+            neighbor
+            for neighbor in Battle._get_neighbors(position)
+            if self._is_open_cavern(neighbor)
+        ]
 
     def _get_targets(self, unit):
-        return [potential_target for potential_target in self.units
-                if potential_target.unit_type != unit.unit_type and potential_target.is_alive()]
+        return [
+            potential_target
+            for potential_target in self.units
+            if potential_target.unit_type != unit.unit_type and potential_target.is_alive()
+        ]
 
     @staticmethod
     def _try_attack(unit, targets):
-        in_range = [target for target in targets
-                    if Battle._is_adjacent(unit.position, target.position)]
+        in_range = [
+            target for target in targets if Battle._is_adjacent(unit.position, target.position)
+        ]
         if in_range:
             in_range.sort(key=Unit.get_sort_key)
             in_range[0].hit_points -= unit.attack_power
@@ -199,7 +200,7 @@ def run_part2(file_content):
         battle = Battle(file_content, elf_power)
         teams = battle.get_team_sizes()
         remaining = battle.fight()
-        if len(remaining) == teams['E'] and remaining[0].unit_type == 'E':
+        if len(remaining) == teams["E"] and remaining[0].unit_type == "E":
             hit_points = sum(unit.hit_points for unit in battle.fight())
             return hit_points * battle.rounds_completed
 
@@ -213,13 +214,13 @@ if __name__ == "__main__":
 
     def run(argv1):
         """The main function."""
-        with open(argv1, 'r') as input_file:
+        with open(argv1) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

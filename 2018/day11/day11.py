@@ -23,8 +23,7 @@ def _init_grid(size, serial_number):
     for coord_x in range(size):
         col = []
         for coord_y in range(size):
-            current_power = get_power_level(
-                serial_number, coord_x + 1, coord_y + 1)
+            current_power = get_power_level(serial_number, coord_x + 1, coord_y + 1)
 
             if coord_x > 0:
                 current_power += grid[coord_x - 1][coord_y]
@@ -99,13 +98,13 @@ if __name__ == "__main__":
         serial_number = int(input_str)
 
         coord_x, coord_y = run_part1(serial_number)
-        print("Part 1: {},{}".format(coord_x, coord_y))
+        print(f"Part 1: {coord_x},{coord_y}")
 
         coords, size = run_part2(serial_number)
-        print("Part 2: {},{},{}".format(coords[0], coords[1], size))
+        print(f"Part 2: {coords[0]},{coords[1]},{size}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

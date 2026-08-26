@@ -28,7 +28,13 @@ uv run pytest -n auto --slow
 ## Linting
 
 ```console
-uv run pylint day*/
+uv run ruff check .
+```
+
+To format the code:
+
+```console
+uv run ruff format .
 ```
 
 ## Execution time

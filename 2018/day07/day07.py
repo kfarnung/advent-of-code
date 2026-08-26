@@ -7,8 +7,7 @@ https://adventofcode.com/2018/day/7
 import re
 from collections import defaultdict
 
-_INSTRUCTION_REGEX = re.compile(
-    r'^Step ([A-Z]) must be finished before step ([A-Z]) can begin.$')
+_INSTRUCTION_REGEX = re.compile(r"^Step ([A-Z]) must be finished before step ([A-Z]) can begin.$")
 
 
 class Graph:
@@ -54,7 +53,7 @@ class Graph:
         return self.nodes - done
 
 
-class Factory:  # pylint: disable=too-few-public-methods
+class Factory:
     """Represents a factory with time and worker constraints."""
 
     def __init__(self, worker_count, base_time):
@@ -69,9 +68,7 @@ class Factory:  # pylint: disable=too-few-public-methods
         while True:
             # Figure out what's currently done
             done = set(
-                key
-                for key, value in node_available_time.items()
-                if value <= self.current_time
+                key for key, value in node_available_time.items() if value <= self.current_time
             )
 
             while True:
@@ -80,11 +77,9 @@ class Factory:  # pylint: disable=too-few-public-methods
                 available_worker = self._get_available_worker()
 
                 if available_work and available_worker is not None and available_worker >= 0:
-                    construction_time = Factory._get_execution_time(
-                        available_work, self.base_time)
+                    construction_time = Factory._get_execution_time(available_work, self.base_time)
                     self._assign_work(available_worker, construction_time)
-                    node_available_time[available_work] = self.current_time + \
-                        construction_time
+                    node_available_time[available_work] = self.current_time + construction_time
                 else:
                     break
 
@@ -105,13 +100,13 @@ class Factory:  # pylint: disable=too-few-public-methods
 
     @staticmethod
     def _get_execution_time(node, base_time=0):
-        return ord(node) - ord('A') + 1 + base_time
+        return ord(node) - ord("A") + 1 + base_time
 
 
 def _parse_instruction(line):
     match = _INSTRUCTION_REGEX.match(line)
     if not match:
-        raise ValueError('Failed to parse input')
+        raise ValueError("Failed to parse input")
 
     return (match.group(1), match.group(2))
 
@@ -124,7 +119,7 @@ def run_part1(file_content):
     for pair in pairs:
         graph.connect_nodes(pair[0], pair[1])
 
-    return ''.join(graph.get_node_order())
+    return "".join(graph.get_node_order())
 
 
 def run_part2(file_content, worker_count, base_time):
@@ -144,13 +139,13 @@ if __name__ == "__main__":
 
     def run(input_path):
         """The main function."""
-        with open(input_path, 'r') as input_file:
+        with open(input_path) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content, 5, 60)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content, 5, 60)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

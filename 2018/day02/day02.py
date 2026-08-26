@@ -19,8 +19,8 @@ def _remove_differences(str1, str2):
 
     return reduce(
         lambda prev, pair: prev + pair[0] if pair[0] == pair[1] else prev,
-        zip(str1, str2),
-        ''
+        zip(str1, str2, strict=True),
+        "",
     )
 
 
@@ -50,13 +50,13 @@ if __name__ == "__main__":
 
     def run(input_path):
         """The main function."""
-        with open(input_path, 'r') as input_file:
+        with open(input_path) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(calculate_checksum(file_content)))
-            print("Part 2: {}".format(find_correct_id(file_content)))
+            print(f"Part 1: {calculate_checksum(file_content)}")
+            print(f"Part 2: {find_correct_id(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

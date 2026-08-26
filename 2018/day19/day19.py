@@ -6,32 +6,32 @@ https://adventofcode.com/2018/day/19
 
 import re
 
-_IP_REGEX = re.compile(r'^#ip (\d)$')
-_INSTRUCTION_REGEX = re.compile(r'^([a-z]+) (\d+) (\d+) (\d+)$')
+_IP_REGEX = re.compile(r"^#ip (\d)$")
+_INSTRUCTION_REGEX = re.compile(r"^([a-z]+) (\d+) (\d+) (\d+)$")
 
 
-class Device:  # pylint: disable=too-few-public-methods
+class Device:
     """Represents the current state of the device."""
 
     def __init__(self, num_registers):
         self.registers = [0] * num_registers
         self.opcodes = {
-            'addr': Device._instruction_addr,
-            'addi': Device._instruction_addi,
-            'mulr': Device._instruction_mulr,
-            'muli': Device._instruction_muli,
-            'banr': Device._instruction_banr,
-            'bani': Device._instruction_bani,
-            'borr': Device._instruction_borr,
-            'bori': Device._instruction_bori,
-            'setr': Device._instruction_setr,
-            'seti': Device._instruction_seti,
-            'gtir': Device._instruction_gtir,
-            'gtri': Device._instruction_gtri,
-            'gtrr': Device._instruction_gtrr,
-            'eqir': Device._instruction_eqir,
-            'eqri': Device._instruction_eqri,
-            'eqrr': Device._instruction_eqrr,
+            "addr": Device._instruction_addr,
+            "addi": Device._instruction_addi,
+            "mulr": Device._instruction_mulr,
+            "muli": Device._instruction_muli,
+            "banr": Device._instruction_banr,
+            "bani": Device._instruction_bani,
+            "borr": Device._instruction_borr,
+            "bori": Device._instruction_bori,
+            "setr": Device._instruction_setr,
+            "seti": Device._instruction_seti,
+            "gtir": Device._instruction_gtir,
+            "gtri": Device._instruction_gtri,
+            "gtrr": Device._instruction_gtrr,
+            "eqir": Device._instruction_eqir,
+            "eqri": Device._instruction_eqri,
+            "eqrr": Device._instruction_eqrr,
         }
 
     def execute_program(self, reg_ip, instructions):
@@ -40,8 +40,7 @@ class Device:  # pylint: disable=too-few-public-methods
         while 0 <= instruction_pointer < len(instructions):
             self.registers[reg_ip] = instruction_pointer
             instruction = instructions[instruction_pointer]
-            self._execute(instruction[0], instruction[1],
-                          instruction[2], instruction[3])
+            self._execute(instruction[0], instruction[1], instruction[2], instruction[3])
             instruction_pointer = self.registers[reg_ip] + 1
 
     def _execute(self, name, input_a, input_b, output_c):
@@ -135,13 +134,13 @@ if __name__ == "__main__":
 
     def run(argv1):
         """The main function."""
-        with open(argv1, 'r') as input_file:
+        with open(argv1) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

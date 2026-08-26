@@ -7,8 +7,7 @@ https://adventofcode.com/2018/day/9
 import re
 from collections import defaultdict
 
-_INSTRUCTION_REGEX = re.compile(
-    r'^(\d+) players; last marble is worth (\d+) points$')
+_INSTRUCTION_REGEX = re.compile(r"^(\d+) players; last marble is worth (\d+) points$")
 
 
 class DoublyLinkedNode:
@@ -56,7 +55,7 @@ class DoublyLinkedNode:
 def _parse_instruction(instruction):
     match = _INSTRUCTION_REGEX.match(instruction)
     if not match:
-        raise ValueError('Invalid instruction')
+        raise ValueError("Invalid instruction")
 
     return (int(match.group(1)), int(match.group(2)))
 
@@ -76,8 +75,7 @@ def _play_the_game(player_count, last_move_score):
             current_node = current_node.remove()
         else:
             current_node = current_node.walk(1)
-            current_node = current_node.insert_after(
-                DoublyLinkedNode(current_score))
+            current_node = current_node.insert_after(DoublyLinkedNode(current_score))
 
         current_player = (current_player + 1) % player_count
 
@@ -101,13 +99,13 @@ if __name__ == "__main__":
 
     def run(input_path):
         """The main function."""
-        with open(input_path, 'r') as input_file:
+        with open(input_path) as input_file:
             file_content = input_file.read().strip()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

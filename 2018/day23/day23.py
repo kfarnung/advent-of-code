@@ -8,7 +8,7 @@ import heapq
 import re
 from operator import attrgetter
 
-_POSITIONS_REGEX = re.compile(r'^pos=<(-?\d+),(-?\d+),(-?\d+)>, r=(\d+)$')
+_POSITIONS_REGEX = re.compile(r"^pos=<(-?\d+),(-?\d+),(-?\d+)>, r=(\d+)$")
 
 
 class Point3D:
@@ -21,9 +21,9 @@ class Point3D:
 
     def __eq__(self, other):
         return (
-            self.coord_x == other.coord_x and
-            self.coord_y == other.coord_y and
-            self.coord_z == other.coord_z
+            self.coord_x == other.coord_x
+            and self.coord_y == other.coord_y
+            and self.coord_z == other.coord_z
         )
 
     def __lt__(self, other):
@@ -33,9 +33,9 @@ class Point3D:
     def manhattan_distance(self, other):
         """Calculates the distance between two points."""
         return (
-            abs(other.coord_x - self.coord_x) +
-            abs(other.coord_y - self.coord_y) +
-            abs(other.coord_z - self.coord_z)
+            abs(other.coord_x - self.coord_x)
+            + abs(other.coord_y - self.coord_y)
+            + abs(other.coord_z - self.coord_z)
         )
 
     def min_coords(self, other):
@@ -43,7 +43,7 @@ class Point3D:
         return Point3D(
             min(self.coord_x, other.coord_x),
             min(self.coord_y, other.coord_y),
-            min(self.coord_z, other.coord_z)
+            min(self.coord_z, other.coord_z),
         )
 
     def max_coords(self, other):
@@ -51,7 +51,7 @@ class Point3D:
         return Point3D(
             max(self.coord_x, other.coord_x),
             max(self.coord_y, other.coord_y),
-            max(self.coord_z, other.coord_z)
+            max(self.coord_z, other.coord_z),
         )
 
     def clamp(self, min_coord, max_coord):
@@ -59,7 +59,7 @@ class Point3D:
         return Point3D(
             min(max(self.coord_x, min_coord.coord_x), max_coord.coord_x),
             min(max(self.coord_y, min_coord.coord_y), max_coord.coord_y),
-            min(max(self.coord_z, min_coord.coord_z), max_coord.coord_z)
+            min(max(self.coord_z, min_coord.coord_z), max_coord.coord_z),
         )
 
 
@@ -72,8 +72,8 @@ class Rect3D:
 
     def __eq__(self, other):
         return (
-            self.negative_corner == other.negative_corner and
-            self.positive_corner == other.positive_corner
+            self.negative_corner == other.negative_corner
+            and self.positive_corner == other.positive_corner
         )
 
     def __lt__(self, other):
@@ -81,8 +81,8 @@ class Rect3D:
             return True
 
         return (
-            self.negative_corner == other.negative_corner and
-            self.positive_corner < other.positive_corner
+            self.negative_corner == other.negative_corner
+            and self.positive_corner < other.positive_corner
         )
 
     def split(self):
@@ -96,21 +96,17 @@ class Rect3D:
         for coord_x in range(neg.coord_x, pos.coord_x + 1, step_x + 1):
             for coord_y in range(neg.coord_y, pos.coord_y + 1, step_y + 1):
                 for coord_z in range(neg.coord_z, pos.coord_z + 1, step_z + 1):
-                    max_corner = Point3D(
-                        coord_x + step_x, coord_y + step_y, coord_z + step_z)
-                    yield Rect3D(
-                        Point3D(coord_x, coord_y, coord_z),
-                        max_corner.min_coords(pos)
-                    )
+                    max_corner = Point3D(coord_x + step_x, coord_y + step_y, coord_z + step_z)
+                    yield Rect3D(Point3D(coord_x, coord_y, coord_z), max_corner.min_coords(pos))
 
     def volume(self):
         """Calculates the volume enclosed by the rectangle."""
         neg = self.negative_corner
         pos = self.positive_corner
         return (
-            (pos.coord_x - neg.coord_x + 1) *
-            (pos.coord_y - neg.coord_y + 1) *
-            (pos.coord_z - neg.coord_z + 1)
+            (pos.coord_x - neg.coord_x + 1)
+            * (pos.coord_y - neg.coord_y + 1)
+            * (pos.coord_z - neg.coord_z + 1)
         )
 
     def closest_within_rect(self, point):
@@ -149,10 +145,7 @@ class NanoBot:
         if self.position < other.position:
             return True
 
-        return (
-            self.position == other.position and
-            self.signal_radius < other.signal_radius
-        )
+        return self.position == other.position and self.signal_radius < other.signal_radius
 
     def bounding_box(self):
         """Gets the bounding box that contains the bot's range."""
@@ -160,13 +153,13 @@ class NanoBot:
             Point3D(
                 self.position.coord_x - self.signal_radius,
                 self.position.coord_y - self.signal_radius,
-                self.position.coord_z - self.signal_radius
+                self.position.coord_z - self.signal_radius,
             ),
             Point3D(
                 self.position.coord_x + self.signal_radius,
                 self.position.coord_y + self.signal_radius,
-                self.position.coord_z + self.signal_radius
-            )
+                self.position.coord_z + self.signal_radius,
+            ),
         )
 
     def within_range(self, other):
@@ -188,13 +181,9 @@ class NanoBot:
         """Create a nanobot from input data."""
         match = _POSITIONS_REGEX.match(data)
         if not match:
-            raise ValueError('Invalid nanobot data')
+            raise ValueError("Invalid nanobot data")
 
-        position = Point3D(
-            int(match.group(1)),
-            int(match.group(2)),
-            int(match.group(3))
-        )
+        position = Point3D(int(match.group(1)), int(match.group(2)), int(match.group(3)))
 
         return NanoBot(position, int(match.group(4)))
 
@@ -202,7 +191,7 @@ class NanoBot:
 def run_part1(file_content):
     """Implmentation for Part 1."""
     bot_list = [NanoBot.from_string(line) for line in file_content if line]
-    largest_bot = max(bot_list, key=attrgetter('signal_radius'))
+    largest_bot = max(bot_list, key=attrgetter("signal_radius"))
     within_range = [bot for bot in bot_list if largest_bot.within_range(bot)]
 
     return len(within_range)
@@ -225,8 +214,8 @@ def run_part2(file_content):
             original_len - len(bot_list),
             origin.manhattan_distance(rect.closest_within_rect(origin)),
             bot_list,
-            rect
-        )
+            rect,
+        ),
     )
 
     while priority_queue:
@@ -244,11 +233,10 @@ def run_part2(file_content):
                     priority_queue,
                     (
                         original_len - len(new_list),
-                        origin.manhattan_distance(
-                            split.closest_within_rect(origin)),
+                        origin.manhattan_distance(split.closest_within_rect(origin)),
                         new_list,
-                        split
-                    )
+                        split,
+                    ),
                 )
 
     return None
@@ -259,13 +247,13 @@ if __name__ == "__main__":
 
     def run(argv1):
         """The main function."""
-        with open(argv1, 'r') as input_file:
+        with open(argv1) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

@@ -7,9 +7,10 @@ https://adventofcode.com/2018/day/20
 from collections import defaultdict, deque
 from operator import itemgetter
 from sys import maxsize
+from typing import ClassVar
 
 
-class TreeNode:  # pylint: disable=too-few-public-methods
+class TreeNode:
     """Represents a single node in the Regex tree."""
 
     def __init__(self, direction):
@@ -22,7 +23,7 @@ class TreeNode:  # pylint: disable=too-few-public-methods
         return node
 
 
-class Regex:  # pylint: disable=too-few-public-methods
+class Regex:
     """Represents an input 'regex' string."""
 
     def __init__(self, input_str):
@@ -30,42 +31,42 @@ class Regex:  # pylint: disable=too-few-public-methods
         path_stack = []
         path_list = []
         current_index = 0
-        current_root = TreeNode('^')
+        current_root = TreeNode("^")
         current_node = current_root
 
-        if input_str[current_index] != '^':
-            raise ValueError('Invalid pattern')
+        if input_str[current_index] != "^":
+            raise ValueError("Invalid pattern")
 
         current_index += 1
         while current_index < len(input_str):
             current = input_str[current_index]
-            if current in ('N', 'S', 'E', 'W'):
+            if current in ("N", "S", "E", "W"):
                 current_node = current_node.connect(TreeNode(current))
-            elif current == '(':
+            elif current == "(":
                 current_node = current_node.connect(TreeNode(current))
                 root_stack.append(current_root)
                 path_stack.append(path_list)
                 path_list = []
                 current_root = current_node
-            elif current == '|':
+            elif current == "|":
                 path_list.append(current_node)
                 current_node = current_root
-            elif current == ')':
+            elif current == ")":
                 path_list.append(current_node)
                 current_node = TreeNode(current)
                 for path in path_list:
                     path.connect(current_node)
                 path_list = path_stack.pop()
                 current_root = root_stack.pop()
-            elif current == '$':
+            elif current == "$":
                 current_node = current_node.connect(TreeNode(current))
                 break
             else:
-                raise ValueError('Invalid character')
+                raise ValueError("Invalid character")
             current_index += 1
 
         if root_stack:
-            raise ValueError('Malformed input')
+            raise ValueError("Malformed input")
 
         self.root = current_root
 
@@ -73,27 +74,26 @@ class Regex:  # pylint: disable=too-few-public-methods
         result, end_node = Regex._stringify_grouping(self.root)
         assert end_node is None
 
-        result[-1] = '$'
-        return ''.join(result)
+        result[-1] = "$"
+        return "".join(result)
 
     @staticmethod
     def _stringify_grouping(grouping_start):
-        assert grouping_start.direction in ('(', '^')
+        assert grouping_start.direction in ("(", "^")
         result = [grouping_start.direction]
         end_node = None
 
         for child in grouping_start.children:
             current_node = child
             while current_node:
-                if current_node.direction == '(':
-                    grouping_result, grouping_end = Regex._stringify_grouping(
-                        current_node)
+                if current_node.direction == "(":
+                    grouping_result, grouping_end = Regex._stringify_grouping(current_node)
                     result += grouping_result
 
                     assert len(grouping_end.children) == 1
                     current_node = grouping_end.children[0]
-                elif current_node.direction == ')':
-                    result.append('|')
+                elif current_node.direction == ")":
+                    result.append("|")
 
                     assert end_node is None or current_node == end_node
                     end_node = current_node
@@ -103,17 +103,18 @@ class Regex:  # pylint: disable=too-few-public-methods
                     assert len(current_node.children) <= 1
                     current_node = current_node.children[0] if current_node.children else None
 
-        result[-1] = ')'
+        result[-1] = ")"
         return result, end_node
 
 
 class FacilityMap:
     """Represents a map of the facility as specified by a Regex."""
-    _directions = {
-        'N': (-1, 0),
-        'E': (0, 1),
-        'S': (1, 0),
-        'W': (0, -1),
+
+    _directions: ClassVar[dict[str, tuple[int, int]]] = {
+        "N": (-1, 0),
+        "E": (0, 1),
+        "S": (1, 0),
+        "W": (0, -1),
     }
 
     def __init__(self):
@@ -131,11 +132,10 @@ class FacilityMap:
             line = []
             for col in range(min_y, max_y + 1):
                 position = (row, col)
-                line.append(self.grid[position]
-                            if position in self.grid else '#')
-            result.append(''.join(line))
+                line.append(self.grid.get(position, "#"))
+            result.append("".join(line))
 
-        return '\n'.join(result)
+        return "\n".join(result)
 
     def follow_path(self, root_node):
         """Follows a path through the facility as specified by the starting node."""
@@ -143,7 +143,7 @@ class FacilityMap:
         distance_map = defaultdict(lambda: maxsize)
         visitors = defaultdict(set)
         queue.append(((0, 0), 0, root_node))
-        self.grid[(0, 0)] = 'X'
+        self.grid[(0, 0)] = "X"
 
         while queue:
             current_item = queue.popleft()
@@ -159,32 +159,27 @@ class FacilityMap:
                     queue.append((current_position, current_distance, child))
                 else:
                     new_distance = current_distance + 1
-                    door_position = FacilityMap._add_direction(
-                        current_position, direction)
-                    self.grid[door_position] = FacilityMap._get_door_type(
-                        child.direction)
-                    next_position = FacilityMap._add_direction(
-                        door_position, direction)
-                    self.grid[next_position] = '.'
-                    distance_map[next_position] = min(
-                        distance_map[next_position], new_distance)
+                    door_position = FacilityMap._add_direction(current_position, direction)
+                    self.grid[door_position] = FacilityMap._get_door_type(child.direction)
+                    next_position = FacilityMap._add_direction(door_position, direction)
+                    self.grid[next_position] = "."
+                    distance_map[next_position] = min(distance_map[next_position], new_distance)
                     queue.append((next_position, new_distance, child))
 
         return (
             max(distance_map.values()),
-            sum(1 for _ in (
-                distance for distance in distance_map.values() if distance >= 1000))
+            sum(1 for _ in (distance for distance in distance_map.values() if distance >= 1000)),
         )
 
     @staticmethod
     def _get_door_type(direction):
-        if direction in ('N', 'S'):
-            return '-'
+        if direction in ("N", "S"):
+            return "-"
 
-        if direction in ('E', 'W'):
-            return '|'
+        if direction in ("E", "W"):
+            return "|"
 
-        raise ValueError('Invalid direction')
+        raise ValueError("Invalid direction")
 
     @staticmethod
     def _get_direction(direction):
@@ -199,16 +194,16 @@ class FacilityMap:
 
     @staticmethod
     def _get_next_node(current_position, current_distance, next_node):
-        if next_node.direction == 'N':
+        if next_node.direction == "N":
             current_position = (current_position[0] - 2, current_position[1])
             current_distance += 1
-        elif next_node.direction == 'E':
+        elif next_node.direction == "E":
             current_position = (current_position[0], current_position[1] + 2)
             current_distance += 1
-        elif next_node.direction == 'S':
+        elif next_node.direction == "S":
             current_position = (current_position[0] + 2, current_position[1])
             current_distance += 1
-        elif next_node.direction == 'W':
+        elif next_node.direction == "W":
             current_position = (current_position[0], current_position[1] - 2)
             current_distance += 1
 
@@ -236,13 +231,13 @@ if __name__ == "__main__":
 
     def run(argv1):
         """The main function."""
-        with open(argv1, 'r') as input_file:
+        with open(argv1) as input_file:
             file_content = input_file.read().strip()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

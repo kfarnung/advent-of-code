@@ -5,33 +5,35 @@ https://adventofcode.com/2018/day/23
 """
 
 from os import path
+
 from .day23 import Point3D, Rect3D, run_part1, run_part2
 
 _CURRENT_FILE_DIR = path.dirname(__file__)
 _INPUT_FILE = path.join(
     path.dirname(path.dirname(_CURRENT_FILE_DIR)),
-    'private',
-    'inputs',
-    '2018',
-    path.basename(_CURRENT_FILE_DIR) + '.txt')
+    "private",
+    "inputs",
+    "2018",
+    path.basename(_CURRENT_FILE_DIR) + ".txt",
+)
 _TEST_DATA = [
-    'pos=<0,0,0>, r=4',
-    'pos=<1,0,0>, r=1',
-    'pos=<4,0,0>, r=3',
-    'pos=<0,2,0>, r=1',
-    'pos=<0,5,0>, r=3',
-    'pos=<0,0,3>, r=1',
-    'pos=<1,1,1>, r=1',
-    'pos=<1,1,2>, r=1',
-    'pos=<1,3,1>, r=1',
+    "pos=<0,0,0>, r=4",
+    "pos=<1,0,0>, r=1",
+    "pos=<4,0,0>, r=3",
+    "pos=<0,2,0>, r=1",
+    "pos=<0,5,0>, r=3",
+    "pos=<0,0,3>, r=1",
+    "pos=<1,1,1>, r=1",
+    "pos=<1,1,2>, r=1",
+    "pos=<1,3,1>, r=1",
 ]
 _TEST_DATA_2 = [
-    'pos=<10,12,12>, r=2',
-    'pos=<12,14,12>, r=2',
-    'pos=<16,12,12>, r=4',
-    'pos=<14,14,14>, r=6',
-    'pos=<50,50,50>, r=200',
-    'pos=<10,10,10>, r=5',
+    "pos=<10,12,12>, r=2",
+    "pos=<12,14,12>, r=2",
+    "pos=<16,12,12>, r=4",
+    "pos=<14,14,14>, r=6",
+    "pos=<50,50,50>, r=200",
+    "pos=<10,10,10>, r=5",
 ]
 
 
@@ -55,7 +57,7 @@ def test_part1():
     """Tests for Part 1."""
     assert run_part1(_TEST_DATA) == 7
 
-    with open(_INPUT_FILE, 'r') as input_file:
+    with open(_INPUT_FILE) as input_file:
         file_content = input_file.readlines()
         assert run_part1(file_content) == 780
 
@@ -64,6 +66,6 @@ def test_part2():
     """Tests for Part 2."""
     assert run_part2(_TEST_DATA_2) == 36
 
-    with open(_INPUT_FILE, 'r') as input_file:
+    with open(_INPUT_FILE) as input_file:
         file_content = input_file.readlines()
         assert run_part2(file_content) == 110841112

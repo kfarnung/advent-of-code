@@ -50,13 +50,13 @@ if __name__ == "__main__":
 
     def run(input_path):
         """The main function."""
-        with open(input_path, 'r') as input_file:
+        with open(input_path) as input_file:
             file_content = input_file.read().strip()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])
