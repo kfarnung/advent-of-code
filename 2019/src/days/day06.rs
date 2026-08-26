@@ -22,7 +22,7 @@ pub fn part1(connections: &str) -> i32 {
         }
     }
 
-    return orbits;
+    orbits
 }
 
 pub fn part2(connections: &str) -> i32 {

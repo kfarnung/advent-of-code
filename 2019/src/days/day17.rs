@@ -36,7 +36,7 @@ pub fn part1(initial_memory: &str) -> usize {
         }
     }
 
-    return sum;
+    sum
 }
 
 pub fn part2(initial_memory: &str) -> i64 {
@@ -44,7 +44,7 @@ pub fn part2(initial_memory: &str) -> i64 {
     let mut process = IntcodeProcess::new_from_string(initial_memory);
     process.set_memory(0, 2);
 
-    let instructions = vec![
+    let instructions = [
         "A,A,B,C,B,C,B,C,C,A\n",
         "L,10,R,8,R,8\n",
         "L,10,L,12,R,8,R,10\n",
@@ -60,12 +60,12 @@ pub fn part2(initial_memory: &str) -> i64 {
         panic!("The program didn't exit!");
     }
 
-    return output.pop_back().unwrap();
+    output.pop_back().unwrap()
 }
 
 fn render(output: &VecDeque<i64>) -> String {
-    return output
+    output
         .iter()
         .map(|x| char::from_u32(*x as u32).unwrap())
-        .collect();
+        .collect()
 }

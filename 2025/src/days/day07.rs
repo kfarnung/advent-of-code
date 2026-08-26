@@ -5,14 +5,13 @@ pub fn part1(contents: &str) -> i64 {
     let start = grid[0]
         .iter()
         .enumerate()
-        .filter(|(_, c)| *c == &'S')
-        .next()
+        .find(|(_, c)| **c == 'S')
         .unwrap();
     let mut count = 0;
     let mut queue = VecDeque::new();
     let mut visited = HashSet::new();
 
-    let start = (0 as usize, start.0);
+    let start = (0_usize, start.0);
     queue.push_back(start);
     visited.insert(start);
 
@@ -56,9 +55,7 @@ pub fn part2(contents: &str) -> i64 {
     let start = grid[0]
         .iter()
         .enumerate()
-        .filter(|(_, c)| *c == &'S')
-        .map(|(i, _)| (0 as usize, i))
-        .next()
+        .find_map(|(i, c)| if *c == 'S' { Some((0_usize, i)) } else { None })
         .unwrap();
     let mut memo = HashMap::new();
     count_recursive(&grid, start, &mut memo)
@@ -77,7 +74,7 @@ fn count_recursive(
     memo: &mut HashMap<(usize, usize), i64>,
 ) -> i64 {
     if memo.contains_key(&next) {
-        return memo.get(&next).unwrap().clone();
+        return *memo.get(&next).unwrap();
     }
 
     if next.0 == grid.len() - 1 {

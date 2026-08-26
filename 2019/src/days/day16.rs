@@ -11,7 +11,7 @@ pub fn part1(contents: &str) -> usize {
         digits = fft_phase(&digits);
     }
 
-    return to_number(&digits, 8);
+    to_number(&digits, 8)
 }
 
 pub fn part2(contents: &str) -> usize {
@@ -29,17 +29,17 @@ pub fn part2(contents: &str) -> usize {
         .cycle()
         .skip(offset % digits.len())
         .take(total_digits - offset)
-        .map(|x| *x)
+        .copied()
         .collect();
 
     for _i in 0..100 {
         fft_fast(&mut combined);
     }
 
-    return to_number(&combined, 8);
+    to_number(&combined, 8)
 }
 
-fn fft_phase(input_signal: &Vec<u8>) -> Vec<u8> {
+fn fft_phase(input_signal: &[u8]) -> Vec<u8> {
     let mut output_signal = Vec::new();
 
     for i in 0..input_signal.len() {
@@ -56,7 +56,7 @@ fn fft_phase(input_signal: &Vec<u8>) -> Vec<u8> {
         output_signal.push(new_digit as u8);
     }
 
-    return output_signal;
+    output_signal
 }
 
 fn expand_pattern(index: usize) -> Vec<i32> {
@@ -68,21 +68,21 @@ fn expand_pattern(index: usize) -> Vec<i32> {
         }
     }
 
-    return expanded;
+    expanded
 }
 
-fn fft_fast(input_signal: &mut Vec<u8>) {
+fn fft_fast(input_signal: &mut [u8]) {
     let len = input_signal.len();
     for i in 1..len {
         input_signal[len - i - 1] = (input_signal[len - i] + input_signal[len - i - 1]) % 10;
     }
 }
 
-fn to_number(input_signal: &Vec<u8>, count: usize) -> usize {
-    return input_signal
+fn to_number(input_signal: &[u8], count: usize) -> usize {
+    input_signal
         .iter()
         .take(count)
-        .fold(0usize, |sum, x| (sum * 10) + (*x as usize));
+        .fold(0usize, |sum, x| (sum * 10) + (*x as usize))
 }
 
 #[cfg(test)]
@@ -98,7 +98,7 @@ mod tests {
         ];
 
         for case in cases {
-            assert_eq!(part1(&case.0), case.1);
+            assert_eq!(part1(case.0), case.1);
         }
     }
 
@@ -111,7 +111,7 @@ mod tests {
         ];
 
         for case in cases {
-            assert_eq!(part2(&case.0), case.1);
+            assert_eq!(part2(case.0), case.1);
         }
     }
 }

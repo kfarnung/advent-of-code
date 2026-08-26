@@ -1,23 +1,23 @@
 pub fn part1(contents: &str) -> i32 {
     let lines: Vec<&str> = contents.lines().collect();
-    return lines
+    lines
         .iter()
         .map(|l| l.parse::<i32>().unwrap())
-        .map(|m| get_fuel_requirements(m))
-        .sum();
+        .map(get_fuel_requirements)
+        .sum()
 }
 
 pub fn part2(contents: &str) -> i32 {
     let lines: Vec<&str> = contents.lines().collect();
-    return lines
+    lines
         .iter()
         .map(|l| l.parse::<i32>().unwrap())
-        .map(|m| get_total_fuel_requirements(m))
-        .sum();
+        .map(get_total_fuel_requirements)
+        .sum()
 }
 
 pub fn get_fuel_requirements(mass: i32) -> i32 {
-    return (mass / 3) - 2;
+    (mass / 3) - 2
 }
 
 pub fn get_total_fuel_requirements(mass: i32) -> i32 {

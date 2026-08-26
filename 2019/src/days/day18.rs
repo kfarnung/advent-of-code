@@ -12,19 +12,22 @@ const KEY_MIN: char = 'a';
 const KEY_MAX: char = 'z';
 const DOOR_MIN: char = 'A';
 const DOOR_MAX: char = 'Z';
-const SPLIT_START: [&'static str; 3] = ["@#@", "###", "@#@"];
+const SPLIT_START: [&str; 3] = ["@#@", "###", "@#@"];
 
 fn is_key(value: &char) -> bool {
-    return *value >= KEY_MIN && *value <= KEY_MAX;
+    *value >= KEY_MIN && *value <= KEY_MAX
 }
 
 fn is_door(value: &char) -> bool {
-    return *value >= DOOR_MIN && *value <= DOOR_MAX;
+    *value >= DOOR_MIN && *value <= DOOR_MAX
 }
+
+type ReachableKey = (Point2D<i32>, char, usize, TunnelKeys);
+type ReachableKeyMap = HashMap<Point2D<i32>, Vec<ReachableKey>>;
 
 struct Tunnels {
     all_keys: TunnelKeys,
-    cache: HashMap<Point2D<i32>, Vec<(Point2D<i32>, char, usize, TunnelKeys)>>,
+    cache: ReachableKeyMap,
     grid: HashMap<Point2D<i32>, char>,
     start: Vec<Point2D<i32>>,
 }
@@ -53,12 +56,12 @@ impl Tunnels {
             }
         }
 
-        return Self {
+        Self {
             all_keys,
             cache: HashMap::new(),
             grid,
             start,
-        };
+        }
     }
 
     fn replace_start(&mut self) {
@@ -86,34 +89,28 @@ impl Tunnels {
         &mut self,
         start: &Point2D<i32>,
     ) -> Vec<(Point2D<i32>, char, usize, TunnelKeys)> {
-        let cache_result = self.cache.get(start);
-        if cache_result.is_some() {
-            return cache_result.unwrap().clone();
+        if let Some(cache_result) = self.cache.get(start) {
+            return cache_result.clone();
         }
 
         let mut queue = VecDeque::new();
         let mut visited = HashSet::new();
         let mut reachable_keys = Vec::new();
-        queue.push_back((start.clone(), 0, TunnelKeys::new()));
+        queue.push_back((*start, 0, TunnelKeys::new()));
 
         while !queue.is_empty() {
             let (current_position, current_distance, current_keys) = queue.pop_front().unwrap();
-            visited.insert(current_position.clone());
+            visited.insert(current_position);
 
             let value = self.grid.get(&current_position).unwrap_or(&GRID_WALL);
             if is_key(value) && current_position != *start {
-                reachable_keys.push((
-                    current_position.clone(),
-                    *value,
-                    current_distance,
-                    current_keys,
-                ));
+                reachable_keys.push((current_position, *value, current_distance, current_keys));
 
                 // No need to search further down this path.
                 continue;
             }
 
-            let mut required_keys = current_keys.clone();
+            let mut required_keys = current_keys;
             if is_door(value) {
                 // Add a required key to the set.
                 required_keys.add_key(&value.to_ascii_lowercase());
@@ -136,12 +133,12 @@ impl Tunnels {
                     continue;
                 }
 
-                queue.push_back((neighbor, current_distance + 1, required_keys.clone()));
+                queue.push_back((neighbor, current_distance + 1, required_keys));
             }
         }
 
-        self.cache.insert(start.clone(), reachable_keys.clone());
-        return reachable_keys;
+        self.cache.insert(*start, reachable_keys.clone());
+        reachable_keys
     }
 }
 
@@ -152,7 +149,7 @@ struct TunnelKeys {
 
 impl TunnelKeys {
     fn new() -> Self {
-        return TunnelKeys { bit_field: 0 };
+        TunnelKeys { bit_field: 0 }
     }
 
     fn add_key(&mut self, other: &char) -> bool {
@@ -160,24 +157,24 @@ impl TunnelKeys {
             return false;
         }
 
-        return match TunnelKeys::key_to_mask(other) {
+        match TunnelKeys::key_to_mask(other) {
             Some(value) => {
                 self.bit_field |= value;
-                return true;
+                true
             }
             None => false,
-        };
+        }
     }
 
     fn has_key(&self, other: &char) -> bool {
-        return match TunnelKeys::key_to_mask(other) {
+        match TunnelKeys::key_to_mask(other) {
             Some(value) => (self.bit_field & value) == value,
             None => false,
-        };
+        }
     }
 
     fn intersects(&self, other: &TunnelKeys) -> bool {
-        return (self.bit_field & other.bit_field) == other.bit_field;
+        (self.bit_field & other.bit_field) == other.bit_field
     }
 
     fn key_to_mask(other: &char) -> Option<u32> {
@@ -186,7 +183,7 @@ impl TunnelKeys {
         }
 
         let position = (*other as u8) - (KEY_MIN as u8);
-        return Some((1 as u32) << position);
+        Some(1_u32 << position)
     }
 }
 
@@ -199,13 +196,13 @@ struct State {
 
 impl Ord for State {
     fn cmp(&self, other: &Self) -> Ordering {
-        return other.distance.cmp(&self.distance);
+        other.distance.cmp(&self.distance)
     }
 }
 
 impl PartialOrd for State {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        return Some(self.cmp(other));
+        Some(self.cmp(other))
     }
 }
 
@@ -241,13 +238,13 @@ fn search_tunnels(tunnels: &mut Tunnels) -> usize {
                 }
 
                 positions[i] = position;
-                let mut keys = current.keys.clone();
+                let mut keys = current.keys;
                 keys.add_key(&key);
 
                 let distance = current.distance + distance;
                 let seen_distance = seen_states
-                    .entry((positions.clone(), keys.clone()))
-                    .or_insert(usize::max_value());
+                    .entry((positions.clone(), keys))
+                    .or_insert(usize::MAX);
                 if *seen_distance > distance {
                     *seen_distance = distance;
                     priority_queue.push(State {
@@ -260,18 +257,18 @@ fn search_tunnels(tunnels: &mut Tunnels) -> usize {
         }
     }
 
-    return 0;
+    0
 }
 
 pub fn part1(contents: &str) -> usize {
     let mut tunnels = Tunnels::parse(contents);
-    return search_tunnels(&mut tunnels);
+    search_tunnels(&mut tunnels)
 }
 
 pub fn part2(contents: &str) -> usize {
     let mut tunnels = Tunnels::parse(contents);
     tunnels.replace_start();
-    return search_tunnels(&mut tunnels);
+    search_tunnels(&mut tunnels)
 }
 
 #[cfg(test)]
@@ -280,7 +277,7 @@ mod tests {
 
     #[test]
     fn test_parse() {
-        let case = vec!["#########", "#b.A.@.a#", "#########"];
+        let case = ["#########", "#b.A.@.a#", "#########"];
         let tunnels = Tunnels::parse(&case.join("\n"));
         assert_eq!(tunnels.grid.len(), 27);
         assert_eq!(tunnels.start[0], Point2D::new(5, 1));
@@ -288,10 +285,10 @@ mod tests {
 
     #[test]
     fn test_replace_start() {
-        let input = vec![
+        let input = [
             "#######", "#a.#Cd#", "##...##", "##.@.##", "##...##", "#cB#Ab#", "#######",
         ];
-        let output = vec![
+        let output = [
             "#######", "#a.#Cd#", "##@#@##", "#######", "##@#@##", "#cB#Ab#", "#######",
         ];
 

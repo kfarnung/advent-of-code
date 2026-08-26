@@ -17,15 +17,15 @@ where
     T: Signed + PartialOrd + Copy + NumCast,
 {
     pub fn new(x: T, y: T) -> Self {
-        return Self { x: x, y: y };
+        Self { x, y }
     }
 
     pub fn manhattan_distance(&self, other: &Self) -> T {
-        return (self.x - other.x).abs() + (self.y - other.y).abs();
+        (self.x - other.x).abs() + (self.y - other.y).abs()
     }
 
     pub fn slope(&self, other: &Self) -> Fraction<T> {
-        return Fraction::new(other.y - self.y, other.x - self.x).reduce();
+        Fraction::new(other.y - self.y, other.x - self.x).reduce()
     }
 }
 
@@ -48,7 +48,7 @@ where
     type Output = Self;
 
     fn add(self, other: Self) -> Self {
-        return Self::new(self.x + other.x, self.y + other.y);
+        Self::new(self.x + other.x, self.y + other.y)
     }
 }
 
@@ -61,11 +61,11 @@ pub struct Point3D {
 
 impl Point3D {
     pub fn new(x: i32, y: i32, z: i32) -> Self {
-        return Self { x: x, y: y, z: z };
+        Self { x, y, z }
     }
 
     pub fn manhattan_distance(&self, other: &Self) -> i32 {
-        return (self.x - other.x).abs() + (self.y - other.y).abs() + (self.z - other.z).abs();
+        (self.x - other.x).abs() + (self.y - other.y).abs() + (self.z - other.z).abs()
     }
 }
 

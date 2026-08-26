@@ -1,6 +1,9 @@
 use regex::Regex;
 use std::collections::VecDeque;
 
+type Move = (usize, usize, usize);
+type ParsedInput = (Vec<VecDeque<char>>, Vec<Move>);
+
 pub fn part1(contents: &str) -> String {
     let (mut stacks, moves) = parse(contents);
 
@@ -28,7 +31,7 @@ pub fn part2(contents: &str) -> String {
     stack_tops(stacks)
 }
 
-fn parse(contents: &str) -> (Vec<VecDeque<char>>, Vec<(usize, usize, usize)>) {
+fn parse(contents: &str) -> ParsedInput {
     let re = Regex::new(r"^move (\d+) from (\d+) to (\d+)$").unwrap();
 
     let mut stacks: Vec<VecDeque<char>> = vec![];
@@ -46,7 +49,7 @@ fn parse(contents: &str) -> (Vec<VecDeque<char>>, Vec<(usize, usize, usize)>) {
             ));
         } else {
             for (i, char) in line.chars().skip(1).step_by(4).enumerate() {
-                if char >= 'A' && char <= 'Z' {
+                if char.is_ascii_uppercase() {
                     while stacks.len() <= i {
                         stacks.push(VecDeque::new());
                     }
@@ -69,8 +72,6 @@ fn stack_tops(stacks: Vec<VecDeque<char>>) -> String {
 
 #[cfg(test)]
 mod tests {
-    use std::vec;
-
     use super::*;
 
     #[test]

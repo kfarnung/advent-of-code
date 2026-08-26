@@ -3,7 +3,7 @@ use std::str::FromStr;
 pub fn part1(contents: &str) -> i64 {
     let mut current: i64 = 50;
     let mut count = 0;
-    for (dir, dist) in contents.lines().map(|line| parse_line(line)) {
+    for (dir, dist) in contents.lines().map(parse_line) {
         match dir {
             'L' => current = (current - dist).rem_euclid(100),
             'R' => current = (current + dist).rem_euclid(100),
@@ -20,7 +20,7 @@ pub fn part1(contents: &str) -> i64 {
 pub fn part2(contents: &str) -> i64 {
     let mut current = 50;
     let mut count = 0;
-    for (dir, dist) in contents.lines().map(|line| parse_line(line)) {
+    for (dir, dist) in contents.lines().map(parse_line) {
         match dir {
             'L' => {
                 count += (current - dist).div_euclid(100).abs();

@@ -7,15 +7,12 @@ struct Node {
 
 impl Node {
     fn new(parent: Option<&str>) -> Self {
-        let parent_value = match parent {
-            Some(x) => Some(x.to_string()),
-            None => None,
-        };
+        let parent_value = parent.map(|x| x.to_string());
 
-        return Self {
+        Self {
             parent: parent_value,
             children: Vec::new(),
-        };
+        }
     }
 
     fn set_parent(&mut self, name: &str) {
@@ -31,11 +28,17 @@ pub struct NamedTree {
     nodes: HashMap<String, Node>,
 }
 
+impl Default for NamedTree {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl NamedTree {
     pub fn new() -> Self {
-        return Self {
+        Self {
             nodes: HashMap::new(),
-        };
+        }
     }
 
     pub fn add_child(&mut self, parent: &str, child: &str) {
@@ -59,10 +62,10 @@ impl NamedTree {
 
     pub fn get_parent(&self, name: &str) -> Option<&str> {
         if let Some(node) = self.nodes.get(name) {
-            return match &node.parent {
-                Some(x) => Some(&x),
+            match &node.parent {
+                Some(x) => Some(x),
                 None => None,
-            };
+            }
         } else {
             panic!("Invalid parent name!");
         }
@@ -70,7 +73,7 @@ impl NamedTree {
 
     pub fn get_children(&self, name: &str) -> &Vec<String> {
         if let Some(node) = self.nodes.get(name) {
-            return &node.children;
+            &node.children
         } else {
             panic!("Invalid parent name!");
         }

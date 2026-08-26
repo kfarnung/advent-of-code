@@ -11,7 +11,7 @@ pub fn part1(initial_memory: &str) -> i64 {
         max_value = max(max_value, do_part1(initial_memory, setting));
     });
 
-    return max_value;
+    max_value
 }
 
 pub fn part2(initial_memory: &str) -> i64 {
@@ -21,7 +21,7 @@ pub fn part2(initial_memory: &str) -> i64 {
         max_value = max(max_value, do_part2(initial_memory, setting));
     });
 
-    return max_value;
+    max_value
 }
 
 fn do_part1(initial_memory: &str, phase_settings: &[i64]) -> i64 {
@@ -38,7 +38,7 @@ fn do_part1(initial_memory: &str, phase_settings: &[i64]) -> i64 {
 
         last_output = outputs.pop_front().unwrap();
     }
-    return last_output;
+    last_output
 }
 
 fn do_part2(initial_memory: &str, phase_settings: &[i64]) -> i64 {
@@ -82,7 +82,7 @@ fn do_part2(initial_memory: &str, phase_settings: &[i64]) -> i64 {
         }
     }
 
-    return output_e.pop_back().unwrap();
+    output_e.pop_back().unwrap()
 }
 
 #[cfg(test)]

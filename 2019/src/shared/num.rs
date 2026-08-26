@@ -15,30 +15,30 @@ where
     T: Signed + PartialOrd + Copy + NumCast,
 {
     pub fn new(numerator: T, denomenator: T) -> Self {
-        return Self {
-            numerator: numerator,
-            denomenator: denomenator,
-        };
+        Self {
+            numerator,
+            denomenator,
+        }
     }
 
     pub fn reduce(&self) -> Self {
         let gcd = gcd(self.numerator, self.denomenator);
-        return Self::new(self.numerator / gcd, self.denomenator / gcd);
+        Self::new(self.numerator / gcd, self.denomenator / gcd)
     }
 
     pub fn angle_relative_cw(&self, base: &Self) -> f32 {
         let angle = self.angle() - base.angle();
         if angle >= 0.0 {
-            return angle;
+            angle
         } else {
-            return angle + (2.0 * PI);
+            angle + (2.0 * PI)
         }
     }
 
     fn angle(&self) -> f32 {
         let numerator: f32 = num::cast(self.numerator).unwrap();
         let denomenator: f32 = num::cast(self.denomenator).unwrap();
-        return numerator.atan2(denomenator);
+        numerator.atan2(denomenator)
     }
 }
 
@@ -55,14 +55,14 @@ where
         a = remainder;
     }
 
-    return b;
+    b
 }
 
 pub fn lcm<T>(first: T, second: T) -> T
 where
     T: Signed + PartialOrd + Copy,
 {
-    return (first * second) / gcd(first, second);
+    (first * second) / gcd(first, second)
 }
 
 #[cfg(test)]

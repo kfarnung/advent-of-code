@@ -22,52 +22,49 @@ impl Chemical {
         let qty = segments[0].parse::<i64>().unwrap();
         let name = segments[1];
 
-        return Self {
+        Self {
             name: name.to_string(),
-            qty: qty,
-        };
+            qty,
+        }
     }
 }
 
 impl Reaction {
     pub fn parse(line: &str) -> Self {
         let parts: Vec<&str> = line.split(" => ").collect();
-        let inputs: Vec<Chemical> = parts[0].split(", ").map(|x| Chemical::parse(x)).collect();
+        let inputs: Vec<Chemical> = parts[0].split(", ").map(Chemical::parse).collect();
         let output = Chemical::parse(parts[1]);
 
-        return Self {
-            inputs: inputs,
-            output: output,
-        };
+        Self { inputs, output }
     }
 }
 
 impl Reactions {
     fn new() -> Self {
-        return Self {
+        Self {
             map: HashMap::new(),
-        };
+        }
     }
 
     pub fn load(contents: &str) -> Self {
-        let reactions: Vec<Reaction> = contents.lines().map(|x| Reaction::parse(x)).collect();
+        let reactions: Vec<Reaction> = contents.lines().map(Reaction::parse).collect();
 
         let mut result = Reactions::new();
         for reaction in reactions {
             result.map.insert(reaction.output.name.clone(), reaction);
         }
 
-        return result;
+        result
     }
 
     pub fn get(&self, name: &str) -> &Reaction {
-        return self.map.get(name).unwrap();
+        self.map.get(name).unwrap()
     }
 }
 
 pub fn part1(contents: &str) -> i64 {
     let reactions = Reactions::load(contents);
-    return calculate_ore(&reactions, 1);
+    calculate_ore(&reactions, 1)
 }
 
 pub fn part2(contents: &str) -> i64 {
@@ -91,7 +88,7 @@ pub fn part2(contents: &str) -> i64 {
         }
     }
 
-    return lower;
+    lower
 }
 
 fn calculate_ore(reactions: &Reactions, fuel_count: i64) -> i64 {
@@ -140,7 +137,7 @@ fn calculate_ore(reactions: &Reactions, fuel_count: i64) -> i64 {
         }
     }
 
-    return ore_count;
+    ore_count
 }
 
 #[cfg(test)]

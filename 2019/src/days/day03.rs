@@ -9,7 +9,7 @@ struct PathStep {
 
 pub fn part1(contents: &str) -> i32 {
     let lines: Vec<&str> = contents.lines().collect();
-    
+
     let wire_a = follow_path(lines[0]);
     let wire_b = follow_path(lines[1]);
 
@@ -20,19 +20,19 @@ pub fn part1(contents: &str) -> i32 {
         .unwrap()
         .0;
 
-    return min_distance.manhattan_distance(&Point2D::new(0, 0));
+    min_distance.manhattan_distance(&Point2D::new(0, 0))
 }
 
 pub fn part2(contents: &str) -> i32 {
     let lines: Vec<&str> = contents.lines().collect();
-    
+
     let wire_a = follow_path(lines[0]);
     let wire_b = follow_path(lines[1]);
 
     let intersections = find_intersections(wire_a, wire_b);
     let min_distance = intersections.iter().min_by_key(|x| x.1).unwrap().1;
 
-    return min_distance.clone();
+    *min_distance
 }
 
 fn find_intersections(
@@ -48,7 +48,7 @@ fn find_intersections(
         };
     }
 
-    return intersections;
+    intersections
 }
 
 fn follow_path(line: &str) -> HashMap<Point2D<i32>, i32> {
@@ -61,25 +61,25 @@ fn follow_path(line: &str) -> HashMap<Point2D<i32>, i32> {
 
         for _ in 0..step.distance {
             total_distance += 1;
-            current += delta.clone();
-            visited.insert(current.clone(), total_distance);
+            current += delta;
+            visited.insert(current, total_distance);
         }
     }
 
-    return visited;
+    visited
 }
 
 fn get_steps(line: &str) -> Vec<PathStep> {
-    return line.split(",").map(|s| get_step(s)).collect();
+    line.split(",").map(get_step).collect()
 }
 
 fn get_step(step: &str) -> PathStep {
     let (direction, distance) = step.split_at(1);
 
-    return PathStep {
+    PathStep {
         direction: direction.to_string(),
         distance: distance.parse().unwrap(),
-    };
+    }
 }
 
 fn get_delta(direction: &str) -> Point2D<i32> {

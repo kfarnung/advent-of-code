@@ -2,10 +2,8 @@ use std::str::FromStr;
 
 pub fn part1(contents: &str) -> i64 {
     let mut count = 0;
-    for pair in contents.lines().map(|x| parse(x)) {
-        if pair.0 >= pair.2 && pair.1 <= pair.3 {
-            count += 1;
-        } else if pair.2 >= pair.0 && pair.3 <= pair.1 {
+    for pair in contents.lines().map(parse) {
+        if (pair.0 >= pair.2 && pair.1 <= pair.3) || (pair.2 >= pair.0 && pair.3 <= pair.1) {
             count += 1;
         }
     }
@@ -15,10 +13,8 @@ pub fn part1(contents: &str) -> i64 {
 
 pub fn part2(contents: &str) -> i64 {
     let mut count = 0;
-    for pair in contents.lines().map(|x| parse(x)) {
-        if (pair.0 >= pair.2 && pair.0 <= pair.3)
-            || (pair.2 >= pair.0 && pair.2 <= pair.1)
-        {
+    for pair in contents.lines().map(parse) {
+        if (pair.0 >= pair.2 && pair.0 <= pair.3) || (pair.2 >= pair.0 && pair.2 <= pair.1) {
             count += 1;
         }
     }
@@ -41,13 +37,11 @@ fn parse(line: &str) -> (i32, i32, i32, i32) {
 
 #[cfg(test)]
 mod tests {
-    use std::vec;
-
     use super::*;
 
     #[test]
     fn test_part1() {
-        let lines = vec![
+        let lines = [
             "2-4,6-8", "2-3,4-5", "5-7,7-9", "2-8,3-7", "6-6,4-6", "2-6,4-8",
         ];
 
@@ -56,7 +50,7 @@ mod tests {
 
     #[test]
     fn test_part2() {
-        let lines = vec![
+        let lines = [
             "2-4,6-8", "2-3,4-5", "5-7,7-9", "2-8,3-7", "6-6,4-6", "2-6,4-8",
         ];
 

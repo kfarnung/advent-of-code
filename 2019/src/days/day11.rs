@@ -3,7 +3,7 @@ use crate::shared::point::Point2D;
 use std::collections::{HashMap, VecDeque};
 
 pub fn part1(initial_memory: &str) -> usize {
-    return paint(initial_memory, 0).len();
+    paint(initial_memory, 0).len()
 }
 
 pub fn part2(initial_memory: &str) -> String {
@@ -34,7 +34,7 @@ pub fn part2(initial_memory: &str) -> String {
         lines.push(line.join(""));
     }
 
-    return lines.join("\n");
+    lines.join("\n")
 }
 
 fn paint(initial_memory: &str, starting_color: i64) -> HashMap<Point2D<i32>, i64> {
@@ -46,12 +46,12 @@ fn paint(initial_memory: &str, starting_color: i64) -> HashMap<Point2D<i32>, i64
     let mut output = VecDeque::new();
     let mut process = IntcodeProcess::new_from_string(initial_memory);
 
-    grid.insert(position.clone(), starting_color);
+    grid.insert(position, starting_color);
 
     loop {
         // Input the color of the current cell.
         let color = grid.get(&position).unwrap_or(&0);
-        input.push_back(color.clone());
+        input.push_back(*color);
         // Run the process until is needs a new input.
         let state = process.run(&mut input, &mut output);
 
@@ -61,7 +61,7 @@ fn paint(initial_memory: &str, starting_color: i64) -> HashMap<Point2D<i32>, i64
         }
         // Update the color in the grid.
         let new_color = output.pop_front().unwrap();
-        grid.insert(position.clone(), new_color);
+        grid.insert(position, new_color);
         // Calculate the new direction.
         let new_direction = output.pop_front().unwrap();
         direction = turn(direction, new_direction);
@@ -70,7 +70,7 @@ fn paint(initial_memory: &str, starting_color: i64) -> HashMap<Point2D<i32>, i64
         position += get_delta(direction);
     }
 
-    return grid;
+    grid
 }
 
 fn turn(current: usize, new: i64) -> usize {

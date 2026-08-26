@@ -1,6 +1,5 @@
 use std::collections::HashSet;
 
-
 const CODE_LOWERCASE_A: u8 = 97;
 const CODE_UPPERCASE_A: u8 = 65;
 
@@ -36,7 +35,7 @@ pub fn part2(contents: &str) -> i64 {
         if index % 3 == 0 {
             current = rucksack;
         } else {
-            current = current.intersection(&rucksack).map(|x| *x).collect();
+            current = current.intersection(&rucksack).copied().collect();
         }
 
         if index % 3 == 2 {
@@ -67,13 +66,11 @@ fn score_char(char: &char) -> i64 {
 
 #[cfg(test)]
 mod tests {
-    use std::vec;
-
     use super::*;
 
     #[test]
     fn test_part1() {
-        let lines = vec![
+        let lines = [
             "vJrwpWtwJgWrhcsFMMfFFhFp",
             "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
             "PmmdzqPrVvPwwTWBwg",
@@ -87,7 +84,7 @@ mod tests {
 
     #[test]
     fn test_part2() {
-        let lines = vec![
+        let lines = [
             "vJrwpWtwJgWrhcsFMMfFFhFp",
             "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
             "PmmdzqPrVvPwwTWBwg",

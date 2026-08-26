@@ -19,7 +19,7 @@ fn run_program(initial_memory: &str, x: i64, y: i64) -> i64 {
 
     println!("({}, {}) => {}", x, y, result);
 
-    return result;
+    result
 }
 
 pub fn part1(initial_memory: &str) -> i64 {
@@ -31,7 +31,7 @@ pub fn part1(initial_memory: &str) -> i64 {
         }
     }
 
-    return sum;
+    sum
 }
 
 pub fn part2(initial_memory: &str) -> i64 {
