@@ -138,9 +138,9 @@ class CaveSystem:
                     )
                 else:
                     stack.append(current_position)
-                    if has_left not in self.erosion_levels:
+                    if not has_left:
                         stack.append(left_one)
-                    if has_up not in self.erosion_levels:
+                    if not has_up:
                         stack.append(up_one)
 
         return self.erosion_levels[position]
