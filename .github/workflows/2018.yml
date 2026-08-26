@@ -43,10 +43,11 @@ jobs:
 
       - name: Lint with Ruff
         run: uv run ruff check .
+        if: ${{ !contains(matrix.python-version, 'pypy') }}
 
       - name: Check formatting with Ruff
         run: uv run ruff format --check .
-        if: ${{ matrix.python-version == '3.12' }}
+        if: ${{ !contains(matrix.python-version, 'pypy') }}
 
       - name: Test with pytest
         run: uv run pytest -n auto
