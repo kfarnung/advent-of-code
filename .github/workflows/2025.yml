@@ -25,6 +25,9 @@ jobs:
           token: ${{ secrets.PAT }}
           submodules: true
 
+      - name: Install rustfmt and clippy
+        run: rustup component add rustfmt clippy
+
       - name: Build
         run: cargo build
 
