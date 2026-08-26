@@ -8,18 +8,18 @@ import re
 from collections import defaultdict
 from functools import reduce
 
-_TEAM_REGEX = re.compile(r'^([A-Za-z ]+):$')
+_TEAM_REGEX = re.compile(r"^([A-Za-z ]+):$")
 _GROUP_REGEX = re.compile(
-    r'^(\d+) units each with (\d+) hit points (?:\(([a-z,; ]+)\) )?with an attack that does (\d+) '
-    r'([a-z]+) damage at initiative (\d+)$'
+    r"^(\d+) units each with (\d+) hit points (?:\(([a-z,; ]+)\) )?with an attack that does (\d+) "
+    r"([a-z]+) damage at initiative (\d+)$"
 )
-_MODIFIER_REGEX = re.compile(r'([a-z]+) to ([a-z, ]+)')
+_MODIFIER_REGEX = re.compile(r"([a-z]+) to ([a-z, ]+)")
 
 
-class Group:  # pylint: disable=too-many-instance-attributes
+class Group:
     """Represents a single group of attackers."""
 
-    def __init__(self, team_name, unit_count, hit_points, attack_damage, attack_type, initiative):  # pylint: disable=too-many-arguments,too-many-positional-arguments
+    def __init__(self, team_name, unit_count, hit_points, attack_damage, attack_type, initiative):
         self.team_name = team_name
         self._unit_count = unit_count
         self._hit_points = hit_points
@@ -33,7 +33,7 @@ class Group:  # pylint: disable=too-many-instance-attributes
         self._immunities = set()
 
     def __str__(self):
-        return '{} contains {} units'.format(self.team_name, self.remaining_units())
+        return f"{self.team_name} contains {self.remaining_units()} units"
 
     def boost(self, attack_boost):
         """Apply a boost to attacks"""
@@ -62,7 +62,7 @@ class Group:  # pylint: disable=too-many-instance-attributes
         return lambda other: (
             self.effective_damage(other),
             other.effective_power(),
-            other.initiative
+            other.initiative,
         )
 
     def get_targeting_key(self):
@@ -82,21 +82,21 @@ class Group:  # pylint: disable=too-many-instance-attributes
         if not line:
             return
 
-        for modifier in line.split('; '):
+        for modifier in line.split("; "):
             match = _MODIFIER_REGEX.match(modifier)
             if not match:
-                raise ValueError('Could not locate modifiers')
+                raise ValueError("Could not locate modifiers")
 
             modifier_set = None
             modifier_category = match.group(1)
-            if modifier_category == 'weak':
+            if modifier_category == "weak":
                 modifier_set = self._weaknesses
-            elif modifier_category == 'immune':
+            elif modifier_category == "immune":
                 modifier_set = self._immunities
             else:
-                raise ValueError('Unknown modifier category encountered')
+                raise ValueError("Unknown modifier category encountered")
 
-            for modifier_type in match.group(2).split(', '):
+            for modifier_type in match.group(2).split(", "):
                 modifier_set.add(modifier_type)
 
     def remaining_units(self):
@@ -109,8 +109,7 @@ class Group:  # pylint: disable=too-many-instance-attributes
 
     def take_damage(self, attacker):
         """Apply damage to the group."""
-        self._units_remaining -= (attacker.effective_damage(self) //
-                                  self._hit_points)
+        self._units_remaining -= attacker.effective_damage(self) // self._hit_points
 
     def weak_to_attack(self, attack_type):
         """Determines whether the group is weak to the specified attack."""
@@ -121,7 +120,7 @@ class Group:  # pylint: disable=too-many-instance-attributes
         """Parse the group from the provided text."""
         group_match = _GROUP_REGEX.match(line)
         if not group_match:
-            raise ValueError('Could not locate group')
+            raise ValueError("Could not locate group")
 
         group = Group(
             team_name,
@@ -159,24 +158,21 @@ class Battle:
 
         while self.winner() is None:
             targets_list = []
-            possible_groups = [
-                group for group in self._groups if group.has_units()]
+            possible_groups = [group for group in self._groups if group.has_units()]
             possible_targets = set(possible_groups)
 
             possible_groups.sort(key=Group.get_targeting_key)
             for attacker in possible_groups:
                 targets = [
-                    group for group in possible_targets
+                    group
+                    for group in possible_targets
                     if attacker.is_enemy(group) and attacker.effective_damage(group) > 0
                 ]
 
                 if not targets:
                     continue
 
-                target = max(
-                    targets,
-                    key=attacker.get_target_selection_key()
-                )
+                target = max(targets, key=attacker.get_target_selection_key())
 
                 possible_targets.remove(target)
                 targets_list.append((attacker, target))
@@ -192,17 +188,11 @@ class Battle:
 
     def remaining_units(self):
         """Count the number of units remaining in the battle."""
-        return reduce(
-            lambda prev, item: prev + item.remaining_units(),
-            self._groups,
-            0
-        )
+        return reduce(lambda prev, item: prev + item.remaining_units(), self._groups, 0)
 
     def winner(self):
         """Determine the winner of the battle."""
-        teams_with_units = [
-            team for team in self._teams.values() if Battle._team_has_units(team)
-        ]
+        teams_with_units = [team for team in self._teams.values() if Battle._team_has_units(team)]
 
         if len(teams_with_units) == 1:
             return teams_with_units[0][0].team_name
@@ -215,18 +205,14 @@ class Battle:
 
     @staticmethod
     def _team_has_units(team):
-        for group in team:
-            if group.has_units():
-                return True
-
-        return False
+        return any(group.has_units() for group in team)
 
 
 def _parse_team(group_list, lines):
     """Parse the team from the provided lines of text."""
     team_match = _TEAM_REGEX.match(next(lines))
     if not team_match:
-        raise ValueError('Could not locate team')
+        raise ValueError("Could not locate team")
 
     team_name = team_match.group(1)
 
@@ -251,7 +237,7 @@ def _load_groups(file_content):
         pass
 
     if team_count != 2:
-        raise ValueError('Failed to find two teams')
+        raise ValueError("Failed to find two teams")
 
     return groups
 
@@ -289,13 +275,13 @@ if __name__ == "__main__":
 
     def run(argv1):
         """The main function."""
-        with open(argv1, 'r') as input_file:
+        with open(argv1) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

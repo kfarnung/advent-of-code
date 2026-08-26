@@ -4,14 +4,13 @@ Implementation for Advent of Code Day 13.
 https://adventofcode.com/2018/day/13
 """
 
-_TURN_ORDER = [
-    -1,
-    0,
-    1
-]
+_TURN_ORDER = [-1, 0, 1]
 
 _CART_DIRECTIONS = [
-    '^', '>', 'v', '<',
+    "^",
+    ">",
+    "v",
+    "<",
 ]
 
 
@@ -32,29 +31,29 @@ class Cart:
     def get_track_replacement(self):
         """Gets the track that's under the cart (only works at start)."""
         if self.direction % 2 == 0:
-            return '|'
+            return "|"
 
-        return '-'
+        return "-"
 
     def update_direction(self, next_track):
         """Update the direction of the cart."""
-        if next_track == '+':
+        if next_track == "+":
             self._turn(self._get_next_turn())
-        elif next_track == '/':
+        elif next_track == "/":
             if self.direction % 2 == 0:
                 self._turn(1)
             elif self.direction % 2 == 1:
                 self._turn(-1)
-        elif next_track == '\\':
+        elif next_track == "\\":
             if self.direction % 2 == 0:
                 self._turn(-1)
             else:
                 self._turn(1)
-        elif next_track in ('-', '|'):
+        elif next_track in ("-", "|"):
             # Nothing to do
             pass
         else:
-            raise ValueError('Unexpected track')
+            raise ValueError("Unexpected track")
 
     def move_once(self):
         """Update the position of the cart."""
@@ -67,15 +66,14 @@ class Cart:
         elif self.direction == 3:
             self.cell_index -= 1
         else:
-            raise ValueError('Invalid direction')
+            raise ValueError("Invalid direction")
 
     def _turn(self, delta):
         self.direction = (self.direction + delta) % len(_CART_DIRECTIONS)
 
     def _get_next_turn(self):
         turn = _TURN_ORDER[self.intersection_count]
-        self.intersection_count = (
-            self.intersection_count + 1) % len(_TURN_ORDER)
+        self.intersection_count = (self.intersection_count + 1) % len(_TURN_ORDER)
         return turn
 
 
@@ -94,15 +92,14 @@ class CartTrack:
                     self.carts.append(cart)
 
     def __str__(self):
-        return ''.join(''.join(row) for row in self.grid)
+        return "".join("".join(row) for row in self.grid)
 
     def find_first_crash(self):
         """Finds the location where the first two carts crash."""
         while True:
             for cart in sorted(self.carts, key=Cart.get_position):
                 cart.move_once()
-                cart.update_direction(
-                    self.grid[cart.row_index][cart.cell_index])
+                cart.update_direction(self.grid[cart.row_index][cart.cell_index])
 
                 if self._mark_collisions():
                     return cart.cell_index, cart.row_index
@@ -115,8 +112,7 @@ class CartTrack:
                     continue
 
                 cart.move_once()
-                cart.update_direction(
-                    self.grid[cart.row_index][cart.cell_index])
+                cart.update_direction(self.grid[cart.row_index][cart.cell_index])
                 self._mark_collisions()
 
             self.carts = [cart for cart in self.carts if not cart.did_collide]
@@ -131,8 +127,11 @@ class CartTrack:
                 continue
 
             for cart2 in self.carts:
-                if (not cart2.did_collide and cart != cart2 and
-                        cart.get_position() == cart2.get_position()):
+                if (
+                    not cart2.did_collide
+                    and cart != cart2
+                    and cart.get_position() == cart2.get_position()
+                ):
                     cart.did_collide = True
                     cart2.did_collide = True
                     found_collision = True
@@ -167,17 +166,17 @@ if __name__ == "__main__":
     import sys
 
     def _print_coordinates(coordinates):
-        return "{},{}".format(coordinates[0], coordinates[1])
+        return f"{coordinates[0]},{coordinates[1]}"
 
     def run(input_path):
         """The main function."""
-        with open(input_path, 'r') as input_file:
+        with open(input_path) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(_print_coordinates(run_part1(file_content))))
-            print("Part 2: {}".format(_print_coordinates(run_part2(file_content))))
+            print(f"Part 1: {_print_coordinates(run_part1(file_content))}")
+            print(f"Part 2: {_print_coordinates(run_part2(file_content))}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

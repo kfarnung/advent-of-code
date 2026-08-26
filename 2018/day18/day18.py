@@ -8,9 +8,6 @@ from collections import Counter
 from operator import itemgetter
 
 
-
-
-
 class LumberArea:
     """Represents an area for lumber collection."""
 
@@ -18,7 +15,7 @@ class LumberArea:
         self.area = {}
         for row_index, row in enumerate(file_content):
             for cell_index, cell in enumerate(row):
-                if cell == '\n':
+                if cell == "\n":
                     continue
 
                 self.area[(row_index, cell_index)] = cell
@@ -32,9 +29,9 @@ class LumberArea:
             line = []
             for cell_index in range(self.max_cells + 1):
                 line.append(self.area[(row_index, cell_index)])
-            lines.append(''.join(line))
+            lines.append("".join(line))
 
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
     def get_counts(self):
         """Gets the counts of the acre types."""
@@ -47,18 +44,20 @@ class LumberArea:
             for cell_index in range(self.max_cells + 1):
                 position = (row_index, cell_index)
                 cell = self.area[position]
-                if cell == '.':
-                    if self._has_neighbors(position, '|', 3):
-                        area_copy[position] = '|'
-                elif cell == '|':
-                    if self._has_neighbors(position, '#', 3):
-                        area_copy[position] = '#'
-                elif cell == '#':
-                    if not (self._has_neighbors(position, '#', 1) and
-                            self._has_neighbors(position, '|', 1)):
-                        area_copy[position] = '.'
+                if cell == ".":
+                    if self._has_neighbors(position, "|", 3):
+                        area_copy[position] = "|"
+                elif cell == "|":
+                    if self._has_neighbors(position, "#", 3):
+                        area_copy[position] = "#"
+                elif cell == "#":
+                    if not (
+                        self._has_neighbors(position, "#", 1)
+                        and self._has_neighbors(position, "|", 1)
+                    ):
+                        area_copy[position] = "."
                 else:
-                    raise ValueError('Unexpected character')
+                    raise ValueError("Unexpected character")
 
         self.area = area_copy
 
@@ -75,8 +74,7 @@ class LumberArea:
         ]
 
         for direction in search_directions:
-            cell_position = (position[0] + direction[0],
-                             position[1] + direction[1])
+            cell_position = (position[0] + direction[0], position[1] + direction[1])
             if cell_position in self.area:
                 cell = self.area[cell_position]
                 if cell == neighbor_type:
@@ -93,7 +91,7 @@ def run_part1(file_content):
         area.execute_minute()
 
     counts = area.get_counts()
-    return counts['|'] * counts['#']
+    return counts["|"] * counts["#"]
 
 
 def run_part2(file_content):
@@ -121,7 +119,7 @@ def run_part2(file_content):
 
     index = (1000000000 - 1 - cycle_index) % len(cycle_patterns)
     counts = Counter(cycle_patterns[index])
-    return counts['|'] * counts['#']
+    return counts["|"] * counts["#"]
 
 
 if __name__ == "__main__":
@@ -129,13 +127,13 @@ if __name__ == "__main__":
 
     def run(argv1):
         """The main function."""
-        with open(argv1, 'r') as input_file:
+        with open(argv1) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

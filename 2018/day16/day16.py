@@ -7,9 +7,9 @@ https://adventofcode.com/2018/day/16
 import re
 from collections import defaultdict
 
-_BEFORE_REGEX = re.compile(r'^Before: \[(\d+), (\d+), (\d+), (\d+)\]$')
-_INSTRUCTION_REGEX = re.compile(r'^(\d+) (\d+) (\d+) (\d+)$')
-_AFTER_REGEX = re.compile(r'^After:  \[(\d+), (\d+), (\d+), (\d+)\]$')
+_BEFORE_REGEX = re.compile(r"^Before: \[(\d+), (\d+), (\d+), (\d+)\]$")
+_INSTRUCTION_REGEX = re.compile(r"^(\d+) (\d+) (\d+) (\d+)$")
+_AFTER_REGEX = re.compile(r"^After:  \[(\d+), (\d+), (\d+), (\d+)\]$")
 
 
 class Device:
@@ -18,22 +18,22 @@ class Device:
     def __init__(self):
         self.registers = [0] * 4
         self.opcodes = {
-            'addr': Device._instruction_addr,
-            'addi': Device._instruction_addi,
-            'mulr': Device._instruction_mulr,
-            'muli': Device._instruction_muli,
-            'banr': Device._instruction_banr,
-            'bani': Device._instruction_bani,
-            'borr': Device._instruction_borr,
-            'bori': Device._instruction_bori,
-            'setr': Device._instruction_setr,
-            'seti': Device._instruction_seti,
-            'gtir': Device._instruction_gtir,
-            'gtri': Device._instruction_gtri,
-            'gtrr': Device._instruction_gtrr,
-            'eqir': Device._instruction_eqir,
-            'eqri': Device._instruction_eqri,
-            'eqrr': Device._instruction_eqrr,
+            "addr": Device._instruction_addr,
+            "addi": Device._instruction_addi,
+            "mulr": Device._instruction_mulr,
+            "muli": Device._instruction_muli,
+            "banr": Device._instruction_banr,
+            "bani": Device._instruction_bani,
+            "borr": Device._instruction_borr,
+            "bori": Device._instruction_bori,
+            "setr": Device._instruction_setr,
+            "seti": Device._instruction_seti,
+            "gtir": Device._instruction_gtir,
+            "gtri": Device._instruction_gtri,
+            "gtrr": Device._instruction_gtrr,
+            "eqir": Device._instruction_eqir,
+            "eqri": Device._instruction_eqri,
+            "eqrr": Device._instruction_eqrr,
         }
 
     def get_opcodes(self):
@@ -113,8 +113,7 @@ def _parse_samples(file_content):
 
         match = _AFTER_REGEX.match(line)
         if match:
-            samples.append((before_state, instruction, [
-                           int(group) for group in match.groups()]))
+            samples.append((before_state, instruction, [int(group) for group in match.groups()]))
             before_state = None
             instruction = None
 
@@ -135,11 +134,10 @@ def _get_instruction_map(samples):
     instruction_map = {}
 
     while probabilities:
-        single_match = [(key, value)
-                        for key, value in probabilities.items() if len(value) == 1]
+        single_match = [(key, value) for key, value in probabilities.items() if len(value) == 1]
         for match in single_match:
             del probabilities[match[0]]
-            item = list(item for item in match[1])[0]
+            item = next(iter(match[1]))
             instruction_map[match[0]] = item
 
             for value in probabilities.values():
@@ -186,13 +184,13 @@ if __name__ == "__main__":
 
     def run(argv1):
         """The main function."""
-        with open(argv1, 'r') as input_file:
+        with open(argv1) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

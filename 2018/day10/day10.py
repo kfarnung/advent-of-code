@@ -6,8 +6,7 @@ https://adventofcode.com/2018/day/10
 
 import re
 
-_ENTRY_REGEX = re.compile(
-    r'^position=< *(-?\d+), *(-?\d+)> velocity=< *(-?\d+), *(-?\d+)>$')
+_ENTRY_REGEX = re.compile(r"^position=< *(-?\d+), *(-?\d+)> velocity=< *(-?\d+), *(-?\d+)>$")
 
 
 class Point2D:
@@ -77,11 +76,11 @@ class LightPointSystem:
 
             for coord_x in range(upper_left.coord_x, lower_right.coord_x + 1):
                 point = Point2D(coord_x, coord_y)
-                line.append('#' if point in points else ' ')
+                line.append("#" if point in points else " ")
 
-            lines.append(''.join(line))
+            lines.append("".join(line))
 
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
     def step_backward(self):
         """Step the system of points backward in time."""
@@ -113,7 +112,7 @@ def _parse_entry(input_str):
     """Parse the entry that contains the starting point and velocity."""
     match = _ENTRY_REGEX.match(input_str)
     if not match:
-        raise ValueError('Invalid input string')
+        raise ValueError("Invalid input string")
 
     return LightPoint(
         Point2D(int(match.group(1)), int(match.group(2))),
@@ -123,8 +122,7 @@ def _parse_entry(input_str):
 
 def find_message(file_content):
     """Implmentation for Part 1."""
-    point_system = LightPointSystem(_parse_entry(entry)
-                                    for entry in file_content)
+    point_system = LightPointSystem(_parse_entry(entry) for entry in file_content)
     total_area = point_system.get_area()
     seconds = 0
 
@@ -148,14 +146,14 @@ if __name__ == "__main__":
 
     def run(input_path):
         """The main function."""
-        with open(input_path, 'r') as input_file:
+        with open(input_path) as input_file:
             message, seconds = find_message(input_file.readlines())
             print("Part 1:")
             print(message)
-            print("Part 2: {}".format(seconds))
+            print(f"Part 2: {seconds}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

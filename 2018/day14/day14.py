@@ -35,7 +35,7 @@ class RecipeGenerator:
 
     def next(self):
         """Gets the next recipe generated."""
-        return self.__next__()  # pylint: disable=unnecessary-dunder-call
+        return self.__next__()
 
     def skip(self, count):
         """Skip the specified number of recipes."""
@@ -51,7 +51,7 @@ class RecipeGenerator:
         return result
 
 
-class DigitsMatcher:  # pylint: disable=too-few-public-methods
+class DigitsMatcher:
     """Look in the incoming digits for a match."""
 
     def __init__(self, digits):
@@ -81,7 +81,7 @@ def run_part1(recipe_count):
     """Implmentation for Part 1."""
     generator = RecipeGenerator()
     generator.skip(recipe_count)
-    return ''.join(str(recipe) for recipe in generator.take(10))
+    return "".join(str(recipe) for recipe in generator.take(10))
 
 
 def run_part2(recipe_count):
@@ -102,11 +102,11 @@ if __name__ == "__main__":
     def run(argv1):
         """The main function."""
         recipe_count = int(argv1)
-        print("Part 1: {}".format(run_part1(recipe_count)))
-        print("Part 2: {}".format(run_part2(recipe_count)))
+        print(f"Part 1: {run_part1(recipe_count)}")
+        print(f"Part 2: {run_part2(recipe_count)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

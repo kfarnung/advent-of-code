@@ -8,18 +8,15 @@ import re
 from collections import defaultdict
 from operator import itemgetter
 from sys import maxsize
+from typing import ClassVar
 
-_FIELD_REGEX = re.compile(r'^([a-z]+): (\d+)(?:,(\d+))?$')
+_FIELD_REGEX = re.compile(r"^([a-z]+): (\d+)(?:,(\d+))?$")
 
 
 class CaveSystem:
     """Represents a system of caves."""
-    _NEIGHBORS = [
-        (0, -1),
-        (1, 0),
-        (0, 1),
-        (-1, 0)
-    ]
+
+    _NEIGHBORS: ClassVar[list[tuple[int, int]]] = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
     def __init__(self, depth, target):
         self.erosion_levels = {}
@@ -44,10 +41,7 @@ class CaveSystem:
         to_visit.add(((0, 0), 1, 0))
 
         while to_visit:
-            current = min(
-                to_visit,
-                key=itemgetter(2)
-            )
+            current = min(to_visit, key=itemgetter(2))
             to_visit.remove(current)
 
             current_position, current_item, current_time = current
@@ -74,8 +68,7 @@ class CaveSystem:
                 next_item = current_item
 
                 if not self._is_item_valid(neighbor, next_item):
-                    next_item = self._get_intersecting_item(
-                        current_position, neighbor)
+                    next_item = self._get_intersecting_item(current_position, neighbor)
                     next_time += 7
 
                 to_visit.add((neighbor, next_item, next_time))
@@ -96,15 +89,16 @@ class CaveSystem:
             # Nothing or torch
             return item in (0, 1)
 
-        raise ValueError('Invalid region type')
+        raise ValueError("Invalid region type")
 
     def _get_intersecting_item(self, current_position, next_position):
         for item in range(3):
-            if (self._is_item_valid(current_position, item) and
-                    self._is_item_valid(next_position, item)):
+            if self._is_item_valid(current_position, item) and self._is_item_valid(
+                next_position, item
+            ):
                 return item
 
-        raise ValueError('Invalid combination of types')
+        raise ValueError("Invalid combination of types")
 
     def _get_region_type(self, position):
         return self._get_erosion_level(position) % 3
@@ -119,16 +113,18 @@ class CaveSystem:
             current_x, current_y = current_position
             target_x, target_y = self.target
 
-            if ((current_x == 0 and current_y == 0) or
-                    (current_x == target_x and current_y == target_y)):
-                self.erosion_levels[current_position] = self._calculate_erosion_level(
-                    0)
+            if (current_x == 0 and current_y == 0) or (
+                current_x == target_x and current_y == target_y
+            ):
+                self.erosion_levels[current_position] = self._calculate_erosion_level(0)
             elif current_y == 0:
                 self.erosion_levels[current_position] = self._calculate_erosion_level(
-                    current_x * 16807)
+                    current_x * 16807
+                )
             elif current_x == 0:
                 self.erosion_levels[current_position] = self._calculate_erosion_level(
-                    current_y * 48271)
+                    current_y * 48271
+                )
             else:
                 left_one = (current_x - 1, current_y)
                 up_one = (current_x, current_y - 1)
@@ -137,13 +133,14 @@ class CaveSystem:
                 has_up = up_one in self.erosion_levels
                 if has_left and has_up:
                     self.erosion_levels[current_position] = self._calculate_erosion_level(
-                        self.erosion_levels[(current_x - 1, current_y)] *
-                        self.erosion_levels[(current_x, current_y - 1)])
+                        self.erosion_levels[(current_x - 1, current_y)]
+                        * self.erosion_levels[(current_x, current_y - 1)]
+                    )
                 else:
                     stack.append(current_position)
-                    if has_left not in self.erosion_levels:
+                    if not has_left:
                         stack.append(left_one)
-                    if has_up not in self.erosion_levels:
+                    if not has_up:
                         stack.append(up_one)
 
         return self.erosion_levels[position]
@@ -154,8 +151,7 @@ class CaveSystem:
     @staticmethod
     def _get_neighbors(position):
         for neighbor in CaveSystem._NEIGHBORS:
-            current_position = (
-                position[0] + neighbor[0], position[1] + neighbor[1])
+            current_position = (position[0] + neighbor[0], position[1] + neighbor[1])
             if current_position[0] < 0 or current_position[1] < 0:
                 continue
 
@@ -169,8 +165,7 @@ def _parse_fields(lines):
         if match:
             value1 = int(match.group(2))
             value2 = match.group(3)
-            fields[match.group(1)] = (
-                value1, int(value2)) if value2 else value1
+            fields[match.group(1)] = (value1, int(value2)) if value2 else value1
 
     return fields
 
@@ -178,14 +173,14 @@ def _parse_fields(lines):
 def run_part1(file_content):
     """Implmentation for Part 1."""
     fields = _parse_fields(file_content)
-    cave = CaveSystem(fields['depth'], fields['target'])
+    cave = CaveSystem(fields["depth"], fields["target"])
     return cave.calculate_risk_level()
 
 
 def run_part2(file_content):
     """Implmentation for Part 2."""
     fields = _parse_fields(file_content)
-    cave = CaveSystem(fields['depth'], fields['target'])
+    cave = CaveSystem(fields["depth"], fields["target"])
     return cave.calculate_shortest_time()
 
 
@@ -194,13 +189,13 @@ if __name__ == "__main__":
 
     def run(argv1):
         """The main function."""
-        with open(argv1, 'r') as input_file:
+        with open(argv1) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

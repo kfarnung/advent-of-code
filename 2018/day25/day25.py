@@ -10,27 +10,22 @@ from collections import deque
 class Point4D:
     """Represents a point in 4D space."""
 
-    def __init__(self, w, x, y, z):  # pylint: disable=invalid-name
+    def __init__(self, w, x, y, z):
         self.coord_w = w
         self.coord_x = x
         self.coord_y = y
         self.coord_z = z
 
     def __str__(self):
-        return '({}, {}, {}, {})'.format(
-            self.coord_w,
-            self.coord_x,
-            self.coord_y,
-            self.coord_z
-        )
+        return f"({self.coord_w}, {self.coord_x}, {self.coord_y}, {self.coord_z})"
 
     def manhattan_distance(self, other):
         """Calculates the distance between two points."""
         return (
-            abs(other.coord_w - self.coord_w) +
-            abs(other.coord_x - self.coord_x) +
-            abs(other.coord_y - self.coord_y) +
-            abs(other.coord_z - self.coord_z)
+            abs(other.coord_w - self.coord_w)
+            + abs(other.coord_x - self.coord_x)
+            + abs(other.coord_y - self.coord_y)
+            + abs(other.coord_z - self.coord_z)
         )
 
 
@@ -56,10 +51,7 @@ class FixedPointInSpacetime:
     @staticmethod
     def parse(line):
         """Parse a set of comma-separated coordinates."""
-        (coord_w, coord_x, coord_y, coord_z) = [
-            int(coord)
-            for coord in line.strip().split(',')
-        ]
+        (coord_w, coord_x, coord_y, coord_z) = [int(coord) for coord in line.strip().split(",")]
 
         point = Point4D(coord_w, coord_x, coord_y, coord_z)
         return FixedPointInSpacetime(point)
@@ -110,12 +102,12 @@ if __name__ == "__main__":
 
     def run(argv1):
         """The main function."""
-        with open(argv1, 'r') as input_file:
+        with open(argv1) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(run_part1(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

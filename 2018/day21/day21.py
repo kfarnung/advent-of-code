@@ -6,8 +6,8 @@ https://adventofcode.com/2018/day/21
 
 import re
 
-_IP_REGEX = re.compile(r'^#ip (\d)$')
-_INSTRUCTION_REGEX = re.compile(r'^([a-z]+) (\d+) (\d+) (\d+)$')
+_IP_REGEX = re.compile(r"^#ip (\d)$")
+_INSTRUCTION_REGEX = re.compile(r"^([a-z]+) (\d+) (\d+) (\d+)$")
 
 
 def _addr(registers, in_a, in_b, out_c):
@@ -75,26 +75,26 @@ def _eqrr(registers, in_a, in_b, out_c):
 
 
 _INSTRUCTION_HANDLERS = {
-    'addr': _addr,
-    'addi': _addi,
-    'mulr': _mulr,
-    'muli': _muli,
-    'banr': _banr,
-    'bani': _bani,
-    'borr': _borr,
-    'bori': _bori,
-    'setr': _setr,
-    'seti': _seti,
-    'gtir': _gtir,
-    'gtri': _gtri,
-    'gtrr': _gtrr,
-    'eqir': _eqir,
-    'eqri': _eqri,
-    'eqrr': _eqrr,
+    "addr": _addr,
+    "addi": _addi,
+    "mulr": _mulr,
+    "muli": _muli,
+    "banr": _banr,
+    "bani": _bani,
+    "borr": _borr,
+    "bori": _bori,
+    "setr": _setr,
+    "seti": _seti,
+    "gtir": _gtir,
+    "gtri": _gtri,
+    "gtrr": _gtrr,
+    "eqir": _eqir,
+    "eqri": _eqri,
+    "eqrr": _eqrr,
 }
 
 
-class Device:  # pylint: disable=too-few-public-methods
+class Device:
     """Represents the current state of the device."""
 
     def __init__(self, num_registers):
@@ -108,8 +108,7 @@ class Device:  # pylint: disable=too-few-public-methods
 
         while 0 <= instruction_pointer < instruction_count:
             instruction = instructions[instruction_pointer]
-            instruction[0](registers, instruction[1],
-                           instruction[2], instruction[3])
+            instruction[0](registers, instruction[1], instruction[2], instruction[3])
 
             instruction_pointer = registers[reg_ip] + 1
             registers[reg_ip] = instruction_pointer
@@ -159,8 +158,7 @@ def run_part2(file_content):
     last = None
 
     while True:
-        value = device.execute_program(
-            reg_ip, instructions, instr_index, reg_index)
+        value = device.execute_program(reg_ip, instructions, instr_index, reg_index)
         if value in seen:
             return last
 
@@ -175,13 +173,13 @@ if __name__ == "__main__":
 
     def run(argv1):
         """The main function."""
-        with open(argv1, 'r') as input_file:
+        with open(argv1) as input_file:
             file_content = input_file.readlines()
-            print("Part 1: {}".format(run_part1(file_content)))
-            print("Part 2: {}".format(run_part2(file_content)))
+            print(f"Part 1: {run_part1(file_content)}")
+            print(f"Part 2: {run_part2(file_content)}")
 
     if len(sys.argv) < 2:
-        print("Usage: python {} <input>".format(sys.argv[0]))
+        print(f"Usage: python {sys.argv[0]} <input>")
         sys.exit(1)
 
     run(sys.argv[1])

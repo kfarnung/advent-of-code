@@ -41,9 +41,13 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
-      - name: Lint with pylint
-        run: uv run pylint ./day*/
-        if: ${{ !contains(matrix.python-version, '2.' )}}
+      - name: Lint with Ruff
+        run: uv run ruff check .
+        if: ${{ !contains(matrix.python-version, 'pypy') }}
+
+      - name: Check formatting with Ruff
+        run: uv run ruff format --check .
+        if: ${{ !contains(matrix.python-version, 'pypy') }}
 
       - name: Test with pytest
         run: uv run pytest -n auto
