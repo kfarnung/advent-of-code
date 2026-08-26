@@ -43,7 +43,6 @@ jobs:
 
       - name: Lint with Ruff
         run: uv run ruff check .
-        if: ${{ !contains(matrix.python-version, '2.' )}}
 
       - name: Check formatting with Ruff
         run: uv run ruff format --check .
