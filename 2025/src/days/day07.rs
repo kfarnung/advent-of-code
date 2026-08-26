@@ -5,7 +5,7 @@ pub fn part1(contents: &str) -> i64 {
     let start = grid[0]
         .iter()
         .enumerate()
-        .find(|(_, c)| *c == &'S')
+        .find(|(_, c)| **c == 'S')
         .unwrap();
     let mut count = 0;
     let mut queue = VecDeque::new();
@@ -55,7 +55,7 @@ pub fn part2(contents: &str) -> i64 {
     let start = grid[0]
         .iter()
         .enumerate()
-        .filter(|(_, c)| *c == &'S')
+        .filter(|(_, c)| **c == 'S')
         .map(|(i, _)| (0_usize, i))
         .next()
         .unwrap();
