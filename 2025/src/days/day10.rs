@@ -1,7 +1,4 @@
-use std::{
-    collections::{HashMap, VecDeque},
-    vec,
-};
+use std::collections::{HashMap, VecDeque};
 
 pub fn part1(contents: &str) -> i64 {
     let mut count = 0;
