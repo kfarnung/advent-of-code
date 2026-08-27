@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"slices"
 
 	"github.com/kfarnung/advent-of-code/2024/lib"
-	"golang.org/x/exp/slices"
 )
 
 type point struct {

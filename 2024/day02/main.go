@@ -87,8 +87,8 @@ func parseInput(input string) ([][]int64, error) {
 		}
 
 		var levels []int64
-		numbers := strings.Split(line, " ")
-		for _, number := range numbers {
+		numbers := strings.SplitSeq(line, " ")
+		for number := range numbers {
 			num, err := lib.ParseInt[int64](number)
 			if err != nil {
 				return nil, err

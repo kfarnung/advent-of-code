@@ -24,7 +24,7 @@ func parseLines(lines []string) ([]parsedLine, error) {
 	for i, line := range lines {
 		parsedLine := lineParse.FindStringSubmatch(line)
 		if parsedLine == nil {
-			return nil, errors.New("Failed to parse line")
+			return nil, errors.New("failed to parse line")
 		}
 
 		min, err := lib.ParseInt32(parsedLine[1])

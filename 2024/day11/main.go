@@ -23,7 +23,7 @@ func part1(input string) int64 {
 	count := int64(0)
 	seen := make(map[mapKey]int64)
 
-	for j := 0; j < len(integers); j++ {
+	for j := range integers {
 		count += recurse(integers[j], 25, seen)
 	}
 
@@ -39,7 +39,7 @@ func part2(input string) int64 {
 	count := int64(0)
 	seen := make(map[mapKey]int64)
 
-	for j := 0; j < len(integers); j++ {
+	for j := range integers {
 		count += recurse(integers[j], 75, seen)
 	}
 
@@ -87,7 +87,7 @@ func countDigits(number int64) int {
 
 func getMultiplier(digits int) int64 {
 	multiplier := int64(1)
-	for i := 0; i < digits; i++ {
+	for range digits {
 		multiplier *= 10
 	}
 

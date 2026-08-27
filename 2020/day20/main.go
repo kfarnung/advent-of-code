@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/kfarnung/advent-of-code/2020/lib"
@@ -51,10 +52,8 @@ func reverseRuneSlice(runes []rune) []rune {
 }
 
 func appendIfNotContainsInt(slice []int, value int) []int {
-	for _, candidate := range slice {
-		if candidate == value {
-			return slice
-		}
+	if slices.Contains(slice, value) {
+		return slice
 	}
 
 	return append(slice, value)
@@ -64,9 +63,7 @@ type tileGrid [][]rune
 
 func (t tileGrid) GetGridRow(index int) []rune {
 	row := make([]rune, len(t[index]))
-	for i, char := range t[index] {
-		row[i] = char
-	}
+	copy(row, t[index])
 
 	return row
 }
@@ -146,9 +143,9 @@ func (t tileGrid) CountPattern(pattern map[lib.Point2D]rune) int {
 	count := 0
 
 OUTERLOOP:
-	for i := 0; i < len(t); i++ {
+	for i := range t {
 	INNERLOOP:
-		for j := 0; j < len(t); j++ {
+		for j := range t {
 			found := true
 			for point, value := range pattern {
 				x := point.X + int64(i)

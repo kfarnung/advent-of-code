@@ -40,7 +40,7 @@ func playGame(numbers []int32, numTurns int32) int32 {
 
 func parseInput(lines []string) ([]int32, error) {
 	var numbers []int32
-	for _, num := range strings.Split(lines[0], ",") {
+	for num := range strings.SplitSeq(lines[0], ",") {
 		numValue, err := lib.ParseInt32(num)
 		if err != nil {
 			return nil, err

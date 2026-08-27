@@ -20,7 +20,7 @@ func doIteration(value int64, subjectValue int64) int64 {
 
 func deriveEncryptionKey(subjectValue int64, loopSize int) int64 {
 	value := int64(1)
-	for i := 0; i < loopSize; i++ {
+	for range loopSize {
 		value = doIteration(value, subjectValue)
 	}
 

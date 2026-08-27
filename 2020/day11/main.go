@@ -61,9 +61,10 @@ func countOccupied(grid [][]rune) int {
 func isDirectionOccupied(grid [][]rune, row int, column int, drow int, dcolumn int) bool {
 	for i, j := row+drow, column+dcolumn; i >= 0 && i < len(grid) && j >= 0 && j < len(grid[i]); i, j = i+drow, j+dcolumn {
 		current := grid[i][j]
-		if current == seatOccupied {
+		switch current {
+		case seatOccupied:
 			return true
-		} else if current == seatEmpty {
+		case seatEmpty:
 			return false
 		}
 	}

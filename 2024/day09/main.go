@@ -94,13 +94,13 @@ func parseInput(input string) []int {
 			id := i / 2
 			size := int(line[i] - '0')
 
-			for j := 0; j < size; j++ {
+			for range size {
 				layout = append(layout, id)
 			}
 
 			if i+1 < len(line) {
 				free := int(line[i+1] - '0')
-				for j := 0; j < free; j++ {
+				for range free {
 					layout = append(layout, -1)
 				}
 			}

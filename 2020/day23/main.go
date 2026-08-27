@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/kfarnung/advent-of-code/2020/lib"
@@ -55,7 +56,7 @@ func newCupsGame(line string, totalElements int) *cupsGame {
 }
 
 func (c *cupsGame) play(moveCount int) {
-	for i := 0; i < moveCount; i++ {
+	for range moveCount {
 		c.move()
 	}
 }
@@ -66,8 +67,8 @@ func (c *cupsGame) move() {
 
 	nextValue := c.findNextValid(currentValue, cupsToMove)
 	nextElement := c.elements[nextValue]
-	for i := len(cupsToMove) - 1; i >= 0; i-- {
-		c.cups.MoveAfter(cupsToMove[i], nextElement)
+	for _, c0 := range slices.Backward(cupsToMove) {
+		c.cups.MoveAfter(c0, nextElement)
 	}
 
 	c.current = c.nextCup(c.current)
@@ -83,7 +84,7 @@ func (c cupsGame) nextCup(current *list.Element) *list.Element {
 
 func (c cupsGame) nextCups(current *list.Element, count int) []*list.Element {
 	cups := make([]*list.Element, count)
-	for i := 0; i < count; i++ {
+	for i := range count {
 		current = c.nextCup(current)
 		cups[i] = current
 	}
@@ -120,7 +121,7 @@ func (c cupsGame) getProductOfAdjacentCups(cup uint32) uint64 {
 	current := c.elements[cup]
 	product := uint64(1)
 
-	for i := 0; i < 2; i++ {
+	for range 2 {
 		current = c.nextCup(current)
 		product *= uint64(current.Value.(uint32))
 	}
@@ -142,7 +143,7 @@ func (c cupsGame) String() string {
 
 func parseInput(lines []string, totalElements int) (*cupsGame, error) {
 	if len(lines) != 1 {
-		return nil, errors.New("Expected exactly one line")
+		return nil, errors.New("expected exactly one line")
 	}
 
 	return newCupsGame(lines[0], totalElements), nil

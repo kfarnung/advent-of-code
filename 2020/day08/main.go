@@ -33,7 +33,7 @@ func newMachine(instructions []instruction) machine {
 
 func (m *machine) step() error {
 	if m.visited[m.instructionPointer] {
-		return errors.New("Infinite loop detected")
+		return errors.New("infinite loop detected")
 	}
 
 	m.visited[m.instructionPointer] = true
@@ -50,7 +50,7 @@ func (m *machine) step() error {
 		m.instructionPointer++
 
 	default:
-		return errors.New("Unknown operation encountered")
+		return errors.New("unknown operation encountered")
 	}
 
 	return nil
@@ -64,7 +64,7 @@ func (m *machine) run() error {
 	}
 
 	if int(m.instructionPointer) != len(m.instructions) {
-		return errors.New("Instruction pointer out of bounds")
+		return errors.New("instruction pointer out of bounds")
 	}
 
 	return nil
@@ -73,7 +73,7 @@ func (m *machine) run() error {
 func parseInstruction(line string) (instruction, error) {
 	parts := strings.Split(line, " ")
 	if len(parts) != 2 {
-		return instruction{}, errors.New("Unable to parse instruction")
+		return instruction{}, errors.New("unable to parse instruction")
 	}
 
 	argument, err := lib.ParseInt32(parts[1])
@@ -121,11 +121,12 @@ func part2(instructions []instruction) int32 {
 
 	for i := range modifiedInstructions {
 		originalOperation := modifiedInstructions[i].operation
-		if originalOperation == "jmp" {
+		switch originalOperation {
+		case "jmp":
 			modifiedInstructions[i].operation = "nop"
-		} else if originalOperation == "nop" {
+		case "nop":
 			modifiedInstructions[i].operation = "jmp"
-		} else {
+		default:
 			continue
 		}
 
