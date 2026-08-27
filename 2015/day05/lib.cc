@@ -11,9 +11,7 @@ bool day05::is_nice_string_part1(const std::string &input)
 
     for (const auto &ch : input)
     {
-        if ((last == 'a' && ch == 'b') ||
-            (last == 'c' && ch == 'd') ||
-            (last == 'p' && ch == 'q') ||
+        if ((last == 'a' && ch == 'b') || (last == 'c' && ch == 'd') || (last == 'p' && ch == 'q') ||
             (last == 'x' && ch == 'y'))
         {
             return false;

@@ -7,7 +7,9 @@
 
 namespace
 {
-    const std::vector<std::string> test_data{
+std::vector<std::string> test_data()
+{
+    return {
         "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe",
         "edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc",
         "fgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef | cg cg fdcagb cbg",
@@ -20,10 +22,11 @@ namespace
         "gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce",
     };
 }
+} // namespace
 
 TEST(Day08, Part1)
 {
-    EXPECT_EQ(day08::run_part1(test_data), 26);
+    EXPECT_EQ(day08::run_part1(test_data()), 26);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);
@@ -32,7 +35,7 @@ TEST(Day08, Part1)
 
 TEST(Day08, Part2)
 {
-    EXPECT_EQ(day08::run_part2(test_data), 61229);
+    EXPECT_EQ(day08::run_part2(test_data()), 61229);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);

@@ -6,7 +6,7 @@
 
 namespace day05
 {
-    size_t count_overlaps(const std::vector<std::string> &input, bool include_diagonals);
+size_t count_overlaps(const std::vector<std::string> &input, bool include_diagonals);
 }
 
 #endif

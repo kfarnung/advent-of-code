@@ -6,28 +6,26 @@
 
 namespace
 {
-    struct Dimensions
-    {
-        int length;
-        int width;
-        int height;
-    };
+struct Dimensions
+{
+    int length;
+    int width;
+    int height;
+};
 
-    Dimensions parse_dimensions(const std::string &input)
+Dimensions parse_dimensions(const std::string &input)
+{
+    std::regex dimensions_regex("^(\\d+)x(\\d+)x(\\d+)$");
+    std::smatch sm;
+    if (std::regex_match(input, sm, dimensions_regex))
     {
-        std::regex dimensions_regex("^(\\d+)x(\\d+)x(\\d+)$");
-        std::smatch sm;
-        if (std::regex_match(input, sm, dimensions_regex))
-        {
-            return Dimensions{
-                common::string_to_int(sm[1].str()),
-                common::string_to_int(sm[2].str()),
-                common::string_to_int(sm[3].str())};
-        }
-
-        return Dimensions{0, 0, 0};
+        return Dimensions{common::string_to_int(sm[1].str()), common::string_to_int(sm[2].str()),
+                          common::string_to_int(sm[3].str())};
     }
+
+    return Dimensions{0, 0, 0};
 }
+} // namespace
 
 int64_t day02::calculate_wrapping_paper(const std::string &input)
 {

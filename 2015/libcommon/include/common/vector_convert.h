@@ -6,7 +6,7 @@
 
 namespace common
 {
-    std::vector<int> vector_parse_int(std::vector<std::string> &input);
+std::vector<int> vector_parse_int(std::vector<std::string> &input);
 }
 
 #endif

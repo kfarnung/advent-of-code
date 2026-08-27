@@ -5,18 +5,16 @@
 #include <fstream>
 #include <gtest/gtest.h>
 
-const std::vector<std::string> test_data{
-    ".#.#.#",
-    "...##.",
-    "#....#",
-    "..#...",
-    "#.#..#",
-    "####..",
-};
+std::vector<std::string> test_data()
+{
+    return {
+        ".#.#.#", "...##.", "#....#", "..#...", "#.#..#", "####..",
+    };
+}
 
 TEST(Day18, Part1)
 {
-    EXPECT_EQ(day18::run_iterations(test_data, 4, false), 4);
+    EXPECT_EQ(day18::run_iterations(test_data(), 4, false), 4);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);
@@ -25,7 +23,7 @@ TEST(Day18, Part1)
 
 TEST(Day18, Part2)
 {
-    EXPECT_EQ(day18::run_iterations(test_data, 5, true), 17);
+    EXPECT_EQ(day18::run_iterations(test_data(), 5, true), 17);
 
     std::ifstream file("input.txt");
     auto lines = common::splitlines(file);

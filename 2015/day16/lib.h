@@ -6,7 +6,7 @@
 
 namespace day16
 {
-    int32_t find_aunt_sue(const std::vector<std::string> &input, bool use_ranges);
+int32_t find_aunt_sue(const std::vector<std::string> &input, bool use_ranges);
 }
 
 #endif

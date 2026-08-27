@@ -7,16 +7,16 @@
 
 namespace
 {
-    std::vector<char> string_to_vector(const std::string &input)
-    {
-        return std::vector<char>{begin(input), end(input)};
-    }
-
-    std::string vector_to_string(const std::vector<char> &input)
-    {
-        return std::string{begin(input), end(input)};
-    }
+std::vector<char> string_to_vector(const std::string &input)
+{
+    return std::vector<char>{begin(input), end(input)};
 }
+
+std::string vector_to_string(const std::vector<char> &input)
+{
+    return std::string{begin(input), end(input)};
+}
+} // namespace
 
 TEST(Day11, Part1)
 {

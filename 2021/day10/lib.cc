@@ -4,91 +4,97 @@
 
 namespace
 {
-    struct parser_state
-    {
-        bool valid;
-        char current_char;
-        std::vector<char> remaining_stack;
-    };
+struct parser_state
+{
+    bool valid;
+    char current_char;
+    std::vector<char> remaining_stack;
+};
 
-    parser_state parse_line(const std::string &line)
+parser_state parse_line(const std::string &line)
+{
+    std::vector<char> stack;
+    for (const auto &ch : line)
     {
-        std::vector<char> stack;
-        for (const auto &ch : line)
+        switch (ch)
         {
-            switch (ch)
+        case '(':
+            stack.push_back(')');
+            break;
+
+        case '[':
+            stack.push_back(']');
+            break;
+
+        case '{':
+            stack.push_back('}');
+            break;
+
+        case '<':
+            stack.push_back('>');
+            break;
+
+        default:
+            if (!stack.empty() && stack.back() == ch)
             {
-            case '(':
-                stack.push_back(')');
-                break;
-
-            case '[':
-                stack.push_back(']');
-                break;
-
-            case '{':
-                stack.push_back('}');
-                break;
-
-            case '<':
-                stack.push_back('>');
-                break;
-
-            default:
-                if (stack.back() == ch)
-                {
-                    stack.pop_back();
-                }
-                else
-                {
-                    return parser_state{false, ch, stack};
-                }
+                stack.pop_back();
+            }
+            else
+            {
+                return parser_state{false, ch, stack};
             }
         }
-
-        return parser_state{true, '\0', stack};
     }
 
-    int64_t score_illegal_character(char ch)
-    {
-        switch (ch)
-        {
-        case ')':
-            return 3;
-
-        case ']':
-            return 57;
-
-        case '}':
-            return 1197;
-
-        case '>':
-            return 25137;
-        }
-
-        return 0;
-    }
-
-    int64_t score_missing_character(char ch)
-    {
-        switch (ch)
-        {
-        case ')':
-            return 1;
-
-        case ']':
-            return 2;
-
-        case '}':
-            return 3;
-
-        case '>':
-            return 4;
-        }
-
-        return 0;
-    }
+    return parser_state{true, '\0', stack};
 }
+
+int64_t score_illegal_character(char ch)
+{
+    switch (ch)
+    {
+    case ')':
+        return 3;
+
+    case ']':
+        return 57;
+
+    case '}':
+        return 1197;
+
+    case '>':
+        return 25137;
+
+    default:
+        break;
+    }
+
+    return 0;
+}
+
+int64_t score_missing_character(char ch)
+{
+    switch (ch)
+    {
+    case ')':
+        return 1;
+
+    case ']':
+        return 2;
+
+    case '}':
+        return 3;
+
+    case '>':
+        return 4;
+
+    default:
+        break;
+    }
+
+    return 0;
+}
+} // namespace
 
 int64_t day10::run_part1(const std::vector<std::string> &input)
 {

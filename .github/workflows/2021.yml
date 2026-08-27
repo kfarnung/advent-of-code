@@ -31,11 +31,23 @@ jobs:
           token: ${{ secrets.PAT }}
           submodules: true
 
+      - name: Install clang tools
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get update && sudo apt-get install -y clang-format clang-tidy
+
       - name: Configure
-        run: cmake -B build
+        run: cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Build
         run: cmake --build build -j 4
+
+      - name: Check formatting
+        if: matrix.os == 'ubuntu-latest'
+        run: git ls-files '*.cc' '*.h' '*.hpp' | xargs --no-run-if-empty clang-format --dry-run --Werror
+
+      - name: Lint
+        if: matrix.os == 'ubuntu-latest'
+        run: git ls-files '*.cc' | xargs --no-run-if-empty clang-tidy -p build
 
       - name: Test
         run: ctest --test-dir build -j 4

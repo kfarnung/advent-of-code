@@ -5,8 +5,8 @@
 
 namespace day17
 {
-    int64_t run_part1(const std::string &input);
-    int64_t run_part2(const std::string &input);
-}
+int64_t run_part1(const std::string &input);
+int64_t run_part2(const std::string &input);
+} // namespace day17
 
 #endif

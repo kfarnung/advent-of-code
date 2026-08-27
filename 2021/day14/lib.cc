@@ -7,36 +7,36 @@
 
 namespace
 {
-    using pair_insertions_t = std::map<std::pair<char, char>, char>;
-    std::tuple<std::string, pair_insertions_t> parse_input(const std::vector<std::string> &input)
+using pair_insertions_t = std::map<std::pair<char, char>, char>;
+std::tuple<std::string, pair_insertions_t> parse_input(const std::vector<std::string> &input)
+{
+    std::string polymer_template;
+    pair_insertions_t pair_insertions;
+
+    for (const auto &line : input)
     {
-        std::string polymer_template;
-        pair_insertions_t pair_insertions;
-
-        for (const auto &line : input)
+        if (line.empty())
         {
-            if (line.empty())
-            {
-                continue;
-            }
-
-            auto location = line.find("->");
-            if (location != std::string::npos)
-            {
-                pair_insertions.emplace(std::make_pair(line[0], line[1]), line[line.size() - 1]);
-            }
-            else
-            {
-                polymer_template = line;
-            }
+            continue;
         }
 
-        return std::tuple<std::string, pair_insertions_t>{
-            polymer_template,
-            pair_insertions,
-        };
+        auto location = line.find("->");
+        if (location != std::string::npos)
+        {
+            pair_insertions.emplace(std::make_pair(line[0], line[1]), line[line.size() - 1]);
+        }
+        else
+        {
+            polymer_template = line;
+        }
     }
+
+    return std::tuple<std::string, pair_insertions_t>{
+        polymer_template,
+        pair_insertions,
+    };
 }
+} // namespace
 
 int64_t day14::run_part1(const std::vector<std::string> &input)
 {
@@ -70,17 +70,11 @@ int64_t day14::run_part1(const std::vector<std::string> &input)
 
     auto smallest = std::min_element(
         begin(counts), end(counts),
-        [](const std::pair<char, int64_t> &a, const std::pair<char, int64_t> &b)
-        {
-            return a.second < b.second;
-        });
+        [](const std::pair<char, int64_t> &a, const std::pair<char, int64_t> &b) { return a.second < b.second; });
 
     auto largest = std::max_element(
         begin(counts), end(counts),
-        [](const std::pair<char, int64_t> &a, const std::pair<char, int64_t> &b)
-        {
-            return a.second < b.second;
-        });
+        [](const std::pair<char, int64_t> &a, const std::pair<char, int64_t> &b) { return a.second < b.second; });
 
     return largest->second - smallest->second;
 }
@@ -125,17 +119,11 @@ int64_t day14::run_part2(const std::vector<std::string> &input)
 
     auto smallest = std::min_element(
         begin(char_counts), end(char_counts),
-        [](const std::pair<char, int64_t> &a, const std::pair<char, int64_t> &b)
-        {
-            return a.second < b.second;
-        });
+        [](const std::pair<char, int64_t> &a, const std::pair<char, int64_t> &b) { return a.second < b.second; });
 
     auto largest = std::max_element(
         begin(char_counts), end(char_counts),
-        [](const std::pair<char, int64_t> &a, const std::pair<char, int64_t> &b)
-        {
-            return a.second < b.second;
-        });
+        [](const std::pair<char, int64_t> &a, const std::pair<char, int64_t> &b) { return a.second < b.second; });
 
     return largest->second - smallest->second;
 }

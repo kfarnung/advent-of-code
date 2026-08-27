@@ -7,111 +7,113 @@
 
 namespace
 {
-    struct Ingredient
-    {
-        std::string name;
-        int32_t capacity;
-        int32_t durability;
-        int32_t flavor;
-        int32_t texture;
-        int32_t calories;
-    };
+struct Ingredient
+{
+    std::string name;
+    int32_t capacity;
+    int32_t durability;
+    int32_t flavor;
+    int32_t texture;
+    int32_t calories;
+};
 
-    std::vector<Ingredient> parse_list(const std::vector<std::string> &input)
-    {
-        std::regex re(R"(^(\w+): capacity (-?\d+), durability (-?\d+), flavor (-?\d+), texture (-?\d+), calories (-?\d+)$)");
-        std::vector<Ingredient> result;
+std::vector<Ingredient> parse_list(const std::vector<std::string> &input)
+{
+    std::regex re(
+        R"(^(\w+): capacity (-?\d+), durability (-?\d+), flavor (-?\d+), texture (-?\d+), calories (-?\d+)$)");
+    std::vector<Ingredient> result;
 
-        for (const auto &line : input)
+    for (const auto &line : input)
+    {
+        std::smatch sm;
+        if (std::regex_match(line, sm, re))
         {
-            std::smatch sm;
-            if (std::regex_match(line, sm, re))
-            {
-                result.emplace_back(Ingredient{
-                    sm[1].str(),
-                    common::string_to_int(sm[2].str()),
-                    common::string_to_int(sm[3].str()),
-                    common::string_to_int(sm[4].str()),
-                    common::string_to_int(sm[5].str()),
-                    common::string_to_int(sm[6].str()),
-                });
-            }
+            result.emplace_back(Ingredient{
+                sm[1].str(),
+                common::string_to_int(sm[2].str()),
+                common::string_to_int(sm[3].str()),
+                common::string_to_int(sm[4].str()),
+                common::string_to_int(sm[5].str()),
+                common::string_to_int(sm[6].str()),
+            });
         }
-
-        return result;
     }
 
-    int32_t sum_without_last(const std::vector<int32_t> &input)
-    {
-        int32_t sum = 0;
-
-        for (size_t i = 0; i < input.size() - 1; i++)
-        {
-            sum += input[i];
-        }
-
-        return sum;
-    }
-
-    int32_t increment_ingredients(std::vector<int32_t> &input)
-    {
-        for (size_t i = 0; i < input.size() - 1; i++)
-        {
-            size_t index = input.size() - 2 - i;
-            input[index]++;
-
-            int32_t sum = sum_without_last(input);
-            if (sum <= 100)
-            {
-                return sum;
-            }
-
-            input[index] = 0;
-        }
-
-        return -1;
-    }
-
-    int64_t calculate_score(const std::vector<Ingredient> &input, const std::vector<int32_t> &counts)
-    {
-        int32_t capacity = 0;
-        for (size_t i = 0; i < input.size(); i++)
-        {
-            capacity += input[i].capacity * counts[i];
-        }
-
-        int32_t durability = 0;
-        for (size_t i = 0; i < input.size(); i++)
-        {
-            durability += input[i].durability * counts[i];
-        }
-
-        int32_t flavor = 0;
-        for (size_t i = 0; i < input.size(); i++)
-        {
-            flavor += input[i].flavor * counts[i];
-        }
-
-        int32_t texture = 0;
-        for (size_t i = 0; i < input.size(); i++)
-        {
-            texture += input[i].texture * counts[i];
-        }
-
-        return std::max(capacity, 0) * std::max(durability, 0) * std::max(flavor, 0) * std::max(texture, 0);
-    }
-
-    int32_t calculate_calories(const std::vector<Ingredient> &input, const std::vector<int32_t> &counts)
-    {
-        int32_t calories = 0;
-        for (size_t i = 0; i < input.size(); i++)
-        {
-            calories += input[i].calories * counts[i];
-        }
-
-        return calories;
-    }
+    return result;
 }
+
+int32_t sum_without_last(const std::vector<int32_t> &input)
+{
+    int32_t sum = 0;
+
+    for (size_t i = 0; i < input.size() - 1; i++)
+    {
+        sum += input[i];
+    }
+
+    return sum;
+}
+
+int32_t increment_ingredients(std::vector<int32_t> &input)
+{
+    for (size_t i = 0; i < input.size() - 1; i++)
+    {
+        size_t index = input.size() - 2 - i;
+        input[index]++;
+
+        int32_t sum = sum_without_last(input);
+        if (sum <= 100)
+        {
+            return sum;
+        }
+
+        input[index] = 0;
+    }
+
+    return -1;
+}
+
+int64_t calculate_score(const std::vector<Ingredient> &input, const std::vector<int32_t> &counts)
+{
+    int32_t capacity = 0;
+    for (size_t i = 0; i < input.size(); i++)
+    {
+        capacity += input[i].capacity * counts[i];
+    }
+
+    int32_t durability = 0;
+    for (size_t i = 0; i < input.size(); i++)
+    {
+        durability += input[i].durability * counts[i];
+    }
+
+    int32_t flavor = 0;
+    for (size_t i = 0; i < input.size(); i++)
+    {
+        flavor += input[i].flavor * counts[i];
+    }
+
+    int32_t texture = 0;
+    for (size_t i = 0; i < input.size(); i++)
+    {
+        texture += input[i].texture * counts[i];
+    }
+
+    return static_cast<int64_t>(std::max(capacity, 0)) * std::max(durability, 0) * std::max(flavor, 0) *
+           std::max(texture, 0);
+}
+
+int32_t calculate_calories(const std::vector<Ingredient> &input, const std::vector<int32_t> &counts)
+{
+    int32_t calories = 0;
+    for (size_t i = 0; i < input.size(); i++)
+    {
+        calories += input[i].calories * counts[i];
+    }
+
+    return calories;
+}
+} // namespace
 
 int64_t day15::find_best_cookie(const std::vector<std::string> &input, int32_t calorie_target)
 {

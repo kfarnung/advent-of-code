@@ -2,100 +2,99 @@
 
 namespace
 {
-    int hex_digit_value(char ch)
+int hex_digit_value(char ch)
+{
+    if (ch >= 'a' && ch <= 'f')
     {
-        if (ch >= 'a' && ch <= 'f')
-        {
-            return ch - 'a';
-        }
-        else if (ch >= 'A' && ch <= 'F')
-        {
-            return ch - 'A';
-        }
-        else
-        {
-            return ch - '0';
-        }
+        return ch - 'a';
     }
-
-    std::string parse_string(const std::string &input)
+    else if (ch >= 'A' && ch <= 'F')
     {
-        bool found_parens = false;
-        std::vector<char> parsed_characters;
+        return ch - 'A';
+    }
+    else
+    {
+        return ch - '0';
+    }
+}
 
-        for (size_t i = 0; i < input.size(); i++)
+std::string parse_string(const std::string &input)
+{
+    bool found_parens = false;
+    std::vector<char> parsed_characters;
+
+    for (size_t i = 0; i < input.size(); i++)
+    {
+        if (input[i] == '\"')
         {
-            if (input[i] == '\"')
+            if (!found_parens)
             {
-                if (!found_parens)
-                {
-                    found_parens = true;
-                }
-                else
-                {
-                    // We found the end
-                    found_parens = false;
-                    break;
-                }
+                found_parens = true;
             }
-            else if (found_parens)
+            else
             {
-                if (input[i] == '\\')
+                // We found the end
+                break;
+            }
+        }
+        else if (found_parens)
+        {
+            if (input[i] == '\\')
+            {
+                // Consume the backslash
+                i++;
+
+                if (input[i] == 'x')
                 {
-                    // Consume the backslash
+                    // Consume the 'x' and capture the first digit.
                     i++;
+                    char ch = static_cast<char>(hex_digit_value(input[i]) * 16);
 
-                    if (input[i] == 'x')
-                    {
-                        // Consume the 'x' and capture the first digit.
-                        i++;
-                        char ch = hex_digit_value(input[i]) * 16;
+                    // Consume the first digit and capture the second.
+                    i++;
+                    ch = static_cast<char>(ch + hex_digit_value(input[i]));
 
-                        // Consume the first digit and capture the second.
-                        i++;
-                        ch += hex_digit_value(input[i]);
-
-                        // Capture the calculated character.
-                        parsed_characters.emplace_back(ch);
-                    }
-                    else
-                    {
-                        // Take the character literally.
-                        parsed_characters.emplace_back(input[i]);
-                    }
+                    // Capture the calculated character.
+                    parsed_characters.emplace_back(ch);
                 }
                 else
                 {
-                    // Pass the read character through.
+                    // Take the character literally.
                     parsed_characters.emplace_back(input[i]);
                 }
             }
-        }
-
-        return std::string{begin(parsed_characters), end(parsed_characters)};
-    }
-
-    std::string encode_string(const std::string &input)
-    {
-        std::vector<char> encoded_characters;
-        encoded_characters.emplace_back('"');
-
-        for (const auto &ch : input)
-        {
-            if (ch == '"' || ch == '\\')
+            else
             {
-                // Need to insert a backslash.
-                encoded_characters.emplace_back('\\');
+                // Pass the read character through.
+                parsed_characters.emplace_back(input[i]);
             }
-
-            // Copy the character unchanged.
-            encoded_characters.emplace_back(ch);
         }
-        
-        encoded_characters.emplace_back('"');
-        return std::string{begin(encoded_characters), end(encoded_characters)};
     }
+
+    return std::string{begin(parsed_characters), end(parsed_characters)};
 }
+
+std::string encode_string(const std::string &input)
+{
+    std::vector<char> encoded_characters;
+    encoded_characters.emplace_back('"');
+
+    for (const auto &ch : input)
+    {
+        if (ch == '"' || ch == '\\')
+        {
+            // Need to insert a backslash.
+            encoded_characters.emplace_back('\\');
+        }
+
+        // Copy the character unchanged.
+        encoded_characters.emplace_back(ch);
+    }
+
+    encoded_characters.emplace_back('"');
+    return std::string{begin(encoded_characters), end(encoded_characters)};
+}
+} // namespace
 
 size_t day08::calculate_string_overhead(const std::vector<std::string> &input)
 {

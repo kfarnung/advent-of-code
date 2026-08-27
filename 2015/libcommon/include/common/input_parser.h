@@ -6,8 +6,8 @@
 
 namespace common
 {
-    std::vector<std::string> splitlines(std::istream &input);
-    std::vector<std::string> splitlines(const char *input);
-}
+std::vector<std::string> splitlines(std::istream &input);
+std::vector<std::string> splitlines(const char *input);
+} // namespace common
 
 #endif

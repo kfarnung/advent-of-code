@@ -6,8 +6,8 @@
 
 namespace day14
 {
-    int32_t find_longest_distance(const std::vector<std::string> &input, int32_t target_time);
-    int32_t find_part2_winner(const std::vector<std::string> &input, int32_t target_time);
-}
+int32_t find_longest_distance(const std::vector<std::string> &input, int32_t target_time);
+int32_t find_part2_winner(const std::vector<std::string> &input, int32_t target_time);
+} // namespace day14
 
 #endif

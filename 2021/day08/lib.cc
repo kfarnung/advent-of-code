@@ -7,19 +7,19 @@
 
 namespace
 {
-    uint8_t segments_to_byte(const std::string &input)
+uint8_t segments_to_byte(const std::string &input)
+{
+    uint8_t byte = 0;
+    for (const auto &ch : input)
     {
-        uint8_t byte = 0;
-        for (const auto &ch : input)
-        {
-            uint8_t mask = 1;
-            mask <<= ch - 'a';
-            byte |= mask;
-        }
-
-        return byte;
+        uint8_t mask = 1;
+        mask <<= ch - 'a';
+        byte |= mask;
     }
+
+    return byte;
 }
+} // namespace
 
 int64_t day08::run_part1(const std::vector<std::string> &input)
 {
@@ -37,6 +37,10 @@ int64_t day08::run_part1(const std::vector<std::string> &input)
             case 4:
             case 7:
                 ++count;
+                break;
+
+            default:
+                break;
             }
         }
     }
@@ -85,8 +89,7 @@ int64_t day08::run_part2(const std::vector<std::string> &input)
                     digit_to_byte[4] = byte;
                     continue;
 
-                case 5:
-                {
+                case 5: {
                     // 2, 3, 5
                     auto one = digit_to_byte.find(1);
                     auto six = digit_to_byte.find(6);
@@ -118,8 +121,7 @@ int64_t day08::run_part2(const std::vector<std::string> &input)
                     break;
                 }
 
-                case 6:
-                {
+                case 6: {
                     // 0, 6, 9
                     auto one = digit_to_byte.find(1);
                     auto four = digit_to_byte.find(4);
@@ -156,6 +158,9 @@ int64_t day08::run_part2(const std::vector<std::string> &input)
                     byte_to_digit[byte] = 8;
                     digit_to_byte[8] = byte;
                     continue;
+
+                default:
+                    break;
                 }
 
                 remaining.push_back(entry);

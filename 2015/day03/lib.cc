@@ -45,5 +45,5 @@ int64_t day03::count_visited_houses(const std::string &input, size_t actor_count
         step_count++;
     }
 
-    return visited.size();
+    return static_cast<int64_t>(visited.size());
 }

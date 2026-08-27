@@ -4,88 +4,99 @@
 
 #include <array>
 #include <cstdint>
-#include <queue>
 #include <map>
+#include <queue>
 
 namespace
 {
-    using grid_t = std::vector<std::vector<int8_t>>;
-    using queue_item_t = std::pair<int64_t, common::Point2D>;
+using grid_t = std::vector<std::vector<int8_t>>;
+using queue_item_t = std::pair<int64_t, common::Point2D>;
 
-    const std::vector<common::Point2D> directions{
+const std::vector<common::Point2D> &directions()
+{
+    static const std::vector<common::Point2D> result{
         {0, 1},
         {1, 0},
         {0, -1},
         {-1, 0},
     };
+    return result;
+}
 
-    grid_t parse_grid(const std::vector<std::string> &input)
+grid_t parse_grid(const std::vector<std::string> &input)
+{
+    grid_t grid;
+
+    for (const auto &line : input)
     {
-        grid_t grid;
+        std::vector<int8_t> row;
 
-        for (const auto &line : input)
+        for (const auto &ch : line)
         {
-            std::vector<int8_t> row;
-
-            for (const auto &ch : line)
-            {
-                row.emplace_back(static_cast<uint8_t>(ch - '0'));
-            }
-
-            grid.emplace_back(row);
+            row.emplace_back(static_cast<uint8_t>(ch - '0'));
         }
 
-        return grid;
+        grid.emplace_back(row);
     }
 
-    int64_t calculate_risk_level(const grid_t &grid, size_t boards)
+    return grid;
+}
+
+int64_t calculate_risk_level(const grid_t &grid, size_t boards)
+{
+    auto size_x = static_cast<int64_t>(grid.size());
+    auto size_y = static_cast<int64_t>(grid[0].size());
+    int64_t bound_x = size_x * static_cast<int64_t>(boards);
+    int64_t bound_y = size_y * static_cast<int64_t>(boards);
+    common::Point2D dest{bound_x - 1, bound_y - 1};
+
+    std::priority_queue<queue_item_t, std::vector<queue_item_t>, std::greater<queue_item_t>> queue;
+    queue.emplace(0, common::Point2D(0, 0));
+
+    std::map<common::Point2D, int64_t> best_dist;
+    best_dist.emplace(common::Point2D(0, 0), 0);
+
+    while (!queue.empty())
     {
-        auto size_x = static_cast<int64_t>(grid.size());
-        auto size_y = static_cast<int64_t>(grid[0].size());
-        int64_t bound_x = size_x * boards;
-        int64_t bound_y = size_y * boards;
-        common::Point2D dest{bound_x - 1, bound_y - 1};
+        auto current = queue.top();
+        queue.pop();
 
-        std::priority_queue<queue_item_t, std::vector<queue_item_t>, std::greater<queue_item_t>> queue;
-        queue.emplace(0, common::Point2D(0, 0));
-
-        std::map<common::Point2D, int64_t> visited;
-
-        while (!queue.empty())
+        if (current.second == dest)
         {
-            auto current = queue.top();
-            queue.pop();
+            return current.first;
+        }
 
-            if (current.second == dest)
+        // Skip stale queue entries made obsolete by a shorter path found later.
+        auto current_best = best_dist.find(current.second);
+        if (current_best != best_dist.end() && current.first > current_best->second)
+        {
+            continue;
+        }
+
+        for (const auto &direction : directions())
+        {
+            auto x = current.second.x + direction.x;
+            auto y = current.second.y + direction.y;
+
+            if (x >= 0 && y >= 0 && x < bound_x && y < bound_y)
             {
-                return current.first;
-            }
+                common::Point2D next{x, y};
+                auto risk_level = (grid[x % size_x][y % size_y] - 1 + x / size_x + y / size_y) % 9 + 1;
+                auto next_dist = current.first + risk_level;
 
-            visited.emplace(current.second, current.first);
-
-            for (const auto &direction : directions)
-            {
-                auto x = current.second.x + direction.x;
-                auto y = current.second.y + direction.y;
-
-                if (x >= 0 && y >= 0 && x < bound_x && y < bound_y)
+                auto best = best_dist.find(next);
+                if (best == best_dist.end() || next_dist < best->second)
                 {
-                    common::Point2D next{x, y};
-                    auto risk_level = (grid[x % size_x][y % size_y] - 1 + x / size_x + y / size_y) % 9 + 1;
-
-                    auto best = visited.find(next);
-                    if (best == visited.end() || risk_level < best->second)
-                    {
-                        visited[next] = risk_level;
-                        queue.emplace(current.first + risk_level, next);
-                    }
+                    best_dist[next] = next_dist;
+                    queue.emplace(next_dist, next);
                 }
             }
         }
-
-        return 0;
     }
+
+    return 0;
 }
+} // namespace
 
 int64_t day15::run_part1(const std::vector<std::string> &input)
 {

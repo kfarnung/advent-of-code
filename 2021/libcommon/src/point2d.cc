@@ -1,5 +1,6 @@
 #include <common/point2d.h>
 
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters) -- x/y is a universally understood order.
 common::Point2D::Point2D(int64_t x, int64_t y) : x(x), y(y)
 {
 }

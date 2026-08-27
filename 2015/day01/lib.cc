@@ -15,6 +15,9 @@ int64_t day01::find_floor(const std::string &input)
         case ')':
             floor--;
             break;
+
+        default:
+            break;
         }
     }
 
@@ -36,6 +39,9 @@ int64_t day01::find_basement(const std::string &input)
 
         case ')':
             floor--;
+            break;
+
+        default:
             break;
         }
 

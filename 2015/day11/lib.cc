@@ -7,7 +7,7 @@ void day11::increment_password(std::vector<char> &input)
     for (size_t i = 0, size = input.size(); i < size && carry; i++)
     {
         size_t current_index = size - i - 1;
-        char ch = input[current_index] + 1;
+        char ch = static_cast<char>(input[current_index] + 1);
 
         if (ch == 'i' || ch == 'l' || ch == 'o')
         {
