@@ -5,4 +5,4 @@ Checks: >
   clang-analyzer-*,
   performance-*
 WarningsAsErrors: '*'
-HeaderFilterRegex: '(day[0-9]+|libcommon)/.*\.(h|hpp)$'
+HeaderFilterRegex: '.*/(day[0-9]+|libcommon)/.*\.(h|hpp)$'

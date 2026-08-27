@@ -102,7 +102,7 @@ bool is_winner(const BingoBoard &board, const std::set<int64_t> &chosen_numbers)
     return false;
 }
 
-int64_t score_board(const BingoBoard &board, std::set<int64_t> chosen_numbers, int64_t last_number)
+int64_t score_board(const BingoBoard &board, const std::set<int64_t> &chosen_numbers, int64_t last_number)
 {
     int64_t score = 0;
 
