@@ -19,10 +19,22 @@ describe('Day 04', () => {
   describe('Part 2', () => {
     test('Examples', () => {
       assert.strictEqual(Day04.isPassphraseValid('abcde fghij', true), true);
-      assert.strictEqual(Day04.isPassphraseValid('abcde xyz ecdab', true), false);
-      assert.strictEqual(Day04.isPassphraseValid('a ab abc abd abf abj', true), true);
-      assert.strictEqual(Day04.isPassphraseValid('iiii oiii ooii oooi oooo', true), true);
-      assert.strictEqual(Day04.isPassphraseValid('oiii ioii iioi iiio', true), false);
+      assert.strictEqual(
+        Day04.isPassphraseValid('abcde xyz ecdab', true),
+        false,
+      );
+      assert.strictEqual(
+        Day04.isPassphraseValid('a ab abc abd abf abj', true),
+        true,
+      );
+      assert.strictEqual(
+        Day04.isPassphraseValid('iiii oiii ooii oooi oooo', true),
+        true,
+      );
+      assert.strictEqual(
+        Day04.isPassphraseValid('oiii ioii iioi iiio', true),
+        false,
+      );
     });
 
     test('Input', () => {

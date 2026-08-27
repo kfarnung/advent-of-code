@@ -77,7 +77,8 @@ class Particle {
 
 class Day20 {
   static *parseParticles(str) {
-    const regexp = /^p=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>, v=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>, a=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>$/gm;
+    const regexp =
+      /^p=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>, v=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>, a=<(-?[0-9]+),(-?[0-9]+),(-?[0-9]+)>$/gm;
     let currentId = 0;
     let result;
 
@@ -87,17 +88,17 @@ class Day20 {
         const position = new Point(
           Number.parseInt(result[1]),
           Number.parseInt(result[2]),
-          Number.parseInt(result[3])
+          Number.parseInt(result[3]),
         );
         const velocity = new Point(
           Number.parseInt(result[4]),
           Number.parseInt(result[5]),
-          Number.parseInt(result[6])
+          Number.parseInt(result[6]),
         );
         const acceleration = new Point(
           Number.parseInt(result[7]),
           Number.parseInt(result[8]),
-          Number.parseInt(result[9])
+          Number.parseInt(result[9]),
         );
 
         yield new Particle(currentId++, position, velocity, acceleration);
