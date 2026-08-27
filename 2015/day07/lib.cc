@@ -1,5 +1,6 @@
 #include "lib.h"
 
+#include <cctype>
 #include <cstdint>
 #include <cstdlib>
 #include <regex>
@@ -34,7 +35,7 @@ std::unordered_map<std::string, Connection> parse_connections(const std::vector<
 uint16_t get_wire_output(std::unordered_map<std::string, uint16_t> &memo,
                          const std::unordered_map<std::string, Connection> &connections, const std::string &wire)
 {
-    if (std::isdigit(wire[0]))
+    if (std::isdigit(static_cast<unsigned char>(wire[0])))
     {
         return static_cast<uint16_t>(std::strtol(wire.c_str(), nullptr, 10));
     }

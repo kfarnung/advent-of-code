@@ -2,6 +2,7 @@
 
 #include <common/input_parser.h>
 
+#include <cctype>
 #include <deque>
 #include <map>
 #include <set>
@@ -42,7 +43,7 @@ int64_t count_paths(const Graph &graph, const bool allow_second_visit, const std
 
     std::set<std::string> next_visited(visited);
 
-    if (!std::isupper(current[0]))
+    if (!std::isupper(static_cast<unsigned char>(current[0])))
     {
         next_visited.insert(current);
     }
