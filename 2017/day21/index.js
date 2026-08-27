@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class Image {
   constructor(pixels = []) {
@@ -244,4 +244,4 @@ class Day21 {
   }
 }
 
-module.exports = Day21;
+export default Day21;

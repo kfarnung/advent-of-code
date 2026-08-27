@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class InfiniteGrid {
   constructor(defaultValue = '.') {
@@ -188,4 +188,4 @@ class Day22 {
   }
 }
 
-module.exports = Day22;
+export default Day22;

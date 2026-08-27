@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class Day03 {
   static getSideLength(count) {
@@ -147,4 +147,4 @@ class Day03 {
   }
 }
 
-module.exports = Day03;
+export default Day03;

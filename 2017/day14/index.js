@@ -1,5 +1,5 @@
-const fs = require('fs');
-const Day10 = require('../day10');
+import fs from 'node:fs';
+import Day10 from '../day10/index.js';
 
 class UsageMap {
   constructor(key) {
@@ -95,4 +95,4 @@ class Day14 {
   }
 }
 
-module.exports = Day14;
+export default Day14;

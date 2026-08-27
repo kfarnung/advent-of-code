@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class Day01 {
   static sumString(str, offset = 1) {
@@ -25,4 +25,4 @@ class Day01 {
   }
 }
 
-module.exports = Day01;
+export default Day01;

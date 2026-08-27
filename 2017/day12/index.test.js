@@ -1,6 +1,6 @@
-const Day12 = require('.');
-const { describe, test } = require('node:test');
-const assert = require('node:assert/strict');
+import Day12 from './index.js';
+import { describe, test } from 'node:test';
+import assert from 'node:assert/strict';
 
 describe('Day 12', () => {
   describe('Part 1', () => {

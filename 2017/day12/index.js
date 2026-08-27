@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class ProgramNode {
   constructor(id) {
@@ -113,4 +113,4 @@ class Day12 {
   }
 }
 
-module.exports = Day12;
+export default Day12;

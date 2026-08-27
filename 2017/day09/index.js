@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class Day09 {
   static parseAndScore(str) {
@@ -41,4 +41,4 @@ class Day09 {
   }
 }
 
-module.exports = Day09;
+export default Day09;

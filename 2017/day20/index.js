@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class Point {
   constructor(x, y, z) {
@@ -162,4 +162,4 @@ class Day20 {
   }
 }
 
-module.exports = Day20;
+export default Day20;

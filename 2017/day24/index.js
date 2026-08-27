@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class Component {
   constructor(pinsA, pinsB) {
@@ -202,4 +202,4 @@ class Day24 {
   }
 }
 
-module.exports = Day24;
+export default Day24;
