@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class Instruction {
   constructor(operation, registerName, value) {
@@ -195,4 +195,4 @@ class Day23 {
   }
 }
 
-module.exports = Day23;
+export default Day23;

@@ -1,8 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const { performance } = require('perf_hooks');
+import fs from 'node:fs';
+import path from 'node:path';
+import { performance } from 'node:perf_hooks';
 
-const argv = require('minimist')(process.argv.slice(2));
+import minimist from 'minimist';
+
+const argv = minimist(process.argv.slice(2));
 let filter = null;
 if (argv.f) {
   filter = new RegExp(argv.f);
@@ -20,7 +22,7 @@ const csvFile = argv.csv;
 
 async function runPerfTests(filter = null, iterations = 1, csvFile = null) {
   const content = fs.readFileSync(
-    path.resolve(__dirname, './.vscode/launch.json'),
+    path.resolve(import.meta.dirname, './.vscode/launch.json'),
     'utf8',
   );
   const json = JSON.parse(content.replace(/^\s*\/\/ .+/gm, ''));
@@ -43,9 +45,9 @@ async function runPerfTests(filter = null, iterations = 1, csvFile = null) {
       const testName = config.args[0];
       const input = config.args[1].replace(
         '${workspaceFolder}',
-        `${__dirname}`,
+        `${import.meta.dirname}`,
       );
-      const testModule = require(`./${testName}`);
+      const testModule = (await import(`./${testName}/index.js`)).default;
 
       console.log(`Running ${name}...`);
       csvContent += name;
@@ -82,4 +84,4 @@ async function runPerfTests(filter = null, iterations = 1, csvFile = null) {
   console.log('Done!');
 }
 
-runPerfTests(filter, iterations, csvFile);
+await runPerfTests(filter, iterations, csvFile);

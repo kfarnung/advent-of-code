@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class Day17 {
   static part1(stepSize) {
@@ -33,4 +33,4 @@ class Day17 {
   }
 }
 
-module.exports = Day17;
+export default Day17;

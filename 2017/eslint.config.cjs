@@ -7,11 +7,21 @@ module.exports = [
   {
     languageOptions: {
       globals: {
+        ...globals.node,
+      },
+
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
+  },
+  {
+    files: ['**/*.cjs'],
+    languageOptions: {
+      globals: {
         ...globals.commonjs,
         ...globals.node,
       },
 
-      ecmaVersion: 12,
       sourceType: 'commonjs',
     },
   },

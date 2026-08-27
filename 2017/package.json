@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "http://adventofcode.com/2017",
   "main": "index.js",
+  "type": "module",
   "dependencies": {
     "minimist": "^1.2.6"
   },

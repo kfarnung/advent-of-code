@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class BlueprintStateCondition {
   constructor(currentValue, newValue, direction, nextState) {
@@ -206,4 +206,4 @@ class Day25 {
   }
 }
 
-module.exports = Day25;
+export default Day25;

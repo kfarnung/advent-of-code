@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class Condition {
   constructor(registerName, comparison, value) {
@@ -213,4 +213,4 @@ class Day08 {
   }
 }
 
-module.exports = Day08;
+export default Day08;

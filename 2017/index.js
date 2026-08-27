@@ -1,12 +1,12 @@
-const { performance } = require('perf_hooks');
+import { performance } from 'node:perf_hooks';
 
 if (process.argv.length < 3) {
   console.error('usage: node index.js <day> <input>');
   process.exit(-1);
 }
 
-async function run(module, input) {
-  const day = require(`./${module}`);
+async function run(dayModule, input) {
+  const day = (await import(`./${dayModule}/index.js`)).default;
 
   const start = performance.now();
 
@@ -25,4 +25,4 @@ async function run(module, input) {
   console.log(`Execution time: ${(stop - start).toFixed(3)}ms`);
 }
 
-run(process.argv[2], process.argv[3]);
+await run(process.argv[2], process.argv[3]);

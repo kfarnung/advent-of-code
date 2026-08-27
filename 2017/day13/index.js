@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class FirewallLayer {
   constructor(depth, range) {
@@ -100,4 +100,4 @@ class Day13 {
   }
 }
 
-module.exports = Day13;
+export default Day13;

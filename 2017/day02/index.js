@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class Day02 {
   static *parseRows(str) {
@@ -61,4 +61,4 @@ class Day02 {
   }
 }
 
-module.exports = Day02;
+export default Day02;

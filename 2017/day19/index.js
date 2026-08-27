@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 class Board {
   constructor(input) {
@@ -102,4 +102,4 @@ class Day19 {
   }
 }
 
-module.exports = Day19;
+export default Day19;
