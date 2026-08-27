@@ -96,7 +96,7 @@ func parseInput(lines []string) map[lib.Point3D]bool {
 func part1(lines []string) int {
 	grid := parseInput(lines)
 
-	for i := 0; i < 6; i++ {
+	for range 6 {
 		grid = runCycle(grid)
 	}
 
@@ -114,7 +114,7 @@ func part2(lines []string) int {
 	tempGrid := parseInput(lines)
 	grid := convertToPoint4D(tempGrid)
 
-	for i := 0; i < 6; i++ {
+	for range 6 {
 		grid = runCycle4D(grid)
 	}
 

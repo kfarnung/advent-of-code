@@ -49,8 +49,8 @@ func isHigherPrecedencePart2(previous, current expressionOperator) bool {
 	return previous > current
 }
 
-func parseExpression(expression string) []interface{} {
-	var tokens []interface{}
+func parseExpression(expression string) []any {
+	var tokens []any
 	var number strings.Builder
 
 	for _, char := range expression {
@@ -82,7 +82,7 @@ func parseExpression(expression string) []interface{} {
 	return tokens
 }
 
-func infixToRPN(tokens []interface{}, isHigherPrecedence isHigherPrecedenceFunction) *list.List {
+func infixToRPN(tokens []any, isHigherPrecedence isHigherPrecedenceFunction) *list.List {
 	output := list.New()
 	operators := list.New()
 

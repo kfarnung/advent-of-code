@@ -99,7 +99,7 @@ func parseInput(input string) ([]equation, error) {
 		}
 
 		var operands []int64
-		for _, operandValue := range strings.Split(after, " ") {
+		for operandValue := range strings.SplitSeq(after, " ") {
 			operand, err := lib.ParseInt[int64](operandValue)
 			if err != nil {
 				return nil, err

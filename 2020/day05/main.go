@@ -14,9 +14,10 @@ func partition(start, end int, direction rune) (int, int) {
 	}
 
 	mid := start + ((end - start) / 2)
-	if direction == 'F' || direction == 'L' {
+	switch direction {
+	case 'F', 'L':
 		return start, mid
-	} else if direction == 'B' || direction == 'R' {
+	case 'B', 'R':
 		return mid + 1, end
 	}
 

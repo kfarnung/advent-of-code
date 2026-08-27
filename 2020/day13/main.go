@@ -13,7 +13,7 @@ import (
 // greatestCommonDenominator calculates using the algorithm from:
 // https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm#Pseudocode
 func greatestCommonDenominator(a, b int64) (int64, int64, int64) {
-	var oldR, r int64 = a, b
+	var oldR, r = a, b
 	var oldS, s int64 = 1, 0
 	var oldT, t int64 = 0, 1
 
@@ -51,7 +51,7 @@ func chineseRemainderTheorem(remainders, moduluses []int64) (int64, error) {
 
 func parseInput(lines []string) (int64, []int64, error) {
 	if len(lines) != 2 {
-		return 0, nil, errors.New("Invalid number of lines")
+		return 0, nil, errors.New("invalid number of lines")
 	}
 
 	departureTarget, err := lib.ParseInt64(lines[0])

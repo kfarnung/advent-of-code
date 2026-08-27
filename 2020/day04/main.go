@@ -23,11 +23,11 @@ type passport struct {
 }
 
 func (p *passport) parseLine(line string) error {
-	tokens := strings.Split(line, " ")
-	for _, token := range tokens {
+	tokens := strings.SplitSeq(line, " ")
+	for token := range tokens {
 		keyValue := strings.Split(token, ":")
 		if len(keyValue) != 2 {
-			return errors.New("Failed to parse token, exactly two components required")
+			return errors.New("failed to parse token, exactly two components required")
 		}
 
 		switch keyValue[0] {
@@ -48,7 +48,7 @@ func (p *passport) parseLine(line string) error {
 		case "cid":
 			p.cid = keyValue[1]
 		default:
-			return errors.New("Invalid key specified")
+			return errors.New("invalid key specified")
 		}
 	}
 

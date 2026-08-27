@@ -191,7 +191,7 @@ func part2(lines []string) int {
 	grid := make(hexGrid)
 	grid.flipTiles(stepsLists)
 
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		grid.runDay()
 	}
 

@@ -91,7 +91,7 @@ func part2(input string) int64 {
 }
 
 func findXmas(parsedInput [][]rune, x, y int, dx, dy int) bool {
-	for i := 0; i < len(xmasString); i++ {
+	for i := range xmasString {
 		if x < 0 || x >= len(parsedInput) || y < 0 || y >= len(parsedInput[x]) || parsedInput[x][y] != xmasString[i] {
 			return false
 		}

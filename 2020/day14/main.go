@@ -27,7 +27,7 @@ func (i instruction) ValueAsInt64() (int64, error) {
 
 func (i instruction) ValueAsMask() (mask, error) {
 	if i.opcode != "mask" {
-		return mask{}, errors.New("Current opcode doesn't contain a mask")
+		return mask{}, errors.New("current opcode doesn't contain a mask")
 	}
 
 	return newMask(i.value), nil
@@ -47,13 +47,14 @@ func newMask(text string) mask {
 		zeros <<= 1
 		ones <<= 1
 
-		if value == '1' {
+		switch value {
+		case '1':
 			ones |= 1
-		} else if value == '0' {
+		case '0':
 			zeros |= 1
-		} else if value == 'X' {
+		case 'X':
 			fluctuating = append(fluctuating, bitCount-i)
-		} else {
+		default:
 			panic("Unexpected mask value")
 		}
 	}
@@ -97,7 +98,7 @@ func parseInput(lines []string) ([]instruction, error) {
 	for _, line := range lines {
 		match := inputRegex.FindStringSubmatch(line)
 		if match == nil {
-			return nil, errors.New("Could not match line")
+			return nil, errors.New("could not match line")
 		}
 
 		current := instruction{

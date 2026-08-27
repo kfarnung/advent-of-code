@@ -111,7 +111,7 @@ func parseRules(lines []string) ([]ticketRule, error) {
 
 		match := ruleRegex.FindStringSubmatch(line)
 		if match == nil {
-			return nil, errors.New("Couldn't match line")
+			return nil, errors.New("couldn't match line")
 		}
 
 		rule := ticketRule{name: match[1]}
@@ -145,7 +145,7 @@ func parseRules(lines []string) ([]ticketRule, error) {
 		rules = append(rules, rule)
 	}
 
-	return nil, errors.New("Couldn't find the end of the rules")
+	return nil, errors.New("couldn't find the end of the rules")
 }
 
 func parseTicket(line string) ([]int32, error) {
@@ -163,7 +163,7 @@ func parseYourTicket(lines []string) ([]int32, error) {
 		}
 	}
 
-	return nil, errors.New("Unable to locate your ticket information")
+	return nil, errors.New("unable to locate your ticket information")
 }
 
 func parseNearbyTickets(lines []string) ([][]int32, error) {
@@ -183,7 +183,7 @@ func parseNearbyTickets(lines []string) ([][]int32, error) {
 	}
 
 	if !found {
-		return nil, errors.New("Unable to locate nearby ticket information")
+		return nil, errors.New("unable to locate nearby ticket information")
 	}
 
 	return tickets, nil
@@ -241,7 +241,7 @@ func part2(lines []string) int64 {
 
 	possibleRules := make([][]ticketRule, len(yourTicket))
 	for _, rule := range rules {
-		for i := 0; i < len(yourTicket); i++ {
+		for i := range yourTicket {
 			valid := true
 			for _, ticket := range ticketsToCheck {
 				if !rule.InRange(ticket[i]) {

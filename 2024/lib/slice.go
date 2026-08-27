@@ -2,7 +2,7 @@ package lib
 
 import (
 	"cmp"
-	"sort"
+	"slices"
 )
 
 // StringSliceToInt64 converts the slice of strings to a slice of int64 values.
@@ -36,7 +36,5 @@ func StringSliceToInt32(input []string) ([]int32, error) {
 }
 
 func SortSliceAscending[T cmp.Ordered](input []T) {
-	sort.Slice(input, func(i, j int) bool {
-		return input[i] < input[j]
-	})
+	slices.Sort(input)
 }

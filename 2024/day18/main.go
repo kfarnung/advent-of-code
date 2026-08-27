@@ -79,7 +79,7 @@ func findShortestPath(grid [][]rune, start, end point) int {
 }
 
 func corruptGrid(grid [][]rune, points []point, count int) {
-	for i := 0; i < count; i++ {
+	for i := range count {
 		grid[points[i].y][points[i].x] = '#'
 	}
 }

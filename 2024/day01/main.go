@@ -21,7 +21,7 @@ func part1(input string) int64 {
 	lib.SortSliceAscending(second)
 
 	sum := int64(0)
-	for i := 0; i < len(first); i++ {
+	for i := range first {
 		sum += lib.Abs(first[i] - second[i])
 	}
 

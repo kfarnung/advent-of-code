@@ -14,11 +14,11 @@ func expandRule(rules map[string]string, ruleID string) string {
 	rule := rules[ruleID]
 	var parts []string
 
-	for _, subruleList := range strings.Split(rule, " | ") {
+	for subruleList := range strings.SplitSeq(rule, " | ") {
 		repetition := 1
 		var ruleParts []string
 
-		for _, subrule := range strings.Split(subruleList, " ") {
+		for subrule := range strings.SplitSeq(subruleList, " ") {
 			if strings.HasPrefix(subrule, "\"") {
 				if !strings.HasSuffix(subrule, "\"") {
 					panic("Couldn't find end quote")
@@ -43,7 +43,7 @@ func expandRule(rules map[string]string, ruleID string) string {
 				sb.WriteString(val)
 
 				if i > 0 {
-					sb.WriteString(fmt.Sprintf("{%d}", i+1))
+					fmt.Fprintf(&sb, "{%d}", i+1)
 				}
 			}
 

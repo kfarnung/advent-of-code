@@ -153,7 +153,7 @@ func part2(input string) int64 {
 
 func solve(current int64, program []int32) (int64, error) {
 	target := program[len(program)-1]
-	for i := int64(0); i < 8; i++ {
+	for i := range int64(8) {
 		value := doIteration(current + i)
 		if value == int64(target) {
 			if len(program) == 1 {

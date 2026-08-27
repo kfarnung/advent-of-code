@@ -113,7 +113,7 @@ func parseLine(line string) (foodItem, error) {
 	foodRegex := regexp.MustCompile(`^(.+) \(contains (.+)\)$`)
 	match := foodRegex.FindStringSubmatch(line)
 	if match == nil {
-		return foodItem{}, errors.New("Failed to parse line")
+		return foodItem{}, errors.New("failed to parse line")
 	}
 
 	return foodItem{

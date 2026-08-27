@@ -23,7 +23,7 @@ func (p *Point2D) Add(x, y int64) {
 
 // Rotate90DegreesClockwise rotates the point 90 degrees clockwise about the origin
 func (p *Point2D) Rotate90DegreesClockwise(count int) {
-	for i := 0; i < count; i++ {
+	for range count {
 		x := p.X
 		p.X = p.Y
 		p.Y = -x
@@ -32,7 +32,7 @@ func (p *Point2D) Rotate90DegreesClockwise(count int) {
 
 // Rotate90DegreesCounterClockwise rotates the point 90 degrees counter-clockwise about the origin
 func (p *Point2D) Rotate90DegreesCounterClockwise(count int) {
-	for i := 0; i < count; i++ {
+	for range count {
 		x := p.X
 		p.X = -p.Y
 		p.Y = x
