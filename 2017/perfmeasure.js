@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const {performance} = require('perf_hooks');
+const { performance } = require('perf_hooks');
 
 const argv = require('minimist')(process.argv.slice(2));
 let filter = null;
@@ -19,8 +19,11 @@ if (argv.n) {
 const csvFile = argv.csv;
 
 async function runPerfTests(filter = null, iterations = 1, csvFile = null) {
-  const content = fs.readFileSync(path.resolve(__dirname, './.vscode/launch.json'), 'utf8');
-  const json = JSON.parse(content.replace(/^\s*\/\/ .+/mg, ''));
+  const content = fs.readFileSync(
+    path.resolve(__dirname, './.vscode/launch.json'),
+    'utf8',
+  );
+  const json = JSON.parse(content.replace(/^\s*\/\/ .+/gm, ''));
 
   let csvContent = 'Test';
   for (let i = 0; i < iterations; i++) {
@@ -38,7 +41,10 @@ async function runPerfTests(filter = null, iterations = 1, csvFile = null) {
       }
 
       const testName = config.args[0];
-      const input = config.args[1].replace('${workspaceFolder}', `${__dirname}`);
+      const input = config.args[1].replace(
+        '${workspaceFolder}',
+        `${__dirname}`,
+      );
       const testModule = require(`./${testName}`);
 
       console.log(`Running ${name}...`);

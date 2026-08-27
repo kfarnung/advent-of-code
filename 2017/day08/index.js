@@ -200,7 +200,7 @@ class Day08 {
         row[0],
         row[1],
         Number.parseInt(row[2]),
-        new Condition(row[4], row[5], Number.parseInt(row[6]))
+        new Condition(row[4], row[5], Number.parseInt(row[6])),
       );
 
       processor.processInstruction(instruction);

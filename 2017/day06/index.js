@@ -57,7 +57,7 @@ class Day06 {
     const fileContent = fs.readFileSync(input, 'utf8');
 
     const { cycleCount, cycleSize } = this.findCycle(
-      Array.from(this.parseInt(fileContent))
+      Array.from(this.parseInt(fileContent)),
     );
     return [cycleCount, cycleSize];
   }

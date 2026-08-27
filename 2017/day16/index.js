@@ -20,7 +20,7 @@ class ProgramDance {
       case 'x':
         this._exchange(
           Number.parseInt(danceMove[1]),
-          Number.parseInt(danceMove[2])
+          Number.parseInt(danceMove[2]),
         );
         break;
 
@@ -62,7 +62,7 @@ class ProgramDance {
   _partner(name1, name2) {
     this._exchange(
       this._programs.indexOf(name1),
-      this._programs.indexOf(name2)
+      this._programs.indexOf(name2),
     );
   }
 }

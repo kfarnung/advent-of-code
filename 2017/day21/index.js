@@ -193,7 +193,7 @@ class EnhancementRunner {
         row * squareSize,
         column * squareSize,
         squareSize,
-        squareSize
+        squareSize,
       )
       .toString();
     const replacement = this._rules.get(subImage).replacement;
@@ -204,7 +204,7 @@ class EnhancementRunner {
         newImage.setPixel(
           row * newSquareSize + i,
           column * newSquareSize + j,
-          replacement.getPixel(i, j)
+          replacement.getPixel(i, j),
         );
       }
     }

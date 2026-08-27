@@ -1,4 +1,4 @@
-const {performance} = require('perf_hooks');
+const { performance } = require('perf_hooks');
 
 if (process.argv.length < 3) {
   console.error('usage: node index.js <day> <input>');

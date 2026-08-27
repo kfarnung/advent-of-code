@@ -183,7 +183,7 @@ class Day24 {
       if (result !== null) {
         yield new Component(
           Number.parseInt(result[1]),
-          Number.parseInt(result[2])
+          Number.parseInt(result[2]),
         );
       }
     } while (result != null);

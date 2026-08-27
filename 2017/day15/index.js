@@ -27,17 +27,17 @@ class Day15 {
     startingValueB,
     numIterations,
     requiredMultipleA = 1,
-    requiredMultipleB = 1
+    requiredMultipleB = 1,
   ) {
     const generatorA = this.generateValues(
       startingValueA,
       16807,
-      requiredMultipleA
+      requiredMultipleA,
     );
     const generatorB = this.generateValues(
       startingValueB,
       48271,
-      requiredMultipleB
+      requiredMultipleB,
     );
 
     let count = 0;

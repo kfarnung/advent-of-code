@@ -123,7 +123,7 @@ class Blueprint {
     const nextState = result[1];
 
     state.addCondition(
-      new BlueprintStateCondition(currentValue, newValue, direction, nextState)
+      new BlueprintStateCondition(currentValue, newValue, direction, nextState),
     );
   }
 
